@@ -1,0 +1,3 @@
+Harry Potter,JK Rowling,20,$2
+How you doing,Tanmay Singhal,24,$10
+Python,Coder,18,$5
