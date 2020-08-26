@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Users/C_C++/CodeFromOthers/kukkie.cpp
+iostream
+-
+stdlib.h
+-
+string
+-
+utility
+-
+time.h
+-
+

@@ -1,0 +1,33 @@
+public class pseudocode {
+    public static void main(String[] args) {
+        int[][] array={{}};//predefined array
+        boolean same=true;// it will get false whenever there will be no match so that the while loop can stop executing
+        while (same){
+            // first the code will check for 3 same consecutive in rows.
+            for (int i=0;i<row;i++){
+                for (int j=0;j<column-2;j++){//j value is column -2 so that we dont get an error of arrayoutofbounds
+                    //when j value reaches last 2 rows
+                    int integer=array[i][j];
+                    if (integer==array[i][j+1] && integer==array[i][j+2]){
+                        // when this will be true then the swapping function and setting the random values will be executed
+                        same=true;
+                    } else{
+                        same=false;
+                    }
+                }
+            }
+            for (int i=0;i<row-2;i++){//i value is row-2 so that we dont get an error of arrayoutofbounds
+                //when i value checks for last 2 columns
+                for (int j=0;j<column;j++){
+                    int integer=array[i][j];
+                    if (integer==array[i+1][j] && integer==array[i+2][j]){
+                        // when this will be true then the swapping function and setting the random values will be executed
+                        same=true;
+                    } else{
+                        same=false;
+                    }
+                }
+            }
+        }
+    }
+}

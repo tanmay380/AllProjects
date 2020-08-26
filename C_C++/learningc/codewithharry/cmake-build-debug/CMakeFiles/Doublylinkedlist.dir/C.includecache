@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Users/C_C++/learningc/codewithharry/21_doubly_linked_list.c
+stdlib.h
+-
+stdio.h
+D:/Users/C_C++/learningc/codewithharry/stdio.h
+
