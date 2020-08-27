@@ -3,4 +3,4 @@ UNITY
 All-projects
 .idea
 flutter
-log
+*.log
