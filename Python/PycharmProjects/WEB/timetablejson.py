@@ -1,18 +1,144 @@
 import json
+import datetime
+import time
+import calendar
+import sys
 
 person = '''{
-  "Monday": {
-    "OOT": {
-      "9AM-10AM": {},
-      "4Pm-5Pm": {}
+  "09": {
+    "Monday": {
+      "OOT": {}
     },
-    "WebProgT": {
-      "11Am-12Pm": {}
+    "Tuesday": {
+      "AGPT": {}
     },
-    "Inro": {
-      "1Pm-2Pm": {}
+    "Wednesday": {
+      "WEBT": {}
+    },
+    "Friday": {
+      "CompilerT": {}
+    }
+  },
+  "10": {
+    "Tuesday": {
+      "CompilerT": {}
+    },
+    "Wednesday": {
+      "OOT": {}
+    },
+    "Thursday": {
+      "AGPT": {}
+    },
+    "Friday": {
+      "MPET": {}
+    }
+  },
+  "11": {
+    "Monday": {
+      "WEBT": {}
+    },
+    "Thursday": {
+      "MPET": {}
+    },
+    "Tuesday": {
+      "AGPL": {}
+    },
+    "Wednesday": {
+      "WEBL": {}
+    },
+    "Friday": {
+      "OOADL": {}
+    }
+  },
+  "13": {
+    "Monday": {
+      "BIZT": {}
+    },
+    "Thursday": {
+      "MPEDL": {}
+    }
+  },
+  "14": {
+    "Tuesday": {
+      "MPET": {}
+    },
+    "Wednesday": {
+      "AGPT": {}
+    },
+    "Friday": {
+      "BIZT": {}
+    }
+  },
+  "16": {
+    "Monday": {
+      "OOT": {}
+    },
+    "Tuesday": {
+      "COMPILERT": {}
+    },
+    "Wednesday": {
+      "AGPT": {}
+    },
+    "Thursday": {
+      "WEBT": {}
+    },
+    "Friday": {
+      "MPET": {}
+    }
+  },
+  "02": {
+    "Thursday": {
+      "OOT": {}
     }
   }
 }'''
-store = json.loads(person)
-print(store["OOT"])
+
+
+def subject():
+    global subjectname
+    currenttime = time.strftime("%H", time.localtime())
+    print(currenttime)
+    day2 = str(datetime.date.today()).split('-')
+    day1 = calendar.day_name[datetime.datetime.strptime(day2[2] + " " + day2[1] + " " + day2[0], '%d %m %Y').weekday()]
+    print(day1)
+    store = json.loads(person)
+    try:
+        subjectname = (str(store[currenttime][day1]).strip("{").split(':'))
+        subjectname = subjectname[0].strip("'")
+        if subjectname.endswith('T'):
+            print("its a theory class of 1 hr")
+            return subjectname
+        else:
+            print("its a lab of 2 hr")
+            return subjectname
+    except:
+        print("You are free now")
+        for i in range(3600, 0, -1):
+            if (i %50)!=0:
+                sys.stdout.write(str(i) + ' ')
+                sys.stdout.flush()
+            else:
+                sys.stdout.write("\n")
+            time.sleep(1)
+
+
+
+def wait():
+    global timewait
+    while (True):
+        subjectname = subject()
+        if subjectname.endswith("T"):
+            timewait = 3600
+        elif subjectname.endswith("L"):
+            timewait = 7200
+        for i in range(timewait, 0, -1):
+            if (i % 50) != 0:
+                sys.stdout.write(str(i) + ' ')
+                sys.stdout.flush()
+            else:
+                sys.stdout.write("\n")
+            time.sleep(1)
+        print("\n")
+
+
+print(subject())

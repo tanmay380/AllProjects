@@ -1,5 +1,5 @@
 import time
-import json
+from WEB import timetablejson
 from selenium import webdriver
 
 options = webdriver.ChromeOptions()
@@ -7,17 +7,17 @@ options.add_argument("user-data-dir=D:\Temp\\User Data\default1")
 driver = webdriver.Chrome(executable_path="D:\Tanmay Singhal\Downloads\chromedriver.exe", options=options)
 
 
+subject=timetablejson.subject()
+print(subject)
+
 def login():
     driver.get("https://learn.upes.ac.in/")
     driver.find_element_by_id("user_id").send_keys("500069450@stu.upes.ac.in")
     driver.find_element_by_id("password").send_keys("tanmay427462")
     driver.find_element_by_id("entry-login").click()
 
-
-login()
-
-
 def MicroProcessorTheory():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -30,6 +30,7 @@ def MicroProcessorTheory():
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 def MicroprocessorLab():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -42,6 +43,7 @@ def MicroprocessorLab():
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 def ObjectOrientedAnalysisTheory():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -55,6 +57,7 @@ def ObjectOrientedAnalysisTheory():
 
 
 def ObjectOrientedAnalysisLab():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -68,6 +71,7 @@ def ObjectOrientedAnalysisLab():
 
 
 def WebProgramLab():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -81,6 +85,7 @@ def WebProgramLab():
 
 
 def WebProgramTheory():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -94,6 +99,7 @@ def WebProgramTheory():
 
 
 def AdvancedGameProgramingTheory():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -107,6 +113,7 @@ def AdvancedGameProgramingTheory():
 
 
 def AdvancedGameProgramingLab():
+    login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -119,4 +126,41 @@ def AdvancedGameProgramingLab():
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 
-json.load('C:\\Users\Tanmay Singhal\Desktop\\timetable.json')
+
+if  subject=='OOT':
+
+    ObjectOrientedAnalysisTheory()
+    timetablejson.wait()
+elif subject=='AGPT':
+    AdvancedGameProgramingTheory()
+    timetablejson.wait()
+elif subject=='WEBT':
+    WebProgramTheory()
+    timetablejson.wait()
+elif subject=='AGPL':
+    AdvancedGameProgramingLab()
+    timetablejson.wait()
+elif subject=='WEBT':
+    WebProgramLab()
+    timetablejson.wait()
+elif subject=='OOADL':
+    ObjectOrientedAnalysisLab()
+    timetablejson.wait()
+elif subject=='MPEDL':
+    MicroprocessorLab()
+    timetablejson.wait()
+elif subject=='MPET':
+    MicroProcessorTheory()
+    timetablejson.wait()
+else:
+    print("You are free now")
+
+
+
+
+
+
+
+
+
+

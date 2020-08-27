@@ -4,3 +4,5 @@ All-projects
 .idea
 flutter
 *.log
+__pycache__
+build

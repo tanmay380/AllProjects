@@ -1,14 +1,84 @@
 {
-  "Monday": {
-    "OOT": {
-      "9AM-10AM": {},
-      "4Pm-5Pm": {}
+  "9-10": {
+    "Monday": {
+      "OOT": {}
     },
-    "WebProgT": {
-      "11Am-12Pm": {}
+    "Tuesday": {
+      "AGPT": {}
     },
-    "Inro": {
-      "1Pm-2Pm": {}
+    "Wednesday": {
+      "WEBT": {}
+    },
+    "Friday": {
+      "CompilerT": {}
+    }
+  },
+  "10-11": {
+    "Tuesday": {
+      "CompilerT": {}
+    },
+    "Wednesday": {
+      "OOADT": {}
+    },
+    "Thursday": {
+      "AGPT": {}
+    },
+    "Friday": {
+      "MPET": {}
+    }
+  },
+  "11-12": {
+    "Monday": {
+      "WEBT": {}
+    },
+    "Thursday": {
+      "MPET": {}
+    }
+  },
+  "11-13": {
+    "Tuesday": {
+      "AGPL": {}
+    },
+    "Wednesday": {
+      "WEBL": {}
+    },
+    "Friday": {
+      "OOADL": {}
+    }
+  },
+  "13-14": {
+    "BIZ": {}
+  },
+  "13-15": {
+    "MPEDL": {}
+  },
+  "14-15": {
+    "Tuesday": {
+      "MPET": {}
+    },
+    "Wednesday": {
+      "AGPT": {}
+    },
+    "Friday": {
+      "BIZ": {}
+    }
+  },
+  "16-17": {
+    "Monday": {
+      "OOT": {}
+    },
+    "Tuesday": {
+      "COMPILERT": {}
+    },
+    "Wednesday": {
+      "AGPT": {}
+    },
+    "Thursday": {
+      "WEBT": {}
+    },
+    "Friday": {
+      "MPET": {},
+      "": {}
     }
   }
 }
