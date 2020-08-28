@@ -1,3 +1,6 @@
+
+
+
 import json
 import datetime
 import time
@@ -112,18 +115,11 @@ def subject():
             print("its a lab of 2 hr")
             return subjectname
     except:
-        print("You are free now")
-        for i in range(3600, 0, -1):
-            if (i %50)!=0:
-                sys.stdout.write(str(i) + ' ')
-                sys.stdout.flush()
-            else:
-                sys.stdout.write("\n")
-            time.sleep(1)
+        return "you are free"
 
 
 
-def wait():
+def wait(timewaitother):
     global timewait
     while (True):
         subjectname = subject()
@@ -131,14 +127,18 @@ def wait():
             timewait = 3600
         elif subjectname.endswith("L"):
             timewait = 7200
-        for i in range(timewait, 0, -1):
+        else:
+            timewait=3600
+
+        for i in range((timewait-(int(timewaitother) * 60)), 0, -1):
+            # print("running")
             if (i % 50) != 0:
                 sys.stdout.write(str(i) + ' ')
                 sys.stdout.flush()
             else:
                 sys.stdout.write("\n")
             time.sleep(1)
+
         print("\n")
 
 
-print(subject())

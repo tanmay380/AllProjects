@@ -3,8 +3,8 @@ from WEB import timetablejson
 from selenium import webdriver
 
 options = webdriver.ChromeOptions()
-options.add_argument("user-data-dir=D:\Temp\\User Data\default1")
-driver = webdriver.Chrome(executable_path="D:\Tanmay Singhal\Downloads\chromedriver.exe", options=options)
+options.add_argument("user-data-dir=D:\Temp\\User Data\default1")#change this path with your copied chrome folder
+driver = webdriver.Chrome(executable_path="D:\Tanmay Singhal\Downloads\chromedriver.exe", options=options)#change this path with your chromedriver.exe location
 
 
 subject=timetablejson.subject()
@@ -15,9 +15,10 @@ def login():
     driver.find_element_by_id("user_id").send_keys("500069450@stu.upes.ac.in")
     driver.find_element_by_id("password").send_keys("tanmay427462")
     driver.find_element_by_id("entry-login").click()
+login()
 
 def MicroProcessorTheory():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -30,7 +31,7 @@ def MicroProcessorTheory():
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 def MicroprocessorLab():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -43,7 +44,7 @@ def MicroprocessorLab():
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 def ObjectOrientedAnalysisTheory():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -57,7 +58,7 @@ def ObjectOrientedAnalysisTheory():
 
 
 def ObjectOrientedAnalysisLab():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -71,7 +72,7 @@ def ObjectOrientedAnalysisLab():
 
 
 def WebProgramLab():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -85,7 +86,7 @@ def WebProgramLab():
 
 
 def WebProgramTheory():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -99,7 +100,7 @@ def WebProgramTheory():
 
 
 def AdvancedGameProgramingTheory():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -113,7 +114,7 @@ def AdvancedGameProgramingTheory():
 
 
 def AdvancedGameProgramingLab():
-    login()
+    # login()
     driver.get("https://learn.upes.ac.in/")
     time.sleep(2)
     driver.find_element_by_link_text(
@@ -125,35 +126,80 @@ def AdvancedGameProgramingLab():
     time.sleep(2)
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
+def CompilerDesign():
+    # login()
+    driver.get("https://learn.upes.ac.in/")
+    time.sleep(2)
+    driver.find_element_by_link_text(
+        "Compiler Design.BT-CSE-SPZ-GG-V-B1.BT-CSE-SPZ-GG-V-B2.VR_B_311").click()
+    driver.find_element_by_partial_link_text("Collaborate").click()
+    time.sleep(8)
+    driver.switch_to.frame("contentFrame")
+    driver.find_element_by_id("session-bce26bb5aa6a4fdbb0d239f2e78e7c1f").click()
+    time.sleep(2)
+    driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
+
+def BIZ():
+    # login()
+    driver.get("https://learn.upes.ac.in/")
+    time.sleep(2)
+    driver.find_element_by_link_text(
+        "Introduction to Business Analytics.BT-CSE-SPZ-GG-V-B1.BT-CSE-SPZ-GG-V-B2.VR_B_309").click()
+    driver.find_element_by_partial_link_text("Collaborate").click()
+    time.sleep(8)
+    driver.switch_to.frame("contentFrame")
+    driver.find_element_by_id("session-c3eac564b6de4658b5a7c180ba4c1f37").click()
+    time.sleep(2)
+    driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 
 if  subject=='OOT':
-
     ObjectOrientedAnalysisTheory()
-    timetablejson.wait()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 elif subject=='AGPT':
     AdvancedGameProgramingTheory()
-    timetablejson.wait()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 elif subject=='WEBT':
     WebProgramTheory()
-    timetablejson.wait()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 elif subject=='AGPL':
     AdvancedGameProgramingLab()
-    timetablejson.wait()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 elif subject=='WEBT':
     WebProgramLab()
-    timetablejson.wait()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 elif subject=='OOADL':
     ObjectOrientedAnalysisLab()
-    timetablejson.wait()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 elif subject=='MPEDL':
     MicroprocessorLab()
-    timetablejson.wait()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 elif subject=='MPET':
-    MicroProcessorTheory()
-    timetablejson.wait()
+    try:
+        MicroProcessorTheory()
+    except:
+        MicroProcessorTheory()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
+elif subject=='CompilerT':
+    CompilerDesign()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
+elif subject=='BIZT':
+    BIZ()
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 else:
     print("You are free now")
+    timewait= time.strftime("%M", time.localtime())
+    timetablejson.wait(timewait)
 
 
 
