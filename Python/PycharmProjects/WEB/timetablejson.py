@@ -1,6 +1,3 @@
-
-
-
 import json
 import datetime
 import time
@@ -33,7 +30,7 @@ person = '''{
       "AGPT": {}
     },
     "Friday": {
-      "MPET": {}
+      "AGPL": {}
     }
   },
   "11": {
@@ -109,36 +106,32 @@ def subject():
         subjectname = (str(store[currenttime][day1]).strip("{").split(':'))
         subjectname = subjectname[0].strip("'")
         if subjectname.endswith('T'):
+            print(subjectname)
             print("its a theory class of 1 hr")
             return subjectname
         else:
+            print(subjectname)
             print("its a lab of 2 hr")
             return subjectname
     except:
         return "you are free"
 
 
-
 def wait(timewaitother):
     global timewait
-    while (True):
-        subjectname = subject()
-        if subjectname.endswith("T"):
-            timewait = 3600
-        elif subjectname.endswith("L"):
-            timewait = 7200
-        else:
-            timewait=3600
+    subjectname = subject()
+    if subjectname.endswith("T"):
+        timewait = 3600
+    elif subjectname.endswith("L"):
+        timewait = 7200
+    else:
+        timewait = 3600
+    print(f'{timewait} {int(timewaitother) * 60}')
+    for i in range(timewait-int(timewaitother) * 60, 0, -1):
+        # print("running"
+        if  (i%60==0):
+            sys.stdout.write(str(i) + ' ')
+            sys.stdout.flush()
+        time.sleep(1)
 
-        for i in range((timewait-(int(timewaitother) * 60)), 0, -1):
-            # print("running")
-            if (i % 50) != 0:
-                sys.stdout.write(str(i) + ' ')
-                sys.stdout.flush()
-            else:
-                sys.stdout.write("\n")
-            time.sleep(1)
-
-        print("\n")
-
-
+    print("\n")
