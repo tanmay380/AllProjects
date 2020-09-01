@@ -74,7 +74,7 @@ person = '''{
       "OOT": {}
     },
     "Tuesday": {
-      "COMPILERT": {}
+      "CompilerT": {}
     },
     "Wednesday": {
       "AGPT": {}
@@ -84,11 +84,6 @@ person = '''{
     },
     "Friday": {
       "MPET": {}
-    }
-  },
-  "02": {
-    "Thursday": {
-      "OOT": {}
     }
   }
 }'''
@@ -117,23 +112,22 @@ def subject():
         return "you are free"
 
 
-def wait(timewaitother):
+def wait(subjectname,timewaitother):
     global timewait
-    subjectname = subject()
+    # subjectname = subject()
     if subjectname.endswith("T"):
         timewait = 3600
     elif subjectname.endswith("L"):
         timewait = 7200
     else:
         timewait = 3600
-    print(f'{timewait} {int(timewaitother) * 60}')
-    t = timewait - int(timewaitother) * 60
-    for i in range(t, 0, -1):
-        # print("running"
-        mins, secs = divmod(t, 60)
-        timeformat = '{:02d}:{:02d}'.format(mins, secs)
-        print('\r'+ timeformat, end='')
-        time.sleep(1)
-        t-=1
+    # print(f'{timewait} {int(timewaitother) * 60}')
+    t = timewait - (int(timewaitother) * 60-1)
+    # for i in range(1, 0, -1):
+    #     mins, secs = divmod(t, 60)
+    #     timeformat = '{:02d}:{:02d}'.format(mins, secs)
+    #     print('\r'+ timeformat, end='')
+    #     time.sleep(1)
+    #     t-=1
 
     print("\n")

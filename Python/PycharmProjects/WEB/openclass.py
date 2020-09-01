@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 import selenium.common.exceptions as ex
 import os
 
-global id, password, driver
+global id, password
 
 
 def get_download_path():
@@ -23,20 +23,24 @@ def get_download_path():
         return os.path.join(os.path.expanduser('~'), 'downloads')
 
 
-# print(get_download_path())
-options = webdriver.ChromeOptions()
-options.add_argument(
-    "user-data-dir=D:\\Temp\\User Data\\default1")
-
-
-if (os.path.isfile(get_download_path()+"\chromedriver_win32\chromedriver.exe")):
-    excutablepath =get_download_path()+"\chromedriver_win32\chromedriver.exe"
-else:
-    excutablepath=get_download_path()+"\chromedriver.exe"
-driver = webdriver.Chrome(executable_path=excutablepath,
+def open_webdriver():
+    global options, excutablepath, driver
+    options = webdriver.ChromeOptions()
+    options.add_argument(
+        "user-data-dir=D:\\Temp\\User Data\\default1")
+    if (os.path.isfile(get_download_path() + "\chromedriver_win32\chromedriver.exe")):
+        excutablepath = get_download_path() + "\chromedriver_win32\chromedriver.exe"
+    else:
+        excutablepath = get_download_path() + "\chromedriver.exe"
+    driver = webdriver.Chrome(executable_path=excutablepath,
                               options=options)
+    driver.set_page_load_timeout(5)
 
-driver.set_page_load_timeout(5)
+
+# print(get_download_path())
+# open_webdriver()
+
+
 def getidpass():
     fileexitst = os.path.isfile(get_download_path()+"\idpassword.txt")
     if (fileexitst == False):
@@ -60,6 +64,17 @@ def getidpass():
 def login():
     try:
         driver.get("https://learn.upes.ac.in/")
+        with open(get_download_path()+"\\idpassword.txt") as detalis:
+            id = detalis.readline().rstrip('\n')
+            password = detalis.readline().rstrip('\n')
+        try:
+            driver.find_element_by_id("user_id").send_keys(id)
+            driver.find_element_by_id("password").send_keys(password)
+            WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.ID, "entry-login")))
+            driver.find_element_by_id("entry-login").click()
+        except ex.NoSuchElementException:
+            driver.set_page_load_timeout(10)
+            login()
     except ex.TimeoutException:
         with open(get_download_path()+"\\idpassword.txt") as detalis:
             id = detalis.readline().rstrip('\n')
@@ -77,8 +92,6 @@ def login():
 
 
 def MicroProcessorTheory():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.LINK_TEXT,
@@ -97,7 +110,6 @@ def MicroProcessorTheory():
 
 
 def MicroprocessorLab():
-    # login()
 
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
@@ -116,8 +128,6 @@ def MicroprocessorLab():
 
 
 def ObjectOrientedAnalysisTheory():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -135,8 +145,6 @@ def ObjectOrientedAnalysisTheory():
 
 
 def ObjectOrientedAnalysisLab():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -154,8 +162,6 @@ def ObjectOrientedAnalysisLab():
 
 
 def WebProgramLab():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -173,8 +179,6 @@ def WebProgramLab():
 
 
 def WebProgramTheory():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -193,8 +197,6 @@ def WebProgramTheory():
 
 
 def AdvancedGameProgramingTheory():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -212,8 +214,6 @@ def AdvancedGameProgramingTheory():
 
 
 def AdvancedGameProgramingLab():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -231,8 +231,6 @@ def AdvancedGameProgramingLab():
 
 
 def CompilerDesign():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -250,8 +248,6 @@ def CompilerDesign():
 
 
 def BIZ():
-    # login()
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -269,64 +265,78 @@ def BIZ():
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 
-getidpass()
-WebDriverWait(driver, 200).until(EC.presence_of_element_located((By.ID, "module:_3_1")))
-WebDriverWait(driver, 200).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT,
-                                                             "Compiler Design.BT-CSE-SPZ-GG-V-B1.BT-CSE")))
-while True:
-    try:
-        subject = timetablejson.subject()
-        if subject == 'OOT':
-            ObjectOrientedAnalysisTheory()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'AGPT':
-            AdvancedGameProgramingTheory()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'WEBT':
-            WebProgramTheory()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'AGPL':
-            AdvancedGameProgramingLab()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'WEBT':
-            WebProgramTheory()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'OOADL':
-            ObjectOrientedAnalysisLab()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'MPEDL':
-            MicroprocessorLab()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'MPET':
-            print("in")
-            MicroProcessorTheory()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'CompilerT':
-            CompilerDesign()
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        elif subject == 'BIZT':
-            BIZ()
 
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-        else:
-            print("You are free now")
-            timewait = time.strftime("%M", time.localtime())
-            timetablejson.wait(timewait)
-    except (ex.WebDriverException):
-        options = webdriver.ChromeOptions()
-        options.add_argument(
-            "user-data-dir=D:\\Temp\\User Data\\default1")
-        driver = webdriver.Chrome(executable_path=excutablepath,
-                                  options=options)
+timestart = time.strftime("%H:%M", time.localtime())
+if ('08:55'<timestart<='17:00'):
+    checksubject=timetablejson.subject()
+    if checksubject!='you are free':
+        # print("in")
+        open_webdriver()
         getidpass()
+        WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.ID, "module:_3_1")))
+        try:
+            time.sleep(2)
+            driver.find_element_by_id("agree_button").click()
+        except:
+            pass
+    while '08:55' < timestart <= '17:00':
+        if (checksubject == 'you are free'):
+            print("no class now")
+            timewait = time.strftime("%M", time.localtime())
+            timetablejson.wait('subject', timewait)
+        try:
+            subject = timetablejson.subject()
+            if subject == 'OOT':
+                ObjectOrientedAnalysisTheory()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'AGPT':
+                AdvancedGameProgramingTheory()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'WEBT':
+                WebProgramTheory()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'AGPL':
+                AdvancedGameProgramingLab()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'WEBT':
+                WebProgramTheory()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'OOADL':
+                ObjectOrientedAnalysisLab()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'MPEDL':
+                MicroprocessorLab()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'MPET':
+                MicroProcessorTheory()
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'CompilerT':
+                CompilerDesign()
+                print("func call")
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            elif subject == 'BIZT':
+                BIZ()
 
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            else:
+                print("You are free now")
+                timewait = time.strftime("%M", time.localtime())
+                timetablejson.wait(subject,timewait)
+            print("try in")
+        except (ex.WebDriverException):
+            open_webdriver()
+            getidpass()
+        print("try out")
+        timestart = time.strftime("%H:%M", time.localtime())
+
+print("class over")
