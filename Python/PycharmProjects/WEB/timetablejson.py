@@ -2,7 +2,6 @@ import json
 import datetime
 import time
 import calendar
-import sys
 
 person = '''{
   "09": {
@@ -121,13 +120,12 @@ def wait(subjectname,timewaitother):
         timewait = 7200
     else:
         timewait = 3600
-    # print(f'{timewait} {int(timewaitother) * 60}')
     t = timewait - (int(timewaitother) * 60-1)
-    # for i in range(1, 0, -1):
-    #     mins, secs = divmod(t, 60)
-    #     timeformat = '{:02d}:{:02d}'.format(mins, secs)
-    #     print('\r'+ timeformat, end='')
-    #     time.sleep(1)
-    #     t-=1
+    for i in range(t, 0, -1):
+        mins, secs = divmod(t, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print('\r'+ timeformat, end='')
+        time.sleep(1)
+        t-=1
 
     print("\n")
