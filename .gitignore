@@ -6,3 +6,4 @@ flutter
 *.log
 __pycache__
 build
+*.spec

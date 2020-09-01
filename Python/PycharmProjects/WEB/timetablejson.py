@@ -127,11 +127,13 @@ def wait(timewaitother):
     else:
         timewait = 3600
     print(f'{timewait} {int(timewaitother) * 60}')
-    for i in range(timewait-int(timewaitother) * 60, 0, -1):
+    t = timewait - int(timewaitother) * 60
+    for i in range(t, 0, -1):
         # print("running"
-        if  (i%60==0):
-            sys.stdout.write(str(i) + ' ')
-            sys.stdout.flush()
+        mins, secs = divmod(t, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print('\r'+ timeformat, end='')
         time.sleep(1)
+        t-=1
 
     print("\n")
