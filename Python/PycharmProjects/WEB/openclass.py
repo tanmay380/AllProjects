@@ -161,7 +161,7 @@ def WebProgramLab():
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
-        (By.LINK_TEXT, "Object Oriented Analysis and Design.BT-CSE-SPZ-GG-V-B1.BT-CSE-SPZ-GG-V-B2.V")))
+        (By.LINK_TEXT, "Object Oriented Analysis and Design Lab.BT-CSE-SPZ-GG-V-B2.VR_B_319")))
     driver.find_element_by_link_text(
         "Web Program for GG (HTML 5 & Web GL) Lab.BT-CSE-SPZ-GG-V-B2.VR_B_322").click()
     WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, "Collaborate")))
@@ -283,8 +283,8 @@ def opensubjectlink():
         AdvancedGameProgramingLab()
         timewait = time.strftime("%M", time.localtime())
         timetablejson.wait(subject, timewait)
-    elif subject == 'WEBT':
-        WebProgramTheory()
+    elif subject == 'WEBL':
+        WebProgramLab()
         timewait = time.strftime("%M", time.localtime())
         timetablejson.wait(subject, timewait)
     elif subject == 'OOADL':
@@ -331,6 +331,12 @@ while '08:55' < timestart <= '17:00':
         print("no class now")
         timewait = time.strftime("%M", time.localtime())
         timetablejson.wait('subject', timewait)
+        if  (opened):
+            pass
+        else:
+            open_webdriver()
+            opened=True
+            getidpass()
     try:
         subject = timetablejson.subject()
         opensubjectlink()

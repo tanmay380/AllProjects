@@ -127,5 +127,5 @@ def wait(subjectname,timewaitother):
         print('\r'+ timeformat, end='')
         time.sleep(1)
         t-=1
-
+    # input("lcdc")
     print("\n")
