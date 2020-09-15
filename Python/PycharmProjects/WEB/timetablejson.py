@@ -36,11 +36,11 @@ person = '''{
     "Monday": {
       "WEBT": {}
     },
-    "Thursday": {
-      "MPET": {}
-    },
     "Tuesday": {
       "AGPL": {}
+    },
+    "Thursday": {
+      "MPET": {}
     },
     "Wednesday": {
       "WEBL": {}
@@ -87,27 +87,35 @@ person = '''{
   }
 }'''
 
+day2 = str(datetime.date.today()).split('-')
+day1 = calendar.day_name[datetime.datetime.strptime(day2[2] + " " + day2[1] + " " + day2[0], '%d %m %Y').weekday()]
 
 def subject():
     global subjectname
     currenttime = time.strftime("%H", time.localtime())
     print(currenttime)
-    day2 = str(datetime.date.today()).split('-')
-    day1 = calendar.day_name[datetime.datetime.strptime(day2[2] + " " + day2[1] + " " + day2[0], '%d %m %Y').weekday()]
     print(day1)
     store = json.loads(person)
     try:
         subjectname = (str(store[currenttime][day1]).strip("{").split(':'))
         subjectname = subjectname[0].strip("'")
+        try:
+            nextsubject = (str(store[str(int(currenttime)+1)][day1]).strip("{").split(':'))
+            nextsubject = nextsubject[0].strip("'")
+        except:
+            nextsubject=f"NO class is at {int(currenttime)+1}"
         if subjectname.endswith('T'):
             print(subjectname)
             print("its a theory class of 1 hr")
+            print(nextsubject)
             return subjectname
         else:
             print(subjectname)
             print("its a lab of 2 hr")
+            print(nextsubject)
             return subjectname
     except:
+        print("error")
         return "you are free"
 
 
