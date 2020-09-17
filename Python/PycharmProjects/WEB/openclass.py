@@ -206,7 +206,13 @@ def AdvancedGameProgramingTheory():
                                                                     "session-dfe7c3ab16e54b11a832e4a2a8f10156")))
     driver.find_element_by_id("session-dfe7c3ab16e54b11a832e4a2a8f10156").click()
     time.sleep(2)
-    driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
+    while True:
+        try:
+            driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
+            break
+        except ex.NoSuchElementException:
+            time.sleep(10)
+            driver.refresh()
 
 
 def AdvancedGameProgramingLab():
@@ -328,7 +334,7 @@ while '08:55' < timestart <= '17:00':
             getidpass()
 
     else :#(checksubject == 'you are free'):
-        print("no class now")
+
         timewait = time.strftime("%M", time.localtime())
         timetablejson.wait('subject', timewait)
         if  (opened):
