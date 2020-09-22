@@ -8,5 +8,5 @@ __pycache__
 build
 *.spec
 out
-
+.vscode
 cmake-build-debug 
