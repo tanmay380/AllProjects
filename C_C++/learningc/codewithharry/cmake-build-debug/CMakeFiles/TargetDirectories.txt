@@ -1,5 +1,0 @@
-D:/Users/C_C++/learningc/codewithharry/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Users/C_C++/learningc/codewithharry/cmake-build-debug/CMakeFiles/LinkedList.dir
-D:/Users/C_C++/learningc/codewithharry/cmake-build-debug/CMakeFiles/Opengl.dir
-D:/Users/C_C++/learningc/codewithharry/cmake-build-debug/CMakeFiles/Doublylinkedlist.dir
-D:/Users/C_C++/learningc/codewithharry/cmake-build-debug/CMakeFiles/rebuild_cache.dir
