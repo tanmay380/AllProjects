@@ -86,10 +86,11 @@ person = '''{
     }
   }
 }'''
+if (__name__ == '__main__') or (__name__ == 'timetablejson'):
+    day2 = str(datetime.date.today()).split('-')
+    day1 = calendar.day_name[datetime.datetime.strptime(day2[2] + " " + day2[1] + " " + day2[0], '%d %m %Y').weekday()]
+    print(day1)
 
-day2 = str(datetime.date.today()).split('-')
-day1 = calendar.day_name[datetime.datetime.strptime(day2[2] + " " + day2[1] + " " + day2[0], '%d %m %Y').weekday()]
-print(day1)
 
 def subject():
     global subjectname
@@ -100,7 +101,6 @@ def subject():
         subjectname = (str(store[currenttime][day1]).strip("{").split(':'))
         subjectname = subjectname[0].strip("'")
         nextsubject = nextclass(currenttime, store)
-        print(nextsubject)
         if subjectname.endswith('T'):
             print(subjectname)
             print("its a theory class of 1 hr")
@@ -121,13 +121,13 @@ def subject():
 def nextclass(currenttime, store):
     try:
         nextsubject = (str(store[str(int(currenttime) + 1)][day1]).strip("{").split(':'))
-        nextsubject = "next class is of "+nextsubject[0].strip("'")
+        nextsubject = "next class is of " + nextsubject[0].strip("'")
     except:
         nextsubject = f"NO class is at {int(currenttime) + 1}"
     return nextsubject
 
 
-def wait(subjectname,timewaitother):
+def wait(subjectname, timewaitother):
     global timewait
     # subjectname = subject()
     if subjectname.endswith("T"):
@@ -136,12 +136,13 @@ def wait(subjectname,timewaitother):
         timewait = 7200
     else:
         timewait = 3600
-    t = timewait - (int(timewaitother) * 60-1)
+    t = timewait - (int(timewaitother) * 60 - 1)
     for i in range(t, 0, -1):
         mins, secs = divmod(t, 60)
         timeformat = '{:02d}:{:02d}'.format(mins, secs)
-        print('\r'+ timeformat, end='')
+        print('\r' + timeformat, end='')
         time.sleep(1)
-        t-=1
+        t -= 1
     # input("lcdc")
     print("\n")
+

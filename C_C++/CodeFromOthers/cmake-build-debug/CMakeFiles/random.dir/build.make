@@ -79,28 +79,28 @@ include CMakeFiles/random.dir/flags.make
 CMakeFiles/random.dir/random1.cpp.obj: CMakeFiles/random.dir/flags.make
 CMakeFiles/random.dir/random1.cpp.obj: ../random1.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Users\C_C++\CodeFromOthers\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/random.dir/random1.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\random.dir\random1.cpp.obj -c D:\Users\C_C++\CodeFromOthers\random1.cpp
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\random.dir\random1.cpp.obj -c D:\Users\C_C++\CodeFromOthers\random1.cpp
 
 CMakeFiles/random.dir/random1.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/random.dir/random1.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\random1.cpp > CMakeFiles\random.dir\random1.cpp.i
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\random1.cpp > CMakeFiles\random.dir\random1.cpp.i
 
 CMakeFiles/random.dir/random1.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/random.dir/random1.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\random1.cpp -o CMakeFiles\random.dir\random1.cpp.s
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\random1.cpp -o CMakeFiles\random.dir\random1.cpp.s
 
 CMakeFiles/random.dir/kukkie.cpp.obj: CMakeFiles/random.dir/flags.make
 CMakeFiles/random.dir/kukkie.cpp.obj: ../kukkie.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Users\C_C++\CodeFromOthers\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/random.dir/kukkie.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\random.dir\kukkie.cpp.obj -c D:\Users\C_C++\CodeFromOthers\kukkie.cpp
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\random.dir\kukkie.cpp.obj -c D:\Users\C_C++\CodeFromOthers\kukkie.cpp
 
 CMakeFiles/random.dir/kukkie.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/random.dir/kukkie.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\kukkie.cpp > CMakeFiles\random.dir\kukkie.cpp.i
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\kukkie.cpp > CMakeFiles\random.dir\kukkie.cpp.i
 
 CMakeFiles/random.dir/kukkie.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/random.dir/kukkie.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\kukkie.cpp -o CMakeFiles\random.dir\kukkie.cpp.s
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\kukkie.cpp -o CMakeFiles\random.dir\kukkie.cpp.s
 
 # Object files for target random
 random_OBJECTS = \

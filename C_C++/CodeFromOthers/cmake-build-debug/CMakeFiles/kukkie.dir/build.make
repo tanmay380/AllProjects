@@ -79,15 +79,15 @@ include CMakeFiles/kukkie.dir/flags.make
 CMakeFiles/kukkie.dir/kukkie.cpp.obj: CMakeFiles/kukkie.dir/flags.make
 CMakeFiles/kukkie.dir/kukkie.cpp.obj: ../kukkie.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Users\C_C++\CodeFromOthers\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/kukkie.dir/kukkie.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\kukkie.dir\kukkie.cpp.obj -c D:\Users\C_C++\CodeFromOthers\kukkie.cpp
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\kukkie.dir\kukkie.cpp.obj -c D:\Users\C_C++\CodeFromOthers\kukkie.cpp
 
 CMakeFiles/kukkie.dir/kukkie.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/kukkie.dir/kukkie.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\kukkie.cpp > CMakeFiles\kukkie.dir\kukkie.cpp.i
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\kukkie.cpp > CMakeFiles\kukkie.dir\kukkie.cpp.i
 
 CMakeFiles/kukkie.dir/kukkie.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/kukkie.dir/kukkie.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\kukkie.cpp -o CMakeFiles\kukkie.dir\kukkie.cpp.s
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\kukkie.cpp -o CMakeFiles\kukkie.dir\kukkie.cpp.s
 
 # Object files for target kukkie
 kukkie_OBJECTS = \

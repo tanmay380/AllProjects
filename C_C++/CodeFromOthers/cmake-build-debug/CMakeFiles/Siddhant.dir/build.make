@@ -79,15 +79,15 @@ include CMakeFiles/Siddhant.dir/flags.make
 CMakeFiles/Siddhant.dir/sid.cpp.obj: CMakeFiles/Siddhant.dir/flags.make
 CMakeFiles/Siddhant.dir/sid.cpp.obj: ../sid.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Users\C_C++\CodeFromOthers\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Siddhant.dir/sid.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Siddhant.dir\sid.cpp.obj -c D:\Users\C_C++\CodeFromOthers\sid.cpp
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Siddhant.dir\sid.cpp.obj -c D:\Users\C_C++\CodeFromOthers\sid.cpp
 
 CMakeFiles/Siddhant.dir/sid.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Siddhant.dir/sid.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\sid.cpp > CMakeFiles\Siddhant.dir\sid.cpp.i
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Users\C_C++\CodeFromOthers\sid.cpp > CMakeFiles\Siddhant.dir\sid.cpp.i
 
 CMakeFiles/Siddhant.dir/sid.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Siddhant.dir/sid.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\sid.cpp -o CMakeFiles\Siddhant.dir\sid.cpp.s
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Users\C_C++\CodeFromOthers\sid.cpp -o CMakeFiles\Siddhant.dir\sid.cpp.s
 
 # Object files for target Siddhant
 Siddhant_OBJECTS = \

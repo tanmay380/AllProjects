@@ -7,8 +7,8 @@ from selenium.webdriver.common.by import By
 import selenium.common.exceptions as ex
 import os
 
-global id, password,opened
-opened=False
+global id, password, opened
+opened = False
 
 
 def get_download_path():
@@ -27,29 +27,32 @@ def get_download_path():
 def open_webdriver():
     global options, excutablepath, driver
     options = webdriver.ChromeOptions()
+
     options.add_argument(
         "user-data-dir=D:\\Temp\\User Data\\default1")
+    options.add_argument("--start-maximized")
     if (os.path.isfile(get_download_path() + "\chromedriver_win32\chromedriver.exe")):
         excutablepath = get_download_path() + "\chromedriver_win32\chromedriver.exe"
     else:
         excutablepath = get_download_path() + "\chromedriver.exe"
     driver = webdriver.Chrome(executable_path=excutablepath,
                               options=options)
-    opened=True
     driver.set_page_load_timeout(5)
+    # driver.maximize_window()
+
 
 def getidpass():
-    fileexitst = os.path.isfile(get_download_path()+"\idpassword.txt")
+    fileexitst = os.path.isfile(get_download_path() + "\idpassword.txt")
     if (fileexitst == False):
         print("For first time only....")
         while True:
             id = input("Enter the ID-> ").lower()
             password = input("Enter the PASSWORD-> ")
             print(f"YOUR DETAILS WITH ID AND PASSWORD IS STORED IN-> {get_download_path()}\idpasswordh .txt")
-            with open(get_download_path()+"\\idpassword.txt", 'w') as file:
+            with open(get_download_path() + "\\idpassword.txt", 'w') as file:
                 file.write(id + "\n" + password)
-            change=input("Would you like to edit your username and password(y or n)").lower()
-            if change=='n':
+            change = input("Would you like to edit your username and password(y or n)").lower()
+            if change == 'n':
                 break
         os.system(f"attrib +h {get_download_path()}\idpassword.txt")
         login()
@@ -87,11 +90,12 @@ def login1():
     except:
         pass
 
+
 def MicroProcessorTheory():
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.LINK_TEXT,
-                         "Micro Processor & Embedded Systems.BT-CSE-SPZ-GG-V-B1.BT-CSE-SPZ-GG-V-B2.VR_B_314")))
+                                                                    "Micro Processor & Embedded Systems.BT-CSE-SPZ-GG-V-B1.BT-CSE-SPZ-GG-V-B2.VR_B_314")))
     driver.find_element_by_link_text(
         "Micro Processor & Embedded Systems.BT-CSE-SPZ-GG-V-B1.BT-CSE-SPZ-GG-V-B2.VR_B_314").click()
     WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, "Collaborate")))
@@ -106,7 +110,6 @@ def MicroProcessorTheory():
 
 
 def MicroprocessorLab():
-
     driver.switch_to.window(driver.window_handles[0])
     driver.get("https://learn.upes.ac.in/")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(
@@ -201,13 +204,13 @@ def AdvancedGameProgramingTheory():
         "Advanced Game Programming Algorithms.BT-CSE-SPZ-GG-V-B1.BT-CSE-SPZ-GG-V-B2.VR_B_312").click()
     WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, "Collaborate")))
     driver.find_element_by_partial_link_text("Collaborate").click()
-    WebDriverWait(driver, 30).until(EC.frame_to_be_available_and_switch_to_it((By.ID, "contentFrame")))
-    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID,
-                                                                    "session-dfe7c3ab16e54b11a832e4a2a8f10156")))
-    driver.find_element_by_id("session-dfe7c3ab16e54b11a832e4a2a8f10156").click()
-    time.sleep(2)
+
     while True:
         try:
+            WebDriverWait(driver, 30).until(EC.frame_to_be_available_and_switch_to_it((By.ID, "contentFrame")))
+            WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID,
+                                                                            "session-dfe7c3ab16e54b11a832e4a2a8f10156")))
+            driver.find_element_by_id("session-dfe7c3ab16e54b11a832e4a2a8f10156").click()
             driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
             break
         except ex.NoSuchElementException:
@@ -267,7 +270,6 @@ def BIZ():
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div[2]/div').click()
 
 
-
 timestart = time.strftime("%H:%M", time.localtime())
 
 
@@ -321,30 +323,29 @@ def opensubjectlink():
         timetablejson.wait(subject, timewait)
 
 
-while '08:55' < timestart <= '17:00':
-    if timestart>'17:00':
+while '08:55' < timestart <= '15:00':
+    if timestart > '15:00':
         break
-    checksubject=timetablejson.subject()
-    if checksubject!='you are free':
-        if  (opened):
+    subject = timetablejson.subject()
+    if subject != 'you are free':
+        if (opened):
             pass
         else:
             open_webdriver()
-            opened=True
+            opened = True
             getidpass()
 
-    else :#(checksubject == 'you are free'):
+    else:  # (checksubject == 'you are free'):
 
         timewait = time.strftime("%M", time.localtime())
         timetablejson.wait('subject', timewait)
-        if  (opened):
+        if (opened):
             pass
         else:
             open_webdriver()
-            opened=True
+            opened = True
             getidpass()
     try:
-        subject = timetablejson.subject()
         opensubjectlink()
     except ex.TimeoutException:
         opensubjectlink()

@@ -7,8 +7,5 @@ flutter
 __pycache__
 build
 *.spec
-*.cmake
-**/CodeFromOthers
-C_C++/CodeFromOthers/cmake-build-debug/CMakeCache.txt
-C_C++/CodeFromOthers/cmake-build-debug/CMakeFiles/3.17.3/CMakeCCompiler.cmake
-C_C++/CodeFromOthers/cmake-build-debug/CMakeCache.txt
+out
+
