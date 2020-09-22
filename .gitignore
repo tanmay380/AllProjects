@@ -9,3 +9,4 @@ build
 *.spec
 out
 
+cmake-build-debug  $ git rm --cached cmake-build-debug rm 'cmake-build-debug' $ git commit -m "Start ignoring cmake-build-debug" 
