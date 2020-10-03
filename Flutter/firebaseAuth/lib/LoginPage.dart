@@ -37,7 +37,7 @@ class LoginPageState extends State<LoginPage> {
         if (_formType == FormType.login) {
           // UserCredential user = (await auth.signInWithEmailAndPassword(
           //     email: _email, password: _password));
-          auth.signInWithPhoneNumber(_email, RecaptchaVerifier());
+          // auth.signInWithPhoneNumber(_email, verifier);
           final User user1 = auth.currentUser;
           final uid = user1.uid;
           print('Signed in: $uid');
