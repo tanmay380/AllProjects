@@ -29,7 +29,7 @@ def open_webdriver():
     options = webdriver.ChromeOptions()
 
     options.add_argument(
-        "user-data-dir=D:\\Temp\\User Data\\default1")
+        "user-data-dir=D:\\Temp\\User Data\\default2")
     options.add_experimental_option("excludeSwitches", ['enable-automation'])
     options.add_argument("--start-maximized")
     if (os.path.isfile(get_download_path() + "\chromedriver_win32\chromedriver.exe")):
@@ -277,7 +277,6 @@ def opensubjectlink():
         timetablejson.wait(subject, timewait)
     elif subject == 'CompilerT':
         CompilerDesign()
-        print("func call")
         timewait = time.strftime("%M", time.localtime())
         timetablejson.wait(subject, timewait)
     elif subject == 'BIZT':
@@ -299,17 +298,8 @@ while '08:55' < timestart <= '15:00':
         if (opened):
             pass
         else:
-            open_webdriver()
-            opened = True
-            getidpass()
-
-    else:  # (checksubject == 'you are free'):
-
-        timewait = time.strftime("%M", time.localtime())
-        timetablejson.wait('subject', timewait)
-        if (opened):
-            pass
-        else:
+            # print("reached\open driver hing if")
+            # print(subject)
             open_webdriver()
             opened = True
             getidpass()

@@ -96,6 +96,8 @@ def subject():
     global subjectname
     currenttime = time.strftime("%H", time.localtime())
     print(currenttime)
+    # currenttime= input("ENter the custom time for your class(debug):-> ")
+    # print(currenttime)
     store = json.loads(person)
     try:
         subjectname = (str(store[currenttime][day1]).strip("{").split(':'))
@@ -145,4 +147,3 @@ def wait(subjectname, timewaitother):
         t -= 1
     # input("lcdc")
     print("\n")
-
