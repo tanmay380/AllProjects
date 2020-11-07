@@ -1,0 +1,13 @@
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\MainWindow.g.cs
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\App.g.cs
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\WpfApp1_MarkupCompile.cache
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\WpfApp1_MarkupCompile.lref
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\MainWindow.baml
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\WpfApp1.g.resources
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\WpfApp1.csproj.CoreCompileInputs.cache
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\WpfApp1.pdb
+D:\Projects\Visual Studio\WpfApp1\bin\Debug\net45\win10-x64\WpfApp1.exe.config
+D:\Projects\Visual Studio\WpfApp1\bin\Debug\net45\win10-x64\WpfApp1.exe
+D:\Projects\Visual Studio\WpfApp1\bin\Debug\net45\win10-x64\WpfApp1.pdb
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\WpfApp1.exe
+D:\Projects\Visual Studio\WpfApp1\obj\Debug\net45\win10-x64\WpfApp1.csprojAssemblyReference.cache
