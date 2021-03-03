@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Practice Handwriting</string>
+
+    <string name="English">English</string>
+    <string name="Hindi">हिंदी</string>
+
+    <string-array name="Characters">
+        <item>अ</item>
+        <item>आ</item>
+        <item>इ</item>
+        <item>ई</item>
+        <item>उ</item>
+        <item>ऊ</item>
+        <item>ऋ</item>
+        <item>ए</item>
+        <item>ऐ</item>
+        <item>ओ</item>
+        <item>औ</item>
+        <item>क</item>
+        <item>ख</item>
+
+        <item>ग</item>
+        <item>घ</item>
+        <item>ङ</item>
+        <item>चा</item>
+        <item>छ</item>
+        <item>ज</item>
+        <item>ञ</item>
+        <item>ट</item>
+        <item>ठ</item>
+        <item>ड</item>
+        <item>ढ</item>
+        <item>ण</item>
+        <item>त</item>
+        <item>थ</item>
+        <item>द</item>
+        <item>ध</item>
+        <item>न</item>
+        <item>प</item>
+        <item>फ</item>
+        <item>ब</item>
+        <item>भ</item>
+        <item>म</item>
+        <item>य</item>
+        <item>र</item>
+        <item>ल</item>
+        <item>व</item>
+        <item>श</item>
+        <item>ष</item>
+        <item>स</item>
+        <item>ह</item>
+    </string-array>
+</resources>

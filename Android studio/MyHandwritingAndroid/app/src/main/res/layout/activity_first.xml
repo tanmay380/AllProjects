@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".infront.LanguageSelection"
+    android:orientation="vertical">
+
+<android.support.v7.widget.Toolbar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:title="Language Selection"
+    android:background="@color/ActionbarBg"
+    app:titleTextAppearance="@style/AppTheme.Toolbar.Title"/>
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/english"
+        android:layout_width="294dp"
+        android:layout_height="159dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="527dp"
+        android:onClick="langueageselect"
+        android:text="@string/English" />
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/number"
+        android:layout_width="294dp"
+        android:layout_height="159dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="293dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="328dp"
+        android:onClick="langueageselect"
+        android:text="Numbers" />
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/hindi"
+        android:layout_width="294dp"
+        android:layout_height="159dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="517dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="110dp"
+        android:onClick="langueageselect"
+        android:text="HINDI" />
+
+
+</RelativeLayout>

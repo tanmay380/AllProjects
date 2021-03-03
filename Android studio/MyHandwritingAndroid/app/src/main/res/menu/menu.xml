@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".background.alphabetBaseShow">
+
+    <item
+        android:id="@+id/action_previous"
+        android:title="@string/action_previous"
+        android:icon="@drawable/ic_previous"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_next"
+        android:title="@string/action_next"
+        android:icon="@drawable/ic_next"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/setting"
+        android:title="SET SIZE"/>
+    <item
+        android:id="@+id/color"
+        android:title="COLOR"/>
+</menu>
