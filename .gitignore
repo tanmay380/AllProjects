@@ -3,6 +3,7 @@ UNITY
 All-projects
 .idea
 *.log
+
 __pycache__
 build
 *.spec
@@ -10,4 +11,5 @@ out
 .vscode
 cmake-build-debug 
 *.exe
+Node
 UPW EXTENSION GITHUB

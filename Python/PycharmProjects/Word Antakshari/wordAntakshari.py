@@ -5,8 +5,8 @@ print("rules: ")
 print("1. To start every round, you need to input a word (it should be a valid word within any dictionary)")
 print("2 The computer will give you the next word according to the last letter of your word and so on")
 print("You have 10 rounds")
-reply = str(input("shall we begin? please reply with Y for yes or N for no: "))
-proceed = "y" or "Y"
+reply = str(input("shall we begin? please reply with Y for yes or N for no: ")).lower()
+proceed = "y"
 game_list = []
 newstring = ""
 cpuword=""

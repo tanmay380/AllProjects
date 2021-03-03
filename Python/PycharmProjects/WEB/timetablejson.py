@@ -29,7 +29,7 @@ person = '''{
       "AGPT": {}
     },
     "Friday": {
-      "AGPL": {}
+      "MPET": {}
     }
   },
   "11": {
@@ -39,11 +39,11 @@ person = '''{
     "Tuesday": {
       "AGPL": {}
     },
-    "Thursday": {
-      "MPET": {}
-    },
     "Wednesday": {
       "WEBL": {}
+    },
+    "Thursday": {
+      "MPET": {}
     },
     "Friday": {
       "OOADL": {}
