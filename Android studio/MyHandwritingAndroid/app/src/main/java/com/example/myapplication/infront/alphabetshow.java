@@ -1,11 +1,10 @@
 package com.example.myapplication.infront;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.v4.widget.DrawerLayout;
-import android.view.MenuItem;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
+
 import android.view.View;
 import android.widget.Toast;
 

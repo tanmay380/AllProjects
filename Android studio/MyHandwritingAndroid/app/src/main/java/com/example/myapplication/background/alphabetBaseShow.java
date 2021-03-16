@@ -4,16 +4,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -225,28 +226,28 @@ public class alphabetBaseShow extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void colorclick(View v) {
-        switch (v.getId()) {
-            case R.id.blue:
-                mDrawView.setcolor(Color.BLUE);
-                break;
-            case R.id.orange:
-                mDrawView.setcolor(Color.rgb(255, 165, 0));
-                break;
-            case R.id.green:
-                mDrawView.setcolor(Color.GREEN);
-                break;
-            case R.id.yelllow:
-                mDrawView.setcolor(Color.YELLOW);
-                break;
-            case R.id.brown:
-                mDrawView.setcolor(Color.rgb(185, 122, 87));
-                break;
-            case R.id.grey:
-                mDrawView.setcolor(Color.GRAY);
-                break;
-        }
-    }*/
+//    public void colorclick(View v) {
+//        switch (v.getId()) {
+//            case R.id.blue:
+//                mDrawView.setcolor(Color.BLUE);
+//                break;
+//            case R.id.ora:
+//                mDrawView.setcolor(Color.rgb(255, 165, 0));
+//                break;
+//            case R.id.green:
+//                mDrawView.setcolor(Color.GREEN);
+//                break;
+//            case R.id.yelllow:
+//                mDrawView.setcolor(Color.YELLOW);
+//                break;
+//            case R.id.brown:
+//                mDrawView.setcolor(Color.rgb(185, 122, 87));
+//                break;
+//            case R.id.grey:
+//                mDrawView.setcolor(Color.GRAY);
+//                break;
+//        }
+//    }
 
 
     protected void showErrorDialog(final Exception e) {

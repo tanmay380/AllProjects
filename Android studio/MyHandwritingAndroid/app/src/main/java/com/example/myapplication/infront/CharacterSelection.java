@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.view.Display;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 
 import com.example.myapplication.R;
 import com.example.myapplication.background.Animator;
-import com.example.myapplication.background.alphabetBaseShow;
 
 import java.util.Random;
 
