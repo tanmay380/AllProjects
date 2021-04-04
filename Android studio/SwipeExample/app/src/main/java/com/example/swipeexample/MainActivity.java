@@ -4,13 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewParent;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,12 +21,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    ViewPager2 viewPager;
+    static ViewPager2 viewPager;
 
     First first;
     Second second;
     Third fourth;
     MenuItem premenu;
+    Button button;
 
 
 
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
 
     }
+
+
     private void ClickPager() {
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -78,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
                 if (v == R.id.fourth)
                     viewPager.setCurrentItem(0);
                 else if (v == R.id.second)
-                    viewPager.setCurrentItem(1);
-                else if (v == R.id.home)
                     viewPager.setCurrentItem(2);
+                else if (v == R.id.home)
+                    viewPager.setCurrentItem(1);
 
 
                 return false;

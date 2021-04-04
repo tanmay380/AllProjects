@@ -23,4 +23,8 @@ public class First extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
+
+    public void goToFouth(View v){
+
+    }
 }
