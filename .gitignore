@@ -13,8 +13,7 @@ cmake-build-debug
 Node
 UPW EXTENSION GITHUB
 
-#Ignoring sizes greater than 100MB
-find * -size +100M | cat >> .gitignore
+find . -size +100M | cat > .gitignore
 
 ###
 # Unity folders and files
@@ -57,3 +56,5 @@ sysinfo.txt
 Icon?
 ehthumbs.db
 Thumbs.db
+Unity/AR LAB/Exp4ARVR.zip
+Unity/AR LAB/UNity.zip
