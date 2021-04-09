@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1617891293 source:d:\projects\c_c++\open_gl\opengl2\main.c
+	<string.h>
+	<GL/glut.h>
+	<gl/gl.h>
+
