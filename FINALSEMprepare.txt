@@ -1,0 +1,4 @@
+Operating System
+JAVA
+DBMS, DATA STRUCTURES
+DFA, NFA(FLAT)
