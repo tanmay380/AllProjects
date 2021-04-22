@@ -1,9 +1,8 @@
 # depslib dependency file v1.0
-1617893811 source:d:\projects\c_c++\open_gl\glut1\main.cpp
+1617894433 source:d:\projects\c_c++\open_gl\glut1\main.cpp
 	<windows.h>
-	<GLUT/glut.h>
+	<string.h>
 	<GL/glut.h>
-	<stdlib.h>
 
 1301111162 c:\program files (x86)\codeblocks\mingw\include\windows.h
 	<winresrc.h>
