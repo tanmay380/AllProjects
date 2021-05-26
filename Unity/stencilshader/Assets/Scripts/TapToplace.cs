@@ -89,7 +89,8 @@ public class TapToplace : MonoBehaviour
 
             if (spawnedObject == null)
             {
-                spawnedObject = Instantiate(gameObject, new Vector3(hitPose.position.x -2.5f, hitPose.position.y - 3, hitPose.position.z+2), hitPose.rotation);
+                spawnedObject = Instantiate(gameObject, new Vector3(hitPose.position.x , hitPose.position.y-1.5f , hitPose.position.z), hitPose.rotation);
+                spawnedObject.transform.parent = null;
                 TogglePlaceDetection();
                 gaze.infos = FindObjectsOfType<InfoBehaviour>().ToList();
             }
