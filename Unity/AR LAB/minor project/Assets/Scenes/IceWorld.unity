@@ -281,7 +281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419076058}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1, y: 2.19, z: -135}
+  m_LocalPosition: {x: 0, y: 2.19, z: -75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -649,7 +649,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654146304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.1, y: 4.02, z: -75.36}
+  m_LocalPosition: {x: 0, y: 2.19, z: -75.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1345,8 +1345,8 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 119322696094816884, guid: 245b32e2f4b9bb746b3280e26927f136, type: 3}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: 
-  m_OnlineScene: 
+  m_OfflineScene: IceWorld
+  m_OnlineScene: IceWorld
   m_SpawnPrefabs: []
   m_CustomConfig: 0
   m_MaxConnections: 4
