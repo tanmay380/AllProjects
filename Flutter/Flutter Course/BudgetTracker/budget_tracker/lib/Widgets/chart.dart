@@ -30,7 +30,7 @@ class Chart extends StatelessWidget {
       //print('${DateFormat.E().format(weekDay)}  \' sum is \'  $totalSum');
 
       return {
-        'day': DateFormat.E().format(weekDay).substring(0, 3).toUpperCase(),
+        'day': DateFormat.E().format(weekDay).substring(0, 1).toUpperCase(),
         'amount': totalSum
       };
     }).toList();
