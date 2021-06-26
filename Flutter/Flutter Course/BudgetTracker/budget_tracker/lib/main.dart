@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:budget_tracker/Widgets/chart.dart';
 import 'package:budget_tracker/Widgets/new_transaction.dart';
 import 'package:budget_tracker/Widgets/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'models/transaction.dart';
 
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startNewAddTransaction(BuildContext ctx) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: ctx,
       builder: (bctx) {
         return NewTransaction(_addNewTransaction);
@@ -107,8 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final orientation2 = MediaQuery.of(context);
+    final isLandscape = orientation2.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       centerTitle: true,
@@ -121,9 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
     final txList = Container(
-      height: (MediaQuery.of(context).size.height -
+      height: (orientation2.size.height -
               appBar.preferredSize.height -
-              MediaQuery.of(context).padding.top) *
+              orientation2.padding.top) *
           0.7,
       child: TransactionList(transactions, _deleteTransaction),
     );
@@ -150,9 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             if (!isLandscape)
               Container(
-                height: (MediaQuery.of(context).size.height -
+                height: (orientation2.size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
+                        orientation2.padding.top) *
                     0.3,
                 child: Chart(_recentTransactions),
               ),
@@ -160,9 +162,9 @@ class _MyHomePageState extends State<MyHomePage> {
             if (isLandscape)
               _showChart
                   ? Container(
-                      height: (MediaQuery.of(context).size.height -
+                      height: (orientation2.size.height -
                               appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
+                              orientation2.padding.top) *
                           0.7,
                       child: Chart(_recentTransactions),
                     )
