@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:elevation="2dp"
+    app:cardCornerRadius="4dp"
+    android:background="@color/black">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/centerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:drawablePadding="4dp"
+            android:padding="3dp"
+            android:text="Center Name"
+            android:textColor="@color/black"
+            app:drawableLeftCompat="@drawable/ic_baseline_local_hospital_24" />
+
+        <TextView
+            android:id="@+id/centerLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/centerName"
+            android:layout_margin="3dp"
+            android:drawablePadding="4dp"
+            android:padding="3dp"
+            android:text="Center Location"
+            android:textColor="@color/black"
+            app:drawableLeftCompat="@drawable/ic_baseline_location_on_24" />
+
+        <TextView
+            android:id="@+id/timings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/centerLocation"
+            android:layout_margin="3dp"
+            android:drawablePadding="4dp"
+            android:padding="3dp"
+            android:text="Timings"
+            android:textColor="@color/black"
+            app:drawableLeftCompat="@drawable/ic_baseline_access_time_24" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timings"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_margin="3dp">
+
+            <TextView
+                android:id="@+id/vaccinename"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="Vaccine Name"
+                android:textColor="@color/black"
+                app:drawableLeftCompat="@drawable/ic_baseline_airline_seat_flat_angled_24" />
+
+            <TextView
+                android:id="@+id/fees"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="Fees"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/linearlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:id="@+id/agelimit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="age Limit"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/availability"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="Availability"
+                android:textColor="@color/black" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

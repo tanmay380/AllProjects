@@ -2,6 +2,7 @@ package com.example.attendanceapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText class_edt;
     EditText subject_edt;
+    Toolbar toolbar;
 
 
     @Override
@@ -37,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(v -> showDialog());
 
         recyclerView = findViewById(R.id.recyclerView);
+
+
+
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -44,6 +51,23 @@ public class MainActivity extends AppCompatActivity {
         classAdapter = new ClassAdapter(this, classItems);
         recyclerView.setAdapter(classAdapter);
         classAdapter.setOnItemClickListener(this::gotoItemActivity);
+
+        setToolbar();
+
+
+    }
+
+    private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        TextView title = findViewById(R.id.title_toolbar);
+        TextView subtitle = findViewById(R.id.subtitle_toolbar);
+        ImageButton back = findViewById(R.id.back);
+        ImageButton save = findViewById(R.id.save_button);
+
+        title.setText("Attendance App");
+        subtitle.setVisibility(View.GONE);
+        back.setVisibility(View.INVISIBLE);
+        save.setVisibility(View.INVISIBLE);
     }
 
     private void gotoItemActivity(int position){
