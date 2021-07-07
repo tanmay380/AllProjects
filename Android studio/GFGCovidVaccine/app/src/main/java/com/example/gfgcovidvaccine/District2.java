@@ -62,7 +62,7 @@ public class District2 extends Fragment implements LocationListener {
 
     boolean firsttime = true;
 
-    String districtname, statename;
+    String districtname, statename, getlocation1 = " Getting Your Location";
 
     ArrayList<String> states = new ArrayList<>();
     ArrayList<String> districts = new ArrayList<>();
@@ -148,7 +148,7 @@ public class District2 extends Fragment implements LocationListener {
         districtsMap = new TreeMap<>();
 
         states.add("Select Your State");
-//        districts.add("Select Your District");
+        districts.add("Select Your District");
 
         getLocation = getView().findViewById(R.id.getlocation);
         dateselect = getView().findViewById(R.id.textview);
@@ -258,30 +258,32 @@ public class District2 extends Fragment implements LocationListener {
         String url = "https://cdn-api.co-vin.in/api/v2/admin/location/districts/" + stateid;
 
         districtsMap.clear();
-        districts.clear();
-
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        RequestFuture<JSONObject> future= RequestFuture.newFuture();
         JsonObjectRequest array = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                        JSONArray stateArray = response.getJSONArray("districts");
-                        Log.d("statearray", String.valueOf(stateArray.length()));
-                        for (int i = 0; i < stateArray.length(); i++) {
-                            JSONObject jsonObject = stateArray.getJSONObject(i);
-                            int district_id = jsonObject.getInt("district_id");
-                            String district_name = jsonObject.getString("district_name");
-
-                            districtsMap.put(district_name, district_id);
-
+                    districtsMap.clear();
+                    districts.clear();
+                    JSONArray stateArray = response.getJSONArray("districts");
+                    Log.d("statearray", String.valueOf(stateArray.length()));
+                    for (int i = 0; i < stateArray.length(); i++) {
+                        JSONObject jsonObject = stateArray.getJSONObject(i);
+                        int district_id = jsonObject.getInt("district_id");
+                        String district_name = jsonObject.getString("district_name");
+                        districtsMap.put(district_name, district_id);
+//                        districts.add(district_name);
+//                        Log.d("districtmap", "onResponse: " + districts);
                     }
 
                     districts.addAll(districtsMap.keySet());
+                    Log.d("districtarray", "onResponse: " + districts);
                     adapter1.notifyDataSetChanged();
 
-                }
-                catch (JSONException jsonException) {
+                    Log.d("district", "ab bahar nkala hun : " + districts.size());
+
+
+                } catch (JSONException jsonException) {
                     jsonException.printStackTrace();
                 }
 
@@ -303,6 +305,7 @@ public class District2 extends Fragment implements LocationListener {
         );
 
 
+        districts.clear();
         requestQueue.add(array);
 
     }
@@ -312,13 +315,12 @@ public class District2 extends Fragment implements LocationListener {
         // Toast.makeText(getContext(),"GET LOCARION", Toast.LENGTH_SHORT).show();
 //        statesMap.clear();
 //        districtsMap.clear();
-
+        item_classes.clear();
         rv_adapter.notifyDataSetChanged();
         checklocationISEnableORnor();
         nDialog = new ProgressDialog(getActivity()); //Here I get an error: The constructor ProgressDialog(PFragment) is undefined
-        nDialog.setMessage("Getting Your Location ");
+        nDialog.setMessage(getlocation1);
         nDialog.setTitle("Please Wait");
-        nDialog.setIndeterminate(false);
         nDialog.setCancelable(true);
         nDialog.show();
         try {
@@ -443,34 +445,69 @@ public class District2 extends Fragment implements LocationListener {
     @Override
     public void onLocationChanged(@NonNull Location location) {
         try {
-            Log.d("locationchanged", "onLocationChanged: ");
-
             Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             statename = addresses.get(0).getAdminArea();
             districtname = addresses.get(0).getLocality();
 
             spinner.setSelection(getintStatevalue(statename));
-            fillSpinnerArrayDistricts(statesMap.get(statename));
+            Toast.makeText(getContext(), districtname, Toast.LENGTH_SHORT).show();
 
+            try {
+                fillSpinnerArrayDistricts(statesMap.get(statename));
+            } catch (NullPointerException e) {
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Error Getting Districts")
+                        .setTitle("Error")
+                        .setPositiveButton("Ok", null);
+            }
 
+            Log.d("bahar ki size ", "run: " + districts.size());
 
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
 
-            Log.d("districts", "onLocationChanged: " + districtsMap);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d("please aaja ", "run: " + districts.size());
+                                    selectSpinerandDistrictId();
 
+                                    nDialog.dismiss();
+                                }
+                            });
+                        }
+                    },
+                    3000
+            );
             Toast.makeText(getContext(), "LOCATION RECEIVED", Toast.LENGTH_SHORT).show();
-
-            Log.d("districtspinner", districtname);
-
 
         } catch (Exception e) {
             e.printStackTrace();
-//            nDialog.dismiss();
+            nDialog.dismiss();
         }
-        nDialog.dismiss();
         locationManager.removeUpdates(this);
     }
 
+    private void selectSpinerandDistrictId() {
+        int positoin = 0;
+        if (adapter1 != null) {
+            positoin = adapter1.getPosition(districtname);
+        } else {
+            Snackbar.make(getView(), "Select District Manually 1st else", Snackbar.LENGTH_LONG).show();
+        }
+
+
+        if (districts.contains(districtname)) {
+            Log.d("disctrcit", "selectSpinerandDistrictId: " + districtname);
+            districtSpinner.setSelection(positoin);
+            district_id = districtsMap.get(districtname);
+        } else {
+            Snackbar.make(getView(), "Select District Manually", Snackbar.LENGTH_LONG).show();
+        }
+    }
 
     private int getintStatevalue(String state) {
         if (adapter != null) {
@@ -495,4 +532,5 @@ public class District2 extends Fragment implements LocationListener {
     public void onProviderDisabled(@NonNull String provider) {
 
     }
+
 }
