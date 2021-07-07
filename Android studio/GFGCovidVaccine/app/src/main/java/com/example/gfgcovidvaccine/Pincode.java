@@ -1,14 +1,29 @@
 package com.example.gfgcovidvaccine;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +32,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -28,14 +44,20 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.TestOnly;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
-public class Pincode extends Fragment {
+import static androidx.core.content.ContextCompat.getSystemService;
+
+public class Pincode extends Fragment implements LocationListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -46,11 +68,17 @@ public class Pincode extends Fragment {
     public Pincode() {
     }
 
+    ProgressDialog dialog;
+
     private Button pinButton;
     EditText edt_pin;
     RecyclerView recyclerView;
     ProgressBar progressBar;
     RV_Adapter adapter;
+
+    ImageButton imageButton;
+
+    LocationManager locationManager;
 
 
     RecyclerView.LayoutManager layoutManager;
@@ -99,12 +127,89 @@ public class Pincode extends Fragment {
 
         adapter = new RV_Adapter(item_classes);
 
+        dialog = new ProgressDialog(getActivity());
+
         recyclerView.setAdapter(adapter);
+
+        imageButton = getView().findViewById(R.id.location);
+
+        grantpermission();
+        checklocationISEnableORnor();
 
 
         pinButton.setOnClickListener(v -> searchPin());
+        imageButton.setOnClickListener(v->getLocation());
 
     }
+
+
+
+
+
+    private void getLocation() {
+        dialog.setMessage("Geting Location, Please Wait");
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(true);
+        dialog.show();
+        try {
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                    500, 0, (LocationListener) this);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void checklocationISEnableORnor() {
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean gpsEnbaled = false;
+        boolean networkEnable = false;
+        try {
+            gpsEnbaled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            networkEnable = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (!gpsEnbaled && !networkEnable) {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Enable Gps Services")
+                    .setCancelable(false)
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+
+
+        }
+
+    }
+
+    private void grantpermission() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION
+                    , Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+        }else
+        {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION
+                    , Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+        }
+    }
+
+
+
+
+
     private void searchPin() {
         edt_pin.onEditorAction(EditorInfo.IME_ACTION_DONE);
         String pin = edt_pin.getText().toString();
@@ -177,5 +282,37 @@ public class Pincode extends Fragment {
                 }
         );
         queue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        Toast.makeText(getContext(), "LOCATION ISIDE", Toast.LENGTH_SHORT).show();
+        try {
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+
+            edt_pin.setText(addresses.get(0).getPostalCode());
+            locationManager.removeUpdates(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dialog.dismiss();
+    }
+
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
     }
 }

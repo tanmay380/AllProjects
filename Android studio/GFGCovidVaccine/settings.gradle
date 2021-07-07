@@ -1,2 +1,3 @@
 rootProject.name = "GFG Covid Vaccine"
 include ':app'
+include ':locationacces'

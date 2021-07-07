@@ -12,17 +12,43 @@
         android:orientation="vertical"
         tools:context=".District">
 
-        <Spinner
-            android:id="@+id/spinner"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:spinnerMode="dropdown" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-        <Spinner
-            android:id="@+id/districts"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:spinnerMode="dropdown" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.9">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dropdown" />
+
+
+                <Spinner
+                    android:id="@+id/districts"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/getlocation"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="GET LOCATION"
+                android:layout_weight=".1"
+                android:onClick=""
+                />
+        </LinearLayout>
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
 
     </LinearLayout>

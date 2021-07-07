@@ -1,0 +1,445 @@
+Index: app/src/main/java/com/example/gfgcovidvaccine/District2.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/gfgcovidvaccine/District2.java	(date 1625638463047)
++++ app/src/main/java/com/example/gfgcovidvaccine/District2.java	(date 1625638463047)
+@@ -1,6 +1,8 @@
+ package com.example.gfgcovidvaccine;
+ 
++import android.app.Application;
+ import android.app.DatePickerDialog;
++import android.app.ProgressDialog;
+ import android.content.Context;
+ import android.content.DialogInterface;
+ import android.content.Intent;
+@@ -36,6 +38,7 @@
+ import com.android.volley.Response;
+ import com.android.volley.VolleyError;
+ import com.android.volley.toolbox.JsonObjectRequest;
++import com.android.volley.toolbox.RequestFuture;
+ import com.android.volley.toolbox.Volley;
+ import com.google.android.material.snackbar.Snackbar;
+ 
+@@ -43,7 +46,6 @@
+ import org.json.JSONException;
+ import org.json.JSONObject;
+ 
+-import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.Calendar;
+ import java.util.List;
+@@ -56,7 +58,9 @@
+     Spinner spinner;
+     Spinner districtSpinner;
+ 
+-    boolean firsttime=true;
++    ProgressDialog nDialog;
++
++    boolean firsttime = true;
+ 
+     String districtname, statename;
+ 
+@@ -80,6 +84,7 @@
+     ArrayAdapter adapter, adapter1;
+     ArrayList<Item_class> item_classes = new ArrayList<>();
+ 
++
+     // TODO: Rename parameter arguments, choose names that match
+     private static final String ARG_PARAM1 = "param1";
+     private static final String ARG_PARAM2 = "param2";
+@@ -132,6 +137,8 @@
+         layoutManager = new LinearLayoutManager(getContext());
+         recyclerView.setLayoutManager(layoutManager);
+ 
++        nDialog = new ProgressDialog(getActivity());
++
+         rv_adapter = new RV_Adapter(item_classes);
+         recyclerView.setAdapter(rv_adapter);
+ 
+@@ -140,6 +147,9 @@
+         statesMap = new TreeMap<>();
+         districtsMap = new TreeMap<>();
+ 
++        states.add("Select Your State");
++//        districts.add("Select Your District");
++
+         getLocation = getView().findViewById(R.id.getlocation);
+         dateselect = getView().findViewById(R.id.textview);
+ 
+@@ -163,12 +173,12 @@
+                 item_classes.clear();
+                 rv_adapter.notifyDataSetChanged();
+                 int stateId = statesMap.get(parent.getSelectedItem().toString());
+-                getDistricts(stateId);
++                fillSpinnerArrayDistricts(stateId);
++
+             }
+ 
+             @Override
+             public void onNothingSelected(AdapterView<?> parent) {
+-
+             }
+         });
+ 
+@@ -178,7 +188,7 @@
+             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                 item_classes.clear();
+                 rv_adapter.notifyDataSetChanged();
+-                Log.d("districtid", "onItemSelected: "+parent.getSelectedItem().toString());
++                Log.d("districtid", "onItemSelected: " + parent.getSelectedItem().toString());
+                 district_id = districtsMap.get(parent.getSelectedItem().toString());
+                 //setDate(district_id);
+ 
+@@ -187,16 +197,130 @@
+ 
+             @Override
+             public void onNothingSelected(AdapterView<?> parent) {
+-                Log.d("districtid", "onItemSelected: "+parent.getSelectedItem().toString());
++                Log.d("districtid", "onItemSelectedMothinh: " + parent.getSelectedItem().toString());
+             }
+         });
+ 
+         selctdate.setOnClickListener(v -> setDate(district_id));
+     }
+ 
++    private void fillspinnerArrayStates() {
++        String url = "https://cdn-api.co-vin.in/api/v2/admin/location/states";
++        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
++        JsonObjectRequest array = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
++            @Override
++            public void onResponse(JSONObject response) {
++                try {
++                    JSONArray stateArray = response.getJSONArray("states");
++                    // Log.d("statearray", String.valueOf(stateArray));
++                    for (int i = 0; i < stateArray.length(); i++) {
++                        JSONObject jsonObject = stateArray.getJSONObject(i);
++                        String state_name = jsonObject.getString("state_name");
++                        int state_id = jsonObject.getInt("state_id");
++                        //states.add(state_name);
++                        statesMap.put(state_name, state_id);
++                    }
++                    states.addAll(statesMap.keySet());
++                    adapter.notifyDataSetChanged();
++
++                    //district.setSelection(getintDistrictvalue(districts));
++
++
++                } catch (JSONException e) {
++                    Log.d("error", e.toString());
++                    e.printStackTrace();
++                }
++            }
++        },
++                new Response.ErrorListener() {
++                    @Override
++                    public void onErrorResponse(VolleyError error) {
++                        new AlertDialog.Builder(
++                                getContext())
++                                .setCancelable(false)
++                                .setTitle("Error")
++                                .setMessage("Some problem occurred with Server, \n Try Again Later")
++                                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
++                                    @Override
++                                    public void onClick(DialogInterface dialog, int which) {
++                                        getActivity().finish();
++                                    }
++                                })
++                                .show();
++                        Toast.makeText(getContext(), "ERROR", Toast.LENGTH_SHORT).show();
++                    }
++                });
++        requestQueue.add(array);
++    }
++
++    private void fillSpinnerArrayDistricts(int stateid) {
++        Log.d("district", "fillSpinnerArrayDistricts: " + stateid);
++        String url = "https://cdn-api.co-vin.in/api/v2/admin/location/districts/" + stateid;
++
++        districtsMap.clear();
++        districts.clear();
++
++        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
++        RequestFuture<JSONObject> future= RequestFuture.newFuture();
++        JsonObjectRequest array = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
++            @Override
++            public void onResponse(JSONObject response) {
++                try {
++                        JSONArray stateArray = response.getJSONArray("districts");
++                        Log.d("statearray", String.valueOf(stateArray.length()));
++                        for (int i = 0; i < stateArray.length(); i++) {
++                            JSONObject jsonObject = stateArray.getJSONObject(i);
++                            int district_id = jsonObject.getInt("district_id");
++                            String district_name = jsonObject.getString("district_name");
++
++                            districtsMap.put(district_name, district_id);
++
++                    }
++
++                    districts.addAll(districtsMap.keySet());
++                    adapter1.notifyDataSetChanged();
++
++                }
++                catch (JSONException jsonException) {
++                    jsonException.printStackTrace();
++                }
++
++                if (!districts.contains(districtname)) {
++                    districtSpinner.setSelection(0);
++                    district_id = districtsMap.get(districtSpinner.getSelectedItem().toString());
++                } else {
++                    districtSpinner.setSelection(districtsMap.get(districtname));
++                }
++            }
++        },
++                new Response.ErrorListener() {
++                    @Override
++                    public void onErrorResponse(VolleyError error) {
++                        progressBar.setVisibility(View.GONE);
++                        Toast.makeText(getContext(), "FAIled to get data", Toast.LENGTH_SHORT).show();
++                    }
++                }
++        );
++
++
++        requestQueue.add(array);
++
++    }
++
++
+     private void getLocation() {
+-        Toast.makeText(getContext(),"GET LOCARION", Toast.LENGTH_SHORT).show();
++        // Toast.makeText(getContext(),"GET LOCARION", Toast.LENGTH_SHORT).show();
++//        statesMap.clear();
++//        districtsMap.clear();
++
++        rv_adapter.notifyDataSetChanged();
+         checklocationISEnableORnor();
++        nDialog = new ProgressDialog(getActivity()); //Here I get an error: The constructor ProgressDialog(PFragment) is undefined
++        nDialog.setMessage("Getting Your Location ");
++        nDialog.setTitle("Please Wait");
++        nDialog.setIndeterminate(false);
++        nDialog.setCancelable(true);
++        nDialog.show();
+         try {
+             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+@@ -238,6 +362,7 @@
+         }
+     }
+ 
++
+     private String setDate(int district_id) {
+         Calendar v = Calendar.getInstance();
+         int year = v.get(Calendar.YEAR);
+@@ -251,7 +376,6 @@
+             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                 progressBar.setVisibility(View.VISIBLE);
+                 datestr[0] = String.format("%d-%d-%d", dayOfMonth, (month + 1), year);
+-                Log.d("dateset", "onDateSet: " + datestr[0]);
+                 dateselect.setText(datestr[0]);
+                 getCenters(district_id, datestr[0]);
+ 
+@@ -265,7 +389,7 @@
+     }
+ 
+     private void getCenters(int district_id, String date) {
+-        Log.d("districtid", "getCenters: "+ district_id+ "  " + date);
++        Log.d("districtid", "getCenters: " + district_id + "  " + date);
+         String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=" + district_id + "&date=" + date;
+         RequestQueue queue = Volley.newRequestQueue(getContext());
+         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+@@ -273,8 +397,10 @@
+             public void onResponse(JSONObject response) {
+                 try {
+                     JSONArray centerArray = response.getJSONArray("sessions");
+-                    if (centerArray.length() == 0)
++                    if (centerArray.length() == 0) {
+                         Toast.makeText(getContext(), "No Centers Available at the Moment", Toast.LENGTH_SHORT).show();
++                        progressBar.setVisibility(View.GONE);
++                    }
+                     for (int i = 0; i < centerArray.length(); i++) {
+                         JSONObject centerObj = centerArray.getJSONObject(i);
+                         String centerName = centerObj.getString("name");
+@@ -313,145 +439,37 @@
+ 
+     }
+ 
+-    private void getDistricts(int stateid) {
+-        String url = "https://cdn-api.co-vin.in/api/v2/admin/location/districts/" + stateid;
+-
+-        districtsMap.clear();
+-        districts.clear();
+-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+-        JsonObjectRequest array = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+-            @Override
+-            public void onResponse(JSONObject response) {
+-                try {
+-                    JSONArray stateArray = response.getJSONArray("districts");
+-                    Log.d("statearray", String.valueOf(stateArray.length()));
+-                    for (int i = 0; i < stateArray.length(); i++) {
+-                        JSONObject jsonObject = stateArray.getJSONObject(i);
+-                        int district_id = jsonObject.getInt("district_id");
+-                        String district_name = jsonObject.getString("district_name");
+-
+-                        districtsMap.put(district_name, district_id);
+-                    }
+-                    Log.d("DistrictNumber" ,districtname+"spinner");
+-
+-
+-                    districts.addAll(districtsMap.keySet());
+-                    //districts.clear();
+-                    adapter1.notifyDataSetChanged();
+-                    if (!firsttime) {
+-                        Toast.makeText(getContext(),districtname, Toast.LENGTH_SHORT).show();
+-                        int id= getintDistrictvalue(districtname);
+-                        if (id != -1) {
+-                            districtSpinner.setSelection(id);
+-                        } else {
+-                            districtSpinner.setSelection(0);
+-                        }
+-                    }
+-                    else
+-                        firsttime=false;
+-
+-
+-                } catch (JSONException e) {
+-                    Log.d("error", e.toString());
+-                    e.printStackTrace();
+-                } catch (Exception e) {
+-                    e.printStackTrace();
+-                }
+-            }
+-        },
+-                new Response.ErrorListener() {
+-                    @Override
+-                    public void onErrorResponse(VolleyError error) {
+-                        Toast.makeText(getContext(), "ERROR", Toast.LENGTH_SHORT).show();
+-                    }
+-                });
+-        requestQueue.add(array);
+-    }
+-
+-
+-    private void fillspinnerArrayStates() {
+-        String url = "https://cdn-api.co-vin.in/api/v2/admin/location/states";
+-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+-        JsonObjectRequest array = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+-            @Override
+-            public void onResponse(JSONObject response) {
+-                try {
+-                    JSONArray stateArray = response.getJSONArray("states");
+-                    // Log.d("statearray", String.valueOf(stateArray));
+-                    for (int i = 0; i < stateArray.length(); i++) {
+-                        JSONObject jsonObject = stateArray.getJSONObject(i);
+-                        String state_name = jsonObject.getString("state_name");
+-                        int state_id = jsonObject.getInt("state_id");
+-                        //states.add(state_name);
+-                        statesMap.put(state_name, state_id);
+-                    }
+-                    states.addAll(statesMap.keySet());
+-
+-                    //district.setSelection(getintDistrictvalue(districts));
+-                    adapter.notifyDataSetChanged();
+-
+-
+-                } catch (JSONException e) {
+-                    Log.d("error", e.toString());
+-                    e.printStackTrace();
+-                }
+-            }
+-        },
+-                new Response.ErrorListener() {
+-                    @Override
+-                    public void onErrorResponse(VolleyError error) {
+-                        Toast.makeText(getContext(), "ERROR", Toast.LENGTH_SHORT).show();
+-                    }
+-                });
+-        requestQueue.add(array);
+-    }
+ 
+     @Override
+     public void onLocationChanged(@NonNull Location location) {
+         try {
++            Log.d("locationchanged", "onLocationChanged: ");
++
+             Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+-             statename = addresses.get(0).getAdminArea();
+-             districtname = addresses.get(0).getLocality();
+-            //Toast.makeText(getContext(), statename, Toast.LENGTH_SHORT).show();
+-            //Toast.makeText(getContext(), districtname, Toast.LENGTH_SHORT).show();
++            statename = addresses.get(0).getAdminArea();
++            districtname = addresses.get(0).getLocality();
+ 
+             spinner.setSelection(getintStatevalue(statename));
+-            // edt_pin.setText(addresses.get(0).getPostalCode());
+-            locationManager.removeUpdates(this);
+-        } catch (IOException e) {
++            fillSpinnerArrayDistricts(statesMap.get(statename));
++
++
++
++
++            Log.d("districts", "onLocationChanged: " + districtsMap);
++
++            Toast.makeText(getContext(), "LOCATION RECEIVED", Toast.LENGTH_SHORT).show();
++
++            Log.d("districtspinner", districtname);
++
++
++        } catch (Exception e) {
+             e.printStackTrace();
++//            nDialog.dismiss();
+         }
++        nDialog.dismiss();
++        locationManager.removeUpdates(this);
+     }
+-
+-    private int getintDistrictvalue(String district) throws Exception {
+-
+-        int districtposition = 0;
+-        if (adapter1 != null) {
+-            districtposition = adapter1.getPosition(district);
+-            Log.d("districtid", "omSelected: "+districtsMap);
+-            Log.d("districtid", "omSelected: "+districtsMap.get(districtname));
+-            Log.d("districtid", "selected ite,: "+districtSpinner.getSelectedItem().toString());
+-            Log.d("districtid", "selected ite,: "+district);
+-
+-            if (districts!=null) {
+-                district_id = districtsMap.get(district);
+-            }
+-            else {
+-                district_id = districtsMap.get(districtSpinner.getSelectedItem().toString());
+-                Log.d("selected ite", String.valueOf(districtsMap.get(districtSpinner.getSelectedItem().toString())));
+-            }
+-            Log.d("DistrictNumber", String.valueOf(districts));
+-
+-        }
+-        if (districtposition != -1)
+-            return districtposition;
+-        else {
+-            Log.d("DistrictNumber", String.valueOf(districtposition) + district);
+-            Snackbar.make(getView(), "Select your District Manually", Snackbar.LENGTH_LONG).show();
+-            return 0;
+-        }
+-    }
+ 
+ 
+     private int getintStatevalue(String state) {
+@@ -459,6 +477,7 @@
+             int stateposition = adapter.getPosition(state);
+             return stateposition;
+         }
++        fillSpinnerArrayDistricts(statesMap.get(spinner.getSelectedItem().toString()));
+         return 0;
+     }
+ 
+@@ -476,4 +495,4 @@
+     public void onProviderDisabled(@NonNull String provider) {
+ 
+     }
+-}
+\ No newline at end of file
++}
