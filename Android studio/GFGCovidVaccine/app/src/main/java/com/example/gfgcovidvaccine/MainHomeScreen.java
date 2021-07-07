@@ -58,7 +58,6 @@ public class MainHomeScreen extends AppCompatActivity {
 
 
 
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
