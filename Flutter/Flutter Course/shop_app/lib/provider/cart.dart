@@ -57,4 +57,37 @@ class Cart with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void deleteItem(String id) {
+    _items.forEach((key, value) {
+      print(key +
+          " : " +
+          value.id +
+          " : " +
+          value.title +
+          " : " +
+          value.price.toString() +
+          " : " +
+          value.quantity.toString());
+    });
+    _items.remove(id);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _items = {};
+
+    notifyListeners();
+    _items.forEach((key, value) {
+      print(key +
+          " : " +
+          value.id +
+          " : " +
+          value.title +
+          " : " +
+          value.price.toString() +
+          " : " +
+          value.quantity.toString());
+    });
+  }
 }
