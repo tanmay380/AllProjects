@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendanceApp">
         <activity android:name=".SheetActivity"></activity>
+        <activity android:name=".SheetListActivity" />
         <activity android:name=".studentActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

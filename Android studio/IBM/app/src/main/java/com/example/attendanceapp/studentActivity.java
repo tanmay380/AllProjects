@@ -1,7 +1,6 @@
 package com.example.attendanceapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,17 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class studentActivity extends AppCompatActivity {
 
@@ -145,8 +139,25 @@ public class studentActivity extends AppCompatActivity {
     }
 
     private void showsheetAttendance() {
-        Intent intent = new Intent(this, SheetActivity.class);
+        long[] id = new long[studentItems.size()];
+        long[] rollarray = new long[studentItems.size()];
+        String[] nameArray = new String[studentItems.size()];
+
+        for (int i=0; i<id.length;i++){
+            id[i]=studentItems.get(i).getSid();
+        }
+        for (int i=0; i<rollarray.length;i++){
+            rollarray[i]=studentItems.get(i).getRoll();
+        }
+        for (int i=0; i<id.length;i++){
+            nameArray[i]=studentItems.get(i).getName();
+        }
+
+        Intent intent = new Intent(this, SheetListActivity.class);
         intent.putExtra("cid", cid);
+        intent.putExtra("idarray", id);
+        intent.putExtra("rollarray", rollarray);
+        intent.putExtra("nameArray", nameArray);
         startActivity(intent);
     }
 

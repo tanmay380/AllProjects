@@ -3,7 +3,9 @@ package com.example.qrcreator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,18 +22,29 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
 public class scannerView extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     ZXingScannerView zXingScannerView;
+    String[] nameroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         zXingScannerView = new ZXingScannerView(this);
         setContentView(zXingScannerView);
+
+        Intent intent = getIntent();
+        nameroll = new String[]{intent.getStringExtra("roll"), intent.getStringExtra("name")};
+
+
 
         Dexter.withContext(getApplicationContext())
                 .withPermission(Manifest.permission.CAMERA)
@@ -56,8 +69,19 @@ public class scannerView extends AppCompatActivity implements ZXingScannerView.R
     @Override
     public void handleResult(Result rawResult) {
         MainActivity.scantext.setText(rawResult.getText());
+        String[] classSubject = rawResult.getText().split(" ");
+        Log.d("1234", "handleResult: " + Arrays.asList(nameroll));
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference databaseReference = firebaseDatabase.getReference(classSubject[0])
+                .child(format.format(date))
+                .child(classSubject[1]);
+        databaseReference.child(nameroll[0]).setValue(nameroll[1]);
+
+
         LayoutInflater inflater = getLayoutInflater();
         View viewlayot= inflater.inflate(R.layout.customtoast, findViewById(R.id.viewholder) );
         TextView tv= viewlayot.findViewById(R.id.t1);
