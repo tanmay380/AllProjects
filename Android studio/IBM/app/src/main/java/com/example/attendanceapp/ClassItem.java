@@ -1,6 +1,23 @@
 package com.example.attendanceapp;
 
 public class ClassItem {
+
+    private  long cid;
+
+    public ClassItem(long cid, String className, String subjectName) {
+        this.cid = cid;
+        this.className = className;
+        SubjectName = subjectName;
+    }
+
+    public long getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
     String className;
     String SubjectName;
 

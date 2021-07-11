@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -14,22 +15,8 @@ import retrofit2.http.Url;
 
 public interface JsonPlaceHolderApi {
 
-    @GET("posts")
-    Call<List<Post>> getPosts();
-
-    @GET("api/v2/admin/location/states")
-    Call<List<Comment>> getComments();
-
-    @GET
-    Call<List<Comment>> getComments(@Url String url);
-
-    @POST("posts")
-    Call<Post> createPost(@Body Post post);
-
-    @FormUrlEncoded
-    @POST("posts")
-    Call<Post> createPost(@Field("userId") int userid,
-                          @Field("title") String title,
-                          @Field("body") String text);
+    @Headers( "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36")
+    @GET("location/states")
+    Call<JSONresponse> getstates();
 
 }

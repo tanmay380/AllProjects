@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendanceApp">
-        <activity android:name=".studentActivity"></activity>
+        <activity android:name=".SheetActivity"></activity>
+        <activity android:name=".studentActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

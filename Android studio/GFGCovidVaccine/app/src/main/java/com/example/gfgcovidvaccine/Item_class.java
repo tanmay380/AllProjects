@@ -1,6 +1,17 @@
 package com.example.gfgcovidvaccine;
 
 public class Item_class {
+
+
+    String centerName;
+    String centerlocation;
+    String centerFromTime;
+    String centerToTime;
+    String fee;
+    String ageLimit;
+    String vaccineName;
+    int availability;
+
     public Item_class(String centerName, String centerlocation, String centerFromTime,
                       String centerToTime, String fee, String ageLimit, String vaccineName, int availability) {
         this.centerName = centerName;
@@ -12,15 +23,5 @@ public class Item_class {
         this.vaccineName = vaccineName;
         this.availability = availability;
     }
-
-    String centerName;
-    String centerlocation;
-    String centerFromTime;
-    String centerToTime;
-    String fee;
-    String ageLimit;
-    String vaccineName;
-    int availability;
-
 
 }

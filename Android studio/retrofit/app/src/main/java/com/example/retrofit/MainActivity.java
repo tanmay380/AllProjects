@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,17 +30,47 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.text_result);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com/")
+                .baseUrl("https://cdn-api.co-vin.in/api/v2/admin/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         jsonPlaceHolderApi  = retrofit.create(JsonPlaceHolderApi.class);
 
-        //getPosts();
-//       getComments();
-//        createpost();
+        getStates();
+    }
+    private void getStates(){
+        Call<JSONresponse> states = jsonPlaceHolderApi.getstates();
+        states.enqueue(new Callback<JSONresponse>() {
+            @Override
+            public void onResponse(Call<JSONresponse> call, Response<JSONresponse> response) {
+                if (!response.isSuccessful()){
+                    textView.setText("COde: " + response.code());
+                    return;
+                }
+
+                JSONresponse comments = response.body();
+                Log.d("response", String.valueOf(response.body()));
+                ArrayList<states> statelist = new ArrayList<>(Arrays.asList(comments.getStatesArray()));
+                for (states comment: statelist){
+                    String content="";
+                    content += "State ID :" + comment.getState_id()+"\n";
+                    content += "User ID:" + comment.getState_name() +"\n";
+//                    content += "Email:" + comment.getEmail() +"\n";
+//                    content += "Body:" + comment.getBody() +"\n\n";
+//
+                    textView.append(content);
+//
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONresponse> call, Throwable t) {
+
+            }
+        });
     }
 
-    private void createpost() {
+
+    /*private void createpost() {
 //        Post post = new Post(23, "new Title", "New Text");
         Call<Post> call = jsonPlaceHolderApi.createPost(23,"NEW TITLE","NEW TEXT");
         call.enqueue(new Callback<Post>() {
@@ -129,5 +161,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
+
+
 }

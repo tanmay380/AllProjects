@@ -110,17 +110,13 @@ public class Pincode extends Fragment implements LocationListener {
                              Bundle savedInstanceState) {
 
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pincode, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_pincode,container , false);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        pinButton = getView().findViewById(R.id.pinbuton);
-        edt_pin = getView().findViewById(R.id.pinedit);
-        recyclerView = getView().findViewById(R.id.recyclerview);
-        progressBar = getView().findViewById(R.id.progressbar);
+//        super.onViewCreated(view, savedInstanceState);
+        pinButton = view.findViewById(R.id.pinbuton);
+        edt_pin = view.findViewById(R.id.pinedit);
+        recyclerView = view.findViewById(R.id.recyclerview);
+        progressBar = view.findViewById(R.id.progressbar);
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -131,7 +127,7 @@ public class Pincode extends Fragment implements LocationListener {
 
         recyclerView.setAdapter(adapter);
 
-        imageButton = getView().findViewById(R.id.location);
+        imageButton = view.findViewById(R.id.location);
 
         grantpermission();
         checklocationISEnableORnor();
@@ -140,7 +136,14 @@ public class Pincode extends Fragment implements LocationListener {
         pinButton.setOnClickListener(v -> searchPin());
         imageButton.setOnClickListener(v->getLocation());
 
+        // Inflate the layout for this fragment
+        return view;
     }
+
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//
+//    }
 
 
 
