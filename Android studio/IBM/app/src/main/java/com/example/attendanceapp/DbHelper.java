@@ -187,6 +187,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+    int deleteStatus(long sid){
+        SQLiteDatabase dbHelper = this.getWritableDatabase();
+        return dbHelper.delete(STATUS_TABLE_NAME, S_ID+"=?", new String[]{String.valueOf(sid)});
+    }
+
     Cursor getDitsinctMonths(long cid){
         SQLiteDatabase database = this.getReadableDatabase();
         return database.query(STATUS_TABLE_NAME, new String[]{DATE_KEY},C_ID+"="+cid, null,"substr("+DATE_KEY + ", 4,7)", null, null);

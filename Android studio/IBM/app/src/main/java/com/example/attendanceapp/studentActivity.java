@@ -204,6 +204,7 @@ public class studentActivity extends AppCompatActivity {
 
     private void deleteStudent(int position) {
         dbHelper.deleteStudent(studentItems.get(position).getSid());
+        dbHelper.deleteStatus(studentItems.get(position).getSid());
         studentItems.remove(position);
         studentAdapter.notifyItemRemoved(position);
     }

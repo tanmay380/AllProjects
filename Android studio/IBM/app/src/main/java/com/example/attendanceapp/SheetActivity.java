@@ -10,6 +10,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class SheetActivity extends AppCompatActivity {
@@ -30,12 +32,16 @@ public class SheetActivity extends AppCompatActivity {
 
         TableLayout tableLayout = findViewById(R.id.tablelayout);
         long[] id = getIntent().getLongArrayExtra("idarray");
+        Log.d("12344", "showTable: " + Arrays.toString(id));
+
         long[] rollarray = getIntent().getLongArrayExtra("rollarray");
+        Log.d("12344", "showTable: " + Arrays.toString(rollarray));
         String[] nameArray = getIntent().getStringArrayExtra("nameArray");
+        Log.d("12344", "showTable: " + Arrays.toString(nameArray));
         String month = getIntent().getStringExtra("month");
 
         int DAY_IN_MONTH = getDayinMonth(month);
-        Log.d("12345", "showTable: " +DAY_IN_MONTH);
+        Log.d("12345", "showTable: " +month);
 
         //row setup
         int rowsize = id.length + 1;
@@ -47,7 +53,7 @@ public class SheetActivity extends AppCompatActivity {
         for (int i = 0; i < rowsize; i++) {
             tv_rolls[i] = new TextView(this);
             name_tv[i] = new TextView(this);
-            for (int j = 0; j < DAY_IN_MONTH; j++){
+            for (int j = 1; j <= DAY_IN_MONTH; j++){
 
                 status_tvs[i][j] = new TextView(this);
             }
@@ -59,8 +65,8 @@ public class SheetActivity extends AppCompatActivity {
         name_tv[0].setText("Name");
         name_tv[0].setTypeface(name_tv[0].getTypeface(), Typeface.BOLD);
 //        status_tvs[0][0].setText("hello");
-        for (int i = 0; i < DAY_IN_MONTH; i++) {
-            status_tvs[0][i].setText(i+1+"");
+        for (int i = 1; i <= DAY_IN_MONTH; i++) {
+            status_tvs[0][i].setText(i+"");
 //            status_tvs[0][i].setText(String.valueOf(i));
             status_tvs[0][i].setTypeface(status_tvs[0][i].getTypeface(), Typeface.BOLD);
         }
@@ -69,11 +75,13 @@ public class SheetActivity extends AppCompatActivity {
         for (int i = 1; i < rowsize; i++) {
             tv_rolls[i].setText(String.valueOf(rollarray[i - 1]));
             name_tv[i].setText(nameArray[i - 1]);
-            for (int j = 0; j < DAY_IN_MONTH; j++) {
-                String day = String.valueOf(i);
+            for (int j = 1; j <= DAY_IN_MONTH; j++) {
+                String day = String.valueOf(j);
                 if (day.length() == 1) day = "0" + day;
+                String date=day + "-" + month;
+                Log.d("12345", "showTable: " +date);
+                String status = dbHelper.getStatus(id[i - 1], date);
 
-                String status = dbHelper.getStatus(id[i - 1], day + "." + month);
                 status_tvs[i][j].setText(status);
             }
         }
@@ -84,7 +92,7 @@ public class SheetActivity extends AppCompatActivity {
             name_tv[i].setPadding(16, 16, 16, 16);
             rows[i].addView(tv_rolls[i]);
             rows[i].addView(name_tv[i]);
-            for (int j = 0; j < DAY_IN_MONTH; j++) {
+            for (int j = 1; j <= DAY_IN_MONTH; j++) {
 
                 status_tvs[i][j].setPadding(16, 16, 16, 16);
                 rows[i].addView(status_tvs[i][j]);
