@@ -1,14 +1,18 @@
 package com.example.attendanceapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Interpolator;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -47,6 +52,7 @@ public class SheetActivity extends AppCompatActivity {
     File file, file1, filepath;
     int cid;
     DbHelper dbHelper;
+    String[] clasnmae;
 
 
     @Override
@@ -59,7 +65,7 @@ public class SheetActivity extends AppCompatActivity {
         month = getIntent().getStringExtra("month");
         cid = (int) getIntent().getIntExtra("cid", -1);
 
-        String[] clasnmae = dbHelper.searchclassName(cid);
+        clasnmae = dbHelper.searchclassName(cid);
         Log.d("classnaem", "onCreate: " + Arrays.toString(clasnmae));
 
 
@@ -117,6 +123,7 @@ public class SheetActivity extends AppCompatActivity {
                 filepath.createNewFile();
             }
 
+            CoordinatorLayout coordinatorLayout = findViewById(R.id.coor);
 
             FileOutputStream fileOutputStream = new FileOutputStream(filepath);
             hssfWorkbook.write(fileOutputStream);
@@ -126,6 +133,31 @@ public class SheetActivity extends AppCompatActivity {
                 fileOutputStream.flush();
                 fileOutputStream.close();
             }
+
+            String show = "Show File";
+            Snackbar.make(coordinatorLayout, "File Saved to AttendanceApp folder", Snackbar.LENGTH_LONG)
+                    .setAction(show, v -> {
+
+                        Uri uri = Uri.parse(Environment.getExternalStorageDirectory() + "/AttendanceApp/");
+                        Intent intent= new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(uri,  "resource/folder");
+
+                        
+                        startActivity(Intent.createChooser(intent,"Open Folder"));
+                        if (intent.resolveActivityInfo(getPackageManager(), 0) != null)
+                        {
+                            Log.d("12345", "saveToExcel: " + "reachde");
+                            startActivity(Intent.createChooser(intent,"Open Folder"));
+                        }
+                        else
+                        {
+
+                            Log.d("12345", "saveToExcel: " + "sdfdsfdsfgdsg");
+                            // if you reach this place, it means there is no any file
+                            // explorer app installed on your device
+                        }
+
+                    }).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
