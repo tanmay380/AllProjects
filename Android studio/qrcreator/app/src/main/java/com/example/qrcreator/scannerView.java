@@ -1,6 +1,7 @@
 package com.example.qrcreator;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.content.Intent;
@@ -68,31 +69,30 @@ public class scannerView extends AppCompatActivity implements ZXingScannerView.R
 
     @Override
     public void handleResult(Result rawResult) {
-        MainActivity.scantext.setText(rawResult.getText());
         String[] classSubject = rawResult.getText().split(" ");
         Log.d("1234", "handleResult: " + Arrays.asList(nameroll));
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date date = new Date();
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.customtoast, findViewById(R.id.view1));
+
+        Toast toast = new Toast(this);
+        toast.setView(view);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0,0);
+        toast.show();
+
+
 
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference(classSubject[0])
                 .child(format.format(date))
                 .child(classSubject[1]);
-        databaseReference.child(nameroll[0]).setValue(nameroll[1]);
+        databaseReference.child("studentsName").child(nameroll[1]).setValue();
 
 
-        LayoutInflater inflater = getLayoutInflater();
-        View viewlayot= inflater.inflate(R.layout.customtoast, findViewById(R.id.viewholder) );
-        TextView tv= viewlayot.findViewById(R.id.t1);
-        tv.setText("custom tetdkn");
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setView(viewlayot);
-
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 100, 100);
-        toast.show();
         onBackPressed();
     }
 

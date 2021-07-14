@@ -201,8 +201,8 @@ public class myDialogue extends DialogFragment {
 
         cancel.setOnClickListener(v -> dismiss());
         add.setOnClickListener(v -> {
-                    String className = class_edt.getText().toString();
-                    String subname = subject_edt.getText().toString();
+                    String className = class_edt.getText().toString().trim();
+                    String subname = subject_edt.getText().toString().trim();
                     if (className.isEmpty()) {
                         class_edt.setError("This field can't be left empty");
                         return;

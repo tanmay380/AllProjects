@@ -2,20 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="horizontal"
-    android:id="@+id/viewholder"
-    android:background="@color/purple_200"
+    android:background="@color/blue"
+    android:id="@+id/view1"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_baseline_account_balance_24"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:id="@+id/t1"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded"
+        android:text="Get Started"
+        android:textColor="@color/blue"
         android:padding="10dp"
-        android:textColor="@color/black"/>
+        android:textSize="25sp" />
+<!--    <Space-->
+<!--        android:layout_width="10dp"-->
+<!--        android:layout_height="wrap_content"/>-->
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Try Demo"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:textSize="25sp" />
 
 </LinearLayout>

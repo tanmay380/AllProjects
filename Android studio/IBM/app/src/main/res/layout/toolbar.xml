@@ -18,7 +18,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
+                android:background="?attr/actionBarItemBackground"
+
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
             <LinearLayout
@@ -49,15 +50,16 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <ImageButton
                 android:id="@+id/save_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_baseline_save_24"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
 
+                android:layout_centerVertical="true"
+                android:background="?attr/actionBarItemBackground"
+                android:src="@drawable/ic_baseline_save_24" />
 
 
         </RelativeLayout>

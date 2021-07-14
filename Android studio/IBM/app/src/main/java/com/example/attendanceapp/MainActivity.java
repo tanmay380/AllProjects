@@ -26,9 +26,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     RecyclerView recyclerView;
-    ClassAdapter classAdapter;
+    ClassAdapter classAdapter;// recycler view part
 
-    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.LayoutManager layoutManager;// recycler view part
     ArrayList<ClassItem> classItems = new ArrayList<>();
 
     EditText class_edt;

@@ -3,13 +3,10 @@ package com.example.attendanceapp;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -140,7 +137,8 @@ public class DbHelper extends SQLiteOpenHelper {
     Cursor getStudentTable(long cid) {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
-        return sqLiteDatabase.query(STUDENT_TABLE_NAME, null, C_ID+"=?", new String[]{String.valueOf(cid)}, null,null,STUDENT_ROLL_KEY);
+        return sqLiteDatabase.query(STUDENT_TABLE_NAME, null, C_ID+"=?",
+                new String[]{String.valueOf(cid)}, null,null,STUDENT_ROLL_KEY);
     }
 
     int deleteStudent(long sid) {
@@ -195,6 +193,18 @@ public class DbHelper extends SQLiteOpenHelper {
     Cursor getDitsinctMonths(long cid){
         SQLiteDatabase database = this.getReadableDatabase();
         return database.query(STATUS_TABLE_NAME, new String[]{DATE_KEY},C_ID+"="+cid, null,"substr("+DATE_KEY + ", 4,7)", null, null);
+    }
+
+    String[] searchclassName(int cid){
+        String[] name= new String[2];
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(CLASS_TABLE_NAME,null,C_ID+"=?",new String[]{String.valueOf(cid)},null,null,null);
+        if (cursor.moveToFirst()){
+            name[0]=cursor.getString(cursor.getColumnIndex(CLASS_NAME_KEY));
+            name[1]=cursor.getString(cursor.getColumnIndex(SUBJECT_NAME_KEY));
+        }
+
+        return name;
     }
 
 
