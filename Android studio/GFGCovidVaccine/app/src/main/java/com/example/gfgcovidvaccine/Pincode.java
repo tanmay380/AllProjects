@@ -33,7 +33,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -75,6 +79,10 @@ public class Pincode extends Fragment implements LocationListener {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     RV_Adapter adapter;
+    ImageView textView;
+
+    RadioGroup radioGroup;
+    RadioButton radioButton;
 
     ImageButton imageButton;
 
@@ -118,10 +126,15 @@ public class Pincode extends Fragment implements LocationListener {
         recyclerView = view.findViewById(R.id.recyclerview);
         progressBar = view.findViewById(R.id.progressbar);
 
+        textView = view.findViewById(R.id.notfound);
+        radioGroup=view.findViewById(R.id.radiogroup);
+
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new RV_Adapter(item_classes);
+
+
 
         dialog = new ProgressDialog(getActivity());
 
@@ -216,9 +229,15 @@ public class Pincode extends Fragment implements LocationListener {
     private void searchPin() {
         edt_pin.onEditorAction(EditorInfo.IME_ACTION_DONE);
         String pin = edt_pin.getText().toString();
+        int id = radioGroup.getCheckedRadioButtonId();
+
         if (pin.length() != 6) {
             edt_pin.setError("Enter a Valid PinCode");
-        } else {
+        }
+        else if(id==-1){
+            Toast.makeText(getContext(), "Select the fees type also", Toast.LENGTH_LONG).show();
+        }
+        else {
             item_classes.clear();
             Calendar v = Calendar.getInstance();
             int year = v.get(Calendar.YEAR);
@@ -244,6 +263,8 @@ public class Pincode extends Fragment implements LocationListener {
     private void getAppointmentDetails(String pincode, String date) {
         String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=" + pincode + "&date=" + date;
         RequestQueue queue = Volley.newRequestQueue(getContext());
+        radioButton=getView().findViewById(radioGroup.getCheckedRadioButtonId());
+        String fees= (String)radioButton.getText();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -265,10 +286,22 @@ public class Pincode extends Fragment implements LocationListener {
                         Item_class item_class = new Item_class(
                                 centerName, centerAddress, centerFromtime, centerTotime, fee, ageLimit, vaccine, availabilty
                         );
-                        item_classes.add(item_class);
+                        Log.d("fees", "onResponse: " + item_class.fee + "   " + fees);
+                        if (item_class.fee.equals(fees)) {
+                            item_classes.add(item_class);
+                        }
+                    }
+                        if (item_classes.size() ==0 ){
+                            textView.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.INVISIBLE);
+                        }else {
+
+                            textView.setVisibility(View.INVISIBLE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
                         adapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
-                    }
+
 
                     // Log.d("Error", )
                 } catch (JSONException e) {

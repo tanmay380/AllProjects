@@ -41,9 +41,17 @@ class CartScreen extends StatelessWidget {
                   TextButton(
                       child: Text("ORDER NOW"),
                       onPressed: () {
-                        Provider.of<Orders>(context, listen: false).AddOrder(
-                            cart.items.values.toList(), cart.getTotal);
-                        cart.clearCart();
+                        if (cart.items.isNotEmpty) {
+                          Provider.of<Orders>(context, listen: false).AddOrder(
+                              cart.items.values.toList(), cart.getTotal);
+                          cart.clearCart();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("PLease add items in Cart"),
+                            ),
+                          );
+                        }
                       })
                 ],
               ),

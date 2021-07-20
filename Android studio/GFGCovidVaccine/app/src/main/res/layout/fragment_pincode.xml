@@ -16,6 +16,7 @@
             android:layout_margin="3dp"
             android:hint="Enter Pin Code"
             android:inputType="number"
+            android:layout_toStartOf="@id/location"
             android:maxLength="6" />
 
         <ImageButton
@@ -25,15 +26,54 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_baseline_location_on_24" />
 
+
+            <RadioGroup
+                android:layout_below="@id/pinedit"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:id="@+id/radiogroup"
+                android:weightSum="1"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/free"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Free"/>
+                <RadioButton
+                    android:id="@+id/paid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Paid"/>
+
+            </RadioGroup>
+
+
         <Button
             android:id="@+id/pinbuton"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/pinedit"
+            android:layout_below="@id/radiogroup"
             android:layout_margin="3dp"
             android:padding="2dp"
             android:text="Submit" />
+
+        <ImageView
+            android:id="@+id/notfound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/images"
+            android:layout_centerVertical="true"
+            android:textSize="45sp"
+            android:visibility="gone"/>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
@@ -47,6 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="gone" />
+
+
     </RelativeLayout>
 
 </FrameLayout>

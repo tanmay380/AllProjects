@@ -1,5 +1,7 @@
 package com.example.gfgcovidvaccine;
 
+import android.media.Image;
+
 public class Item_class {
 
 
@@ -8,9 +10,16 @@ public class Item_class {
     String centerFromTime;
     String centerToTime;
     String fee;
+
+
     String ageLimit;
     String vaccineName;
     int availability;
+    Image notfound;
+
+    public Item_class(Image image){
+
+    }
 
     public Item_class(String centerName, String centerlocation, String centerFromTime,
                       String centerToTime, String fee, String ageLimit, String vaccineName, int availability) {

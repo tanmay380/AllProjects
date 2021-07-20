@@ -2,8 +2,10 @@ package com.example.attendanceapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Interpolator;
 import android.graphics.Typeface;
@@ -69,7 +71,8 @@ public class SheetActivity extends AppCompatActivity {
         Log.d("classnaem", "onCreate: " + Arrays.toString(clasnmae));
 
 
-        file = new File(Environment.getExternalStorageDirectory() + String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]));
+        file = new File(Environment.getExternalStorageDirectory() +
+                String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]));
 
         filepath = new File(Environment.getExternalStorageDirectory() + String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]) + "/" + month + ".xls");
         setToolbar();
@@ -138,24 +141,29 @@ public class SheetActivity extends AppCompatActivity {
             Snackbar.make(coordinatorLayout, "File Saved to AttendanceApp folder", Snackbar.LENGTH_LONG)
                     .setAction(show, v -> {
 
-                        Uri uri = Uri.parse(Environment.getExternalStorageDirectory() + "/AttendanceApp/");
-                        Intent intent= new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(uri,  "resource/folder");
+//                        Intent intent= new Intent(Intent.ACTION_VIEW);
+//                        Uri uri = FileProvider.getUriForFile(SheetActivity.this,BuildConfig.APPLICATION_ID + ".provider", file);
+//                        intent.set(uri , "text/csv");
+//                        startActivity(intent);
 
-                        
-                        startActivity(Intent.createChooser(intent,"Open Folder"));
-                        if (intent.resolveActivityInfo(getPackageManager(), 0) != null)
-                        {
-                            Log.d("12345", "saveToExcel: " + "reachde");
-                            startActivity(Intent.createChooser(intent,"Open Folder"));
-                        }
-                        else
-                        {
-
-                            Log.d("12345", "saveToExcel: " + "sdfdsfdsfgdsg");
-                            // if you reach this place, it means there is no any file
-                            // explorer app installed on your device
-                        }
+//                        if (intent.resolveActivityInfo(getPackageManager(), 0) != null)
+//                        {
+//                            Log.d("12345", "saveToExcel: " + "reachde");
+//                            startActivity(Intent.createChooser(intent,"Open Folder"));
+//                        }
+//                        else
+//                        {
+//
+//                            Log.d("12345", "saveToExcel: " + "sdfdsfdsfgdsg");
+//                            // if you reach this place, it means there is no any file
+//                            // explorer app installed on your device
+//                        }
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        File file = new File("/storage/emulated/0" +String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]) + File.separator + month + ".xls");
+                        Uri path = FileProvider.getUriForFile(getApplicationContext(), "com.example.attendanceapp.provider", file);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.setDataAndType(path, "application/vnd.ms-excel");
+                        startActivity(intent);
 
                     }).show();
         } catch (FileNotFoundException e) {

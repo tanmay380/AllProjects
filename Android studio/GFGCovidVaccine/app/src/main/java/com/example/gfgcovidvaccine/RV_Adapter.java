@@ -17,6 +17,7 @@ public class RV_Adapter extends RecyclerView.Adapter<RV_Adapter.ViewHolder> {
     }
 
     private ArrayList<Item_class> item_classes;
+    TextView textView;
     // ArrayList<Item_class> item_classes= new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,6 +62,7 @@ public class RV_Adapter extends RecyclerView.Adapter<RV_Adapter.ViewHolder> {
         holder.fee.setText(item_class.fee);
         holder.ageLimit.setText("Age Limit : " + item_class.ageLimit);
         holder.availability.setText("Availability : " + Integer.toString(item_class.availability));
+
 
 
     }
