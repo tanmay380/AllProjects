@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WhatsApp</string>
+    <string name="desc">THis app uses Whatsapp public API to open a whats app chat. No contact is saved on the phone.</string>
+</resources>

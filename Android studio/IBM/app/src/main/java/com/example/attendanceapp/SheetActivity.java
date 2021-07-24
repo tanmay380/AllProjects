@@ -2,32 +2,26 @@ package com.example.attendanceapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Interpolator;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -38,10 +32,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 public class SheetActivity extends AppCompatActivity {
 
@@ -93,26 +85,18 @@ public class SheetActivity extends AppCompatActivity {
         sub.setVisibility(View.GONE);
 
         back.setOnClickListener(v -> onBackPressed());
-        save.setOnClickListener(v -> saveExcelSheet());
+        save.setOnClickListener(v -> getPermission());
     }
 
-    private void saveExcelSheet() {
-        Dexter.withContext(this)
-                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        saveToExcel();
+    private boolean getPermission() {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+            return Environment.isExternalStorageManager();
+        }else {
+         int readcheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+         int writecheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-
-                    }
-
-
-                }).check();
+            return readcheck== PackageManager.PERMISSION_GRANTED && writecheck==PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     private void saveToExcel() {
@@ -141,23 +125,6 @@ public class SheetActivity extends AppCompatActivity {
             Snackbar.make(coordinatorLayout, "File Saved to AttendanceApp folder", Snackbar.LENGTH_LONG)
                     .setAction(show, v -> {
 
-//                        Intent intent= new Intent(Intent.ACTION_VIEW);
-//                        Uri uri = FileProvider.getUriForFile(SheetActivity.this,BuildConfig.APPLICATION_ID + ".provider", file);
-//                        intent.set(uri , "text/csv");
-//                        startActivity(intent);
-
-//                        if (intent.resolveActivityInfo(getPackageManager(), 0) != null)
-//                        {
-//                            Log.d("12345", "saveToExcel: " + "reachde");
-//                            startActivity(Intent.createChooser(intent,"Open Folder"));
-//                        }
-//                        else
-//                        {
-//
-//                            Log.d("12345", "saveToExcel: " + "sdfdsfdsfgdsg");
-//                            // if you reach this place, it means there is no any file
-//                            // explorer app installed on your device
-//                        }
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         File file = new File("/storage/emulated/0" +String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]) + File.separator + month + ".xls");
                         Uri path = FileProvider.getUriForFile(getApplicationContext(), "com.example.attendanceapp.provider", file);
