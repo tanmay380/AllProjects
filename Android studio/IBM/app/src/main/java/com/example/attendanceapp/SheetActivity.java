@@ -2,6 +2,7 @@ package com.example.attendanceapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
@@ -19,9 +20,15 @@ import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -34,8 +41,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class SheetActivity extends AppCompatActivity {
+
+    public static final int Con=33;
 
     Toolbar toolbar;
     String month;
@@ -63,10 +73,10 @@ public class SheetActivity extends AppCompatActivity {
         Log.d("classnaem", "onCreate: " + Arrays.toString(clasnmae));
 
 
-        file = new File(Environment.getExternalStorageDirectory() +
+        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) ,
                 String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]));
 
-        filepath = new File(Environment.getExternalStorageDirectory() + String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]) + "/" + month + ".xls");
+        filepath =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) ,String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]) + "/" + month + ".xls");
         setToolbar();
         hssfWorkbook = new HSSFWorkbook();
         hssfSheet = hssfWorkbook.createSheet();
@@ -85,19 +95,36 @@ public class SheetActivity extends AppCompatActivity {
         sub.setVisibility(View.GONE);
 
         back.setOnClickListener(v -> onBackPressed());
-        save.setOnClickListener(v -> getPermission());
+        save.setOnClickListener(v->requestPermission());
     }
 
-    private boolean getPermission() {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
-            return Environment.isExternalStorageManager();
-        }else {
-         int readcheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
-         int writecheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    private void requestPermission() {
+        Dexter.withContext(getApplicationContext())
+                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                       saveToExcel();
+                    }
 
-            return readcheck== PackageManager.PERMISSION_GRANTED && writecheck==PackageManager.PERMISSION_GRANTED;
-        }
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+                    }
+                }).check();
     }
+
+
+//    private boolean CheckPermission() {
+//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+//            return Environment.isExternalStorageManager();
+//        }else {
+//         int readcheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+//         int writecheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//
+//            return readcheck== PackageManager.PERMISSION_GRANTED && writecheck==PackageManager.PERMISSION_GRANTED;
+//        }
+//    }
 
     private void saveToExcel() {
 
@@ -126,7 +153,7 @@ public class SheetActivity extends AppCompatActivity {
                     .setAction(show, v -> {
 
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        File file = new File("/storage/emulated/0" +String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]) + File.separator + month + ".xls");
+                        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),String.format("/AttendanceApp/%s/%s", clasnmae[0], clasnmae[1]) + File.separator + month + ".xls");
                         Uri path = FileProvider.getUriForFile(getApplicationContext(), "com.example.attendanceapp.provider", file);
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         intent.setDataAndType(path, "application/vnd.ms-excel");

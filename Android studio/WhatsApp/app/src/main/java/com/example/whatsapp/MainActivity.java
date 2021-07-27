@@ -1,15 +1,11 @@
 package com.example.whatsapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,29 +13,31 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hbb20.CCPCountry;
-import com.hbb20.CountryCodePicker;
 
 import org.w3c.dom.Text;
 
-import java.util.LinkedHashMap;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
     EditText prefixedt,numberedt;
     Button button,countryPrefix;
-    Context context;
-    CountryCodePicker countryCodePicker;
     ImageButton msg;
-
+    ListView listView;
+    private ArrayList<Country> listcountry;
+    CountryAdapter countryAdapter;
     boolean firt=true;
     EditText edt;
 
@@ -49,10 +47,8 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-
-
-
-        countryCodePicker=findViewById(R.id.ccp);
+        prefixedt = findViewById(R.id.code);
+//        countryCodePicker=findViewById(R.id.ccp);
 
         numberedt = findViewById(R.id.number);
         button = findViewById(R.id.submit);
@@ -60,15 +56,13 @@ public class MainActivity extends Activity {
         msg=findViewById(R.id.scrollDown);
 
         edt = findViewById(R.id.msg);
-
-//        countryCodePicker.setCcpClickable(false);
         button.setEnabled(false);
 
         button.setOnClickListener(v->openWhatsApp());
         countryPrefix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countryCodePicker.launchCountrySelectionDialog();
+                openCountryDialogue();
             }
         });
         numberedt.addTextChangedListener(new TextWatcher() {
@@ -89,12 +83,6 @@ public class MainActivity extends Activity {
         });
         msg.setOnClickListener(v->sendMessage());
 
-        countryCodePicker.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
-            @Override
-            public void onCountrySelected() {
-                countryPrefix.setText(countryCodePicker.getSelectedCountryName());
-            }
-        });
 
     }
 
@@ -107,51 +95,99 @@ public class MainActivity extends Activity {
             firt=false;
         }else
         {
-            msg.setImageResource(R.drawable.ccp_ic_arrow_drop_down);
+            msg.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
             txt.setVisibility(View.GONE);
             edt.setVisibility(View.GONE);
             firt=true;
         }
     }
 
-//    private void openCountryDialogue() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-//        View view = inflater.inflate(R.layout.countycode,null);
-//        builder.setView(view);
+    private void openCountryDialogue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+        View view = inflater.inflate(R.layout.dialogue,null);
+        builder.setView(view);
+        listView = view.findViewById(R.id.listview);
+        listcountry = new ArrayList<>();
+        fillArray();
 
-
-
-
-
-//        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        recyclerView.setLayoutManager(linearLayoutManager);
 //
-//        RVadapter rVadapter = new RVadapter(county);
-//        recyclerView.setAdapter(rVadapter);
-//
-//        builder.show();
 
-//    }
+        countryAdapter= new CountryAdapter(getApplicationContext(),
+                R.layout.rvlayout,
+                listcountry);
+        listView.setAdapter(countryAdapter);
+        final AlertDialog show=  builder.show();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                countryPrefix.setText(listcountry.get(position).CountryName);
+                prefixedt.setText(listcountry.get(position).CountryCode);
+                show.dismiss();
+            }
+        });
+
+        EditText search = view.findViewById(R.id.search);
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                countryAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+    }
+
+    private void fillArray() {
+        AssetManager as = getAssets();
+        try {
+
+            InputStream inputStream = as.open("countrycode.txt");
+            DataInputStream bf = new DataInputStream(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(bf));
+            String st;
+            int i = 0;
+            while ((st = bufferedReader.readLine()) != null) {
+
+                if (st.length() > 2) {
+                    String[] token = st.split("[+]");
+                    if (token.length>1)
+                        listcountry.add(new Country(token[0], token[1]));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private void openWhatsApp() {
         String url;
         String number = numberedt.getText().toString().trim();
-        String prefix = countryCodePicker.getDefaultCountryCode();
+//        String prefix = countryCodePicker.getDefaultCountryCode();
+        String prefix = prefixedt.getText().toString().trim();
         String msg=edt.getText().toString().trim();
         if (msg!=null){
             url = "https://wa.me/"+prefix+number+"?text="+msg;
         }else{
             url = "https://wa.me/"+prefix+number;
         }
-//        String url = "https://api.whatsapp.com/send?phone="+prefix+number;
 
 
         try {
             PackageManager pm = getApplicationContext().getPackageManager();
             pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
-            Toast.makeText(getApplicationContext(), pm.toString(), Toast.LENGTH_SHORT).show();
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setPackage("com.whatsapp");
         i.setData(Uri.parse(url));
@@ -160,6 +196,24 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
     }
+}
 
+class Country {
+    String CountryName;
+    String CountryCode;
+
+    public Country(String countryName, String countryCode) {
+        CountryName = countryName;
+        CountryCode = countryCode;
+    }
+
+
+    public String getCountryName() {
+        return CountryName;
+    }
+
+    public String getCountryCode() {
+        return CountryCode;
+    }
 
 }
