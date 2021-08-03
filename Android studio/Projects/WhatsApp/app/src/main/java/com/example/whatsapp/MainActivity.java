@@ -8,8 +8,10 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -58,6 +60,9 @@ public class MainActivity extends Activity {
 
         edt = findViewById(R.id.msg);
         button.setEnabled(false);
+        TelephonyManager tm = (TelephonyManager) this.getSystemService(this.TELEPHONY_SERVICE);
+
+        Log.d("123456", "onCreate: " +tm.getNetworkCountryIso());
 
 
         button.setOnClickListener(v -> openWhatsApp());
@@ -68,7 +73,7 @@ public class MainActivity extends Activity {
             }
         });
         Intent intent = getIntent();
-        if (Intent.ACTION_VIEW.equals(intent.getAction())){
+        if (Intent.ACTION_VIEW.equals(intent.getAction())||Intent.ACTION_DIAL.equals(intent.getAction())){
             numberedt.setText(intent.getData().toString().replace("tel:",""));
             button.setEnabled(true);
         }
