@@ -50,8 +50,7 @@ public class register extends AppCompatActivity {
         String name="not Applicable";
         String address ="not Applicable";
 
-        Call<signUp_response_model> call = ApiController.getInstance()
-                                                .getapi()
+        Call<signUp_response_model> call = ApiController.getInstance().getapi()
                                                 .getregister(name,email,password,mobile,address);
 
         call.enqueue(new Callback<signUp_response_model>() {
