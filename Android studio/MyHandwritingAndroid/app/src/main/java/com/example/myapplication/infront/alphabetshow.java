@@ -1,8 +1,10 @@
 package com.example.myapplication.infront;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.background.DrawingView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
 import android.view.View;
@@ -17,8 +19,11 @@ import com.example.myapplication.background.alphabetBaseShow;
  */
 public class alphabetshow extends alphabetBaseShow  {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         try {
             super.onCreate(savedInstanceState);
             mDrawView.setBitmapFromText(mPracticeString);
@@ -33,7 +38,10 @@ public class alphabetshow extends alphabetBaseShow  {
         super.practiceOnClick(v);
         switch (v.getId()){
             case R.id.reset:
-                Toast.makeText(getApplicationContext(),"sdfsdf",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),alphabetBaseShow.size+ " ",Toast.LENGTH_SHORT).show();
+                mDrawView.setCurrentWidth(alphabetBaseShow.size);
+                navigationView.setCheckedItem(R.id.green);
+                mDrawView.setcolor(Color.GREEN);
         }
     }
 }

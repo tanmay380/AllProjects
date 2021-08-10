@@ -9,12 +9,16 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,17 +47,12 @@ public class alphabetBaseShow extends AppCompatActivity {
     protected String mPracticeString;
     protected DrawingView mDrawView;
     public SeekBar seekBar;
-    Button button;
-    public boolean draw = true;
     AudioManager audio;
     protected TextView mScoreTimerView;
     protected TextView mBestScoreView;
     protected boolean mDone;
-    public AlertDialog.Builder alertDialog;
     private static final int STORAGE_PERMISSION_CODE = 101;
-    public TextView colorset;
     public NavigationView navigationView;
-    //private TextToSpeech textToSpeech;
 
 
     @Override
@@ -70,6 +69,9 @@ public class alphabetBaseShow extends AppCompatActivity {
             actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.close, R.string.open);
             drawerLayout.addDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
+            navigationView = findViewById(R.id.navigationview);
+            navigationView.bringToFront();
+            navigationView.setCheckedItem(R.id.green);
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -85,6 +87,31 @@ public class alphabetBaseShow extends AppCompatActivity {
 
             mDrawView.canVibrate(true);
             mDrawView.setBitmapFromText(mPracticeString);
+
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected( MenuItem item) {
+                    int id = item.getItemId();
+
+                    switch (id){
+                        case R.id.black:
+                            mDrawView.setcolor(Color.BLACK);
+                            break;
+                        case R.id.green:
+                            mDrawView.setcolor(Color.GREEN);
+                            break;
+                        case R.id.blue:
+                            mDrawView.setcolor(Color.BLUE);
+                            break;
+                        case R.id.red:
+                            mDrawView.setcolor(Color.RED);
+                            break;
+                    }
+                    drawerLayout.close();
+
+                    return true;
+                }
+            });
 
             audio = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
@@ -123,12 +150,14 @@ public class alphabetBaseShow extends AppCompatActivity {
         setSize();
     }
 
+    public static int size = 10;
 
     public void setSize() {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mDrawView.setCurrentWidth(progress);
+                size = progress;
             }
 
             @Override
@@ -226,25 +255,24 @@ public class alphabetBaseShow extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
 //    public void colorclick(View v) {
 //        switch (v.getId()) {
 //            case R.id.blue:
 //                mDrawView.setcolor(Color.BLUE);
 //                break;
-//            case R.id.ora:
-//                mDrawView.setcolor(Color.rgb(255, 165, 0));
-//                break;
+////            case R.id.ora:
+////                mDrawView.setcolor(Color.rgb(255, 165, 0));
+////                break;
 //            case R.id.green:
 //                mDrawView.setcolor(Color.GREEN);
 //                break;
-//            case R.id.yelllow:
-//                mDrawView.setcolor(Color.YELLOW);
+//            case R.id.black:
+//                mDrawView.setcolor(Color.BLACK);
 //                break;
-//            case R.id.brown:
-//                mDrawView.setcolor(Color.rgb(185, 122, 87));
-//                break;
-//            case R.id.grey:
-//                mDrawView.setcolor(Color.GRAY);
+//            case R.id.red:
+//                mDrawView.setcolor(Color.RED);
 //                break;
 //        }
 //    }
@@ -286,12 +314,19 @@ public class alphabetBaseShow extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(alphabetBaseShow.this, CharacterSelection.class));
-        super.onBackPressed();
-    }
 
-
-
+//
+//    @Override
+//    public boolean onNavigationItemSelected(MenuItem item) {
+//        Toast.makeText(this, "sdfdsfdsf", Toast.LENGTH_SHORT).show();
+//        switch (item.getItemId()){
+//            case R.id.black:
+//                Toast.makeText(this, "clickde black", Toast.LENGTH_SHORT).show();
+//                break;
+//        }
+//
+//
+//
+//        return true;
+//    }
 }

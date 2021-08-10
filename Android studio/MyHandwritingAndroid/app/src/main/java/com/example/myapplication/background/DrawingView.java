@@ -153,7 +153,7 @@ public class DrawingView extends View {
      */
     public void init() {
         //get drawing area setup for interaction
-        int mTouchColour = getResources().getColor(R.color.Red);
+        int mTouchColour = getResources().getColor(R.color.Green);
         currentWidht=80;
 
         mDrawPath = new Path();

@@ -13,12 +13,4 @@
         android:textSize="40dp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/imgIcon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/ic_discard"
-        android:tint="@color/grey_500"/>
 </LinearLayout>
