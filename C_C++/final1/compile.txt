@@ -1,0 +1,14 @@
+to compile
+
+
+
+
+
+
+g++ Paint_server.cpp Paint_dot.cpp Paint_network.cpp -o server.exe -lGLU -lGL -lglut -lpthread -lm
+
+
+
+
+
+g++ Paint_client.cpp Paint_dot.cpp Paint_network.cpp -o client.exe -lGLU -lGL -lglut -lpthread -lm
