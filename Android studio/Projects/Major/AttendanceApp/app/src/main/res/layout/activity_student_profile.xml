@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".StudentProfile">
+
+    <TextView
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PROFILE"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:textFontWeight="900"/>
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="NAME: "
+            android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/prf_name"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8"
+            android:text="tanmay: "
+            android:textSize="25sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:drawableStart="@drawable/ic_baseline_school_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="Branch: "
+            android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/prf_branch"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8"
+            android:text="tanmay: "
+            android:textSize="25sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:drawableStart="@drawable/ic_baseline_phone_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="Mobile: "
+            android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/prf_number"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8"
+            android:text="tanmay: "
+            android:textSize="25sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="Sap-ID: "
+            android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/prf_sapid"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8"
+            android:text="tanmay: "
+            android:textSize="25sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="Roll Number: "
+            android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/prf_roll"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8"
+            android:text="tanmay: "
+            android:textSize="25sp"/>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

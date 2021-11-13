@@ -49,9 +49,50 @@ public class register extends AppCompatActivity {
                 intent.putExtra("pass",password);
                 intent.putExtra("mobile",mobile);
                 startActivity(intent);
-                finish();
             }
         });
 
+    }
+
+    private void registeruser(String emailid, String mobile, String password) {
+        String name = "not applicable";
+        String address = "not applicable";
+
+        Call<signp_response_model> call = apicontroller.getInstance()
+                .getapi()
+                .getregister(
+                        name, emailid, password, mobile, address
+                );
+        call.enqueue(new Callback<signp_response_model>() {
+            @Override
+            public void onResponse(Call<signp_response_model> call, Response<signp_response_model> response) {
+                signp_response_model obj = response.body();
+                assert obj != null;
+                String result = obj.getMessage().trim();
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                if (result.equals("inserted")) {
+                    tv.setText("succesfully  Registered");
+                    reg_emid.setText("");
+                    reg_mob.setText("");
+                    reg_pas.setText("");
+                }
+                if (result.equals("exist")) {
+                    tv.setText("Sorry you are already registered");
+                    reg_emid.setText("");
+                    reg_mob.setText("");
+                    reg_pas.setText("");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<signp_response_model> call, Throwable t) {
+                tv.setText("Something went wrong");
+                tv.setTextColor(Color.RED);
+                reg_emid.setText("");
+                reg_mob.setText("");
+                reg_pas.setText("");
+            }
+
+        });
     }
 }

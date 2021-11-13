@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ATTENDANCE APP"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif-condensed"
+        android:textFontWeight="900"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+
+    <EditText
+        android:id="@+id/edtname"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:hint="Name"
+        android:background="@drawable/edittext"/>
+    <EditText
+        android:id="@+id/edtnumber"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:gravity="center"
+        android:hint="Mobile Number"
+        android:background="@drawable/edittext"/>
+    <Spinner
+        android:id="@+id/edtbranch"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:hint="Branch"
+        android:background="@drawable/edittext"/>
+    <EditText
+        android:id="@+id/edtsapid"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:inputType="number"
+        android:hint="Sapid"
+        android:background="@drawable/edittext"/>
+    <EditText
+        android:id="@+id/edtroll"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:hint="Roll Number"
+        android:inputType="numberPassword"
+        android:background="@drawable/edittext"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="THESE VALUES CANT BE CHANGED LATER ON"
+        android:textSize="20dp"
+        android:textFontWeight="900"
+        android:textColor="@color/red"/>
+    <Button
+        android:id="@+id/signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"/>
+
+
+
+
+
+
+</LinearLayout>

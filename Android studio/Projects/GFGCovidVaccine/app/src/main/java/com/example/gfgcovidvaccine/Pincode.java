@@ -15,7 +15,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,7 +36,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -47,8 +45,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.TestOnly;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,8 +54,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 public class Pincode extends Fragment implements LocationListener {
     private static final String ARG_PARAM1 = "param1";
@@ -79,7 +73,7 @@ public class Pincode extends Fragment implements LocationListener {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     RV_Adapter adapter;
-    ImageView textView;
+    ImageView imageView;
 
     RadioGroup radioGroup;
     RadioButton radioButton;
@@ -126,7 +120,7 @@ public class Pincode extends Fragment implements LocationListener {
         recyclerView = view.findViewById(R.id.recyclerview);
         progressBar = view.findViewById(R.id.progressbar);
 
-        textView = view.findViewById(R.id.notfound);
+        imageView = view.findViewById(R.id.notfound);
         radioGroup=view.findViewById(R.id.radiogroup);
 
         layoutManager = new LinearLayoutManager(getContext());
@@ -292,11 +286,11 @@ public class Pincode extends Fragment implements LocationListener {
                         }
                     }
                         if (item_classes.size() ==0 ){
-                            textView.setVisibility(View.VISIBLE);
+                            imageView.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.INVISIBLE);
                         }else {
 
-                            textView.setVisibility(View.INVISIBLE);
+                            imageView.setVisibility(View.INVISIBLE);
                             recyclerView.setVisibility(View.VISIBLE);
                         }
                         adapter.notifyDataSetChanged();
