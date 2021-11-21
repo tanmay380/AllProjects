@@ -7,5 +7,8 @@
         android:title="My Attendace"/>
     <item android:id="@+id/faculinfo"
         android:title="Faculty Information"/>
+    <item android:id="@+id/logout"
+        android:title="LogOut"/>
+
 
 </menu>

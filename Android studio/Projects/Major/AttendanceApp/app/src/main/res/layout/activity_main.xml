@@ -37,6 +37,7 @@
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:maxLength="10"
         android:inputType="number"
         android:gravity="center"
         android:hint="Mobile Number"
@@ -49,7 +50,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:hint="Branch"
         android:background="@drawable/edittext"/>
     <EditText
         android:id="@+id/edtsapid"
@@ -67,7 +67,6 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:hint="Roll Number"
-        android:inputType="numberPassword"
         android:background="@drawable/edittext"/>
     <TextView
         android:layout_width="match_parent"

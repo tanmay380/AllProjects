@@ -14,11 +14,17 @@ public interface apiset {
     Call<signup_response_model> getregister(
             @Field("roll_number") String rno,
             @Field("name") String name,
-            @Field("c_id") String class_id
+            @Field("c_id") int class_id
     );
 
     @GET("getclass.php")
     Call<List<getClassname>> getclassname();
+
+    @FormUrlEncoded
+    @POST("getsubject.php")
+    Call<List<get_subjects>> getsubject(
+            @Field("roll_number") String roll
+    );
 }
 
 

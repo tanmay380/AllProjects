@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,8 +45,19 @@ public class homeScreen extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.profile:
                 startActivity(new Intent(getApplicationContext(),StudentProfile.class));
-                Toast.makeText(getApplicationContext(), "sdhf", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "sdhf", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.myattend:
+                startActivity(new Intent(getApplicationContext(), myAttendance.class));
+                break;
+            case R.id.logout:
+                SharedPreferences sharedPreferences = getSharedPreferences("Information",MODE_PRIVATE);
+                SharedPreferences.Editor editor  = sharedPreferences.edit();
+                editor.putString("logged",null);
+                editor.apply();
+                finishAndRemoveTask();
         }
+
 
         return true;
     }

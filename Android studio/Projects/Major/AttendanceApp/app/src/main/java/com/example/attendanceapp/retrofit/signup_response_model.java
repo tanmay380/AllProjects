@@ -14,4 +14,7 @@ public class signup_response_model {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public signup_response_model() {
+    }
 }

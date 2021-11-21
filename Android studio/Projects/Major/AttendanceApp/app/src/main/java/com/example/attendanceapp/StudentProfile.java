@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class StudentProfile extends AppCompatActivity {
     TextView name,branch,mobile,sapid,rollnnum;
+    public static  String rollno;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +30,7 @@ public class StudentProfile extends AppCompatActivity {
         sapid.setText(sp.getString("Sapid", null));
         rollnnum.setText(sp.getString("Roll", null));
         mobile.setText(sp.getString("Mobile", null));
+
+        rollno=sp.getString("Roll", null);
     }
 }

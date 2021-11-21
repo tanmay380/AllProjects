@@ -1,12 +1,17 @@
 package com.example.attendanceapp.retrofit;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class apicontroller {
-    static final String url="http://192.168.1.7/Attedance/";
+    static final String url="http://192.168.84.42/Attedance/";
     private static apicontroller apicontroller;
     private static Retrofit retrofit;
+
+
 
     apicontroller(){
         retrofit = new Retrofit.Builder()
