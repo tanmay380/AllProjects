@@ -16,11 +16,15 @@ import android.widget.Toast;
 
 public class homeScreen extends AppCompatActivity {
     Button scan;
-
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        sharedPreferences = getSharedPreferences("Information",MODE_PRIVATE);
+
+        StudentProfile.rollno=sharedPreferences.getString("Roll", null);
 
         scan= findViewById(R.id.button);
         scan.setOnClickListener(new View.OnClickListener() {
@@ -51,10 +55,11 @@ public class homeScreen extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), myAttendance.class));
                 break;
             case R.id.logout:
-                SharedPreferences sharedPreferences = getSharedPreferences("Information",MODE_PRIVATE);
+
                 SharedPreferences.Editor editor  = sharedPreferences.edit();
                 editor.putString("logged",null);
                 editor.apply();
+
                 finishAndRemoveTask();
         }
 

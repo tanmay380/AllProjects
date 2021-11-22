@@ -7,6 +7,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface apiset {
     @FormUrlEncoded
@@ -25,6 +26,15 @@ public interface apiset {
     Call<List<get_subjects>> getsubject(
             @Field("roll_number") String roll
     );
+
+
+    @GET("get_total_class.php")
+    Call<List<get_class_count>> getclasscount(
+           @Query("roll_no") String roll_no,
+           @Query("sub_id") int sub_id
+    );
+
+
 }
 
 
