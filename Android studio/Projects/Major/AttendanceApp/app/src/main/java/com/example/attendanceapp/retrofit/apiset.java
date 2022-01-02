@@ -34,6 +34,18 @@ public interface apiset {
            @Query("sub_id") int sub_id
     );
 
+    @FormUrlEncoded
+    @POST("get_faculty.php")
+    Call<List<getFaculty>> get_faculty(
+            @Field("roll_number") String roll_number
+    );
+
+    @GET("markattendance.php")
+    Call<markattendance> markAttendance(
+            @Query("roll_number") String r_no,
+            @Query("s_id") int s_id
+    );
+
 
 }
 

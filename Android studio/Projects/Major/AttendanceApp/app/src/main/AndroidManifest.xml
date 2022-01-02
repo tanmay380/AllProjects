@@ -14,13 +14,19 @@
         android:theme="@style/Theme.AttendanceApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".calendarPreview"
+            android:exported="false" />
+        <activity
+            android:name=".faculty"
+            android:exported="false" />
+        <activity
             android:name=".myAttendance"
             android:exported="false"
-            android:parentActivityName=".homeScreen"/>
+            android:parentActivityName=".homeScreen" />
         <activity
             android:name=".StudentProfile"
             android:exported="true"
-            android:parentActivityName=".homeScreen"/>
+            android:parentActivityName=".homeScreen" />
         <activity
             android:name=".ScannerView"
             android:exported="true" />

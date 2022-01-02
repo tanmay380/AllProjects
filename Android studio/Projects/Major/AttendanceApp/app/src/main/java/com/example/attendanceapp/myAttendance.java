@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +40,7 @@ public class myAttendance extends AppCompatActivity {
             public void onResponse(Call<List<get_subjects>> call, Response<List<get_subjects>> response) {
                 Log.d("12345", "onresponse: " + " ");
                 List<get_subjects> sbject= response.body();
-                myadaper adpa= new myadaper(sbject);
+                myadatpersubjects adpa= new myadatpersubjects(sbject);
                 rcv.setAdapter(adpa);
 
             }

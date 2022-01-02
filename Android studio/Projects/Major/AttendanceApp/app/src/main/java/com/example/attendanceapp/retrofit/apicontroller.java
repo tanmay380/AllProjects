@@ -7,11 +7,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class apicontroller {
-    static final String url="http://192.168.84.42/Attedance/";
+    static final String url="http://192.168.1.5/attendance/";
     private static apicontroller apicontroller;
     private static Retrofit retrofit;
-
-
 
     apicontroller(){
         retrofit = new Retrofit.Builder()

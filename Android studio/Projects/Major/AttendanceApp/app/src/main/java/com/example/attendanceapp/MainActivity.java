@@ -3,6 +3,7 @@ package com.example.attendanceapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<getClassname> classspinner;
     int class_id;
     String class_name;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         roll = findViewById(R.id.edtroll);
         branch = findViewById(R.id.edtbranch);
 
+
         retrofitClassIdCall();
+
         branch.setSelection(0, false);
 
         branch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 getClassname classname = (getClassname) parent.getItemAtPosition(position);
                 class_id = classname.getC_id();
-                class_name=classname.getCname();
+                class_name = classname.getCname();
             }
 
             @Override
@@ -91,22 +96,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<signup_response_model> call, Response<signup_response_model> response) {
                 signup_response_model signup = response.body();
-                String result= signup.getMessage();
-                Log.d("12345", "onResponse: " + result  + "  " + response.body());
+                String result = signup.getMessage();
+                Log.d("12345", "onResponse: " + result + "  " + response.body());
 
-                if(result.equals("exists")){
-                    startActivity(new Intent(MainActivity.this,homeScreen.class));
+                if (result.equals("exists")) {
+                    startActivity(new Intent(MainActivity.this, homeScreen.class));
                     sharedPreference();
+                    finish();
                 }
-                if(result.equals("inserted")){
+                if (result.equals("inserted")) {
                     Toast.makeText(getApplicationContext(), "Profile has been creates", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this,homeScreen.class));
+                    startActivity(new Intent(MainActivity.this, homeScreen.class));
                     sharedPreference();
+                    finish();
                 }
             }
+
             @Override
             public void onFailure(Call<signup_response_model> call, Throwable t) {
-                Log.d("12345", "onResponse: "+"on respne" + t.getMessage().toString());
+                Log.d("12345", "onResponse: " + "on respne" + t.getMessage().toString());
             }
         });
     }
@@ -115,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
         Call<List<getClassname>> call = apicontroller.getInstance()
                 .getapi()
                 .getclassname();
+        progress=new ProgressDialog(MainActivity.this);
+        progress.setMessage("Please Wait");
+        progress.setCancelable(false);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         call.enqueue(new Callback<List<getClassname>>() {
             @Override
             public void onResponse(Call<List<getClassname>> call, Response<List<getClassname>> response) {
@@ -135,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<List<getClassname>> call, Throwable t) {
             }
         });
+        progress.cancel();
     }
 
     private void sharedPreference() {

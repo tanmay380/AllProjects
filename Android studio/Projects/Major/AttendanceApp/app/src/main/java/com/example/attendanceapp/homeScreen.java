@@ -17,20 +17,23 @@ import android.widget.Toast;
 public class homeScreen extends AppCompatActivity {
     Button scan;
     SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        sharedPreferences = getSharedPreferences("Information",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("Information", MODE_PRIVATE);
 
-        StudentProfile.rollno=sharedPreferences.getString("Roll", null);
+        StudentProfile.rollno = sharedPreferences.getString("Roll", null);
 
-        scan= findViewById(R.id.button);
+        scan = findViewById(R.id.button);
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ScannerView.class));
+            Intent intent = new Intent(getApplicationContext(), ScannerView.class);
+            intent.putExtra("roll", StudentProfile.rollno);
+            startActivity(intent);
             }
         });
 
@@ -39,28 +42,33 @@ public class homeScreen extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater= getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.student, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.profile:
-                startActivity(new Intent(getApplicationContext(),StudentProfile.class));
-//                Toast.makeText(getApplicationContext(), "sdhf", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), StudentProfile.class));
                 break;
             case R.id.myattend:
                 startActivity(new Intent(getApplicationContext(), myAttendance.class));
                 break;
+            case R.id.faculinfo:
+                Intent intent = new Intent(homeScreen.this, faculty.class);
+                intent.putExtra("a", 1);
+                intent.putExtra("roll", StudentProfile.rollno);
+                startActivity(intent);
+                break;
             case R.id.logout:
-
-                SharedPreferences.Editor editor  = sharedPreferences.edit();
-                editor.putString("logged",null);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("logged", null);
                 editor.apply();
-
                 finishAndRemoveTask();
+                break;
+
         }
 
 

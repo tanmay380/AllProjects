@@ -5,15 +5,13 @@
     $name=trim($_POST['name']);
     $class_id=trim($_POST['c_id']);
 
-    //  var_dump($rollno);
-
     $qry="select * from studenttable where roll_number='$rollno'";
     $raw=mysqli_query($conn,$qry);
 
     $count=mysqli_num_rows($raw);
 
     if($count>0){
-        $response['message']='exists';
+        $response['message']='exits';
     }else{
         $qry2="INSERT INTO `studenttable` (`roll_number`, `name`, `c_id`) 
             VALUES ('$rollno', '$name', '$class_id')";

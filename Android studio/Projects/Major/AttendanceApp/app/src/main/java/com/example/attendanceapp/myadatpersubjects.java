@@ -19,11 +19,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class myadaper extends RecyclerView.Adapter<viewhodler> {
+public class myadatpersubjects extends RecyclerView.Adapter<viewhodler> {
 //    ArrayList<class_model_class> data;
     List<get_subjects> data;
 
-    public myadaper(List<get_subjects> data) {
+    public myadatpersubjects(List<get_subjects> data) {
         this.data = data;
     }
 
@@ -63,23 +63,6 @@ public class myadaper extends RecyclerView.Adapter<viewhodler> {
                 Log.d("12345", "onResponse:  " + t.getMessage());
             }
         });
-//        Call<get_class_count> call= apicontroller.getInstance()
-//                .getapi()
-//                .getclasscount(StudentProfile.rollno,
-//                        data.get(position).getS_id());
-//        call.enqueue(new Callback<get_class_count>() {
-//            @Override
-//            public void onResponse(Call<get_class_count> call, Response<get_class_count> response) {
-//                get_class_count gd= response.body();
-//                Log.d("12345", "onResponse: " +gd.getCount()+  "  "+ gd.getCount1());
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<get_class_count> call, Throwable t) {
-//                Log.d("12345", "onResponse:  " + t.getMessage());
-//            }
-//        });
     }
 
     @Override
