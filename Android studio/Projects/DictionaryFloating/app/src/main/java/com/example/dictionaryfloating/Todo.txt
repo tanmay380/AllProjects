@@ -1,0 +1,3 @@
+
+    Todo: implement Dictionary part
+    Todo: Try to run this app as as service
