@@ -42,7 +42,7 @@ public class HoldingBox extends Service
         super.onCreate();
 
         DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
-        int w= metrics.widthPixels;
+         int w= metrics.widthPixels;
         int h= metrics.heightPixels;
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);

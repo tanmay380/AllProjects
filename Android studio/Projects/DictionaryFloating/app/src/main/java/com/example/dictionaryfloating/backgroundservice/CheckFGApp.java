@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CheckFGApp extends JobService {
-    ArrayList<String> appPackage = new ArrayList<>();
+    public static ArrayList<String> appPackage = MainActivity.appPackage;
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         doInBackground(jobParameters);
@@ -36,14 +36,18 @@ public class CheckFGApp extends JobService {
                 app.whenAny(new AppChecker.Listener() {
                     @Override
                     public void onForeground(String process) {
-                        new bgThread().start();
-                        if(appPackage.contains(process) && !process.equals(getPackageName())){
-                            if(!isrunning()) {
-                                startService(new Intent(CheckFGApp.this, FloatingIcon.class));
+                        if (process.equals(getPackageName())) {
 
+                        } else {
+                            new bgThread().start();
+                            if (appPackage.contains(process) && !process.equals(getPackageName())) {
+                                if (!isrunning()) {
+                                    startService(new Intent(CheckFGApp.this, FloatingIcon.class));
+
+                                }
+                            } else {
+                                stopService(new Intent(CheckFGApp.this, FloatingIcon.class));
                             }
-                        }else{
-                            stopService(new Intent(CheckFGApp.this, FloatingIcon.class));
                         }
                     }
                 }).timeout(1000)
@@ -54,6 +58,7 @@ public class CheckFGApp extends JobService {
     }
     private boolean isrunning(){
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
         for(ActivityManager.RunningServiceInfo info : activityManager.getRunningServices(Integer.MAX_VALUE))
             if(FloatingIcon.class.getName().equals(info.service.getClassName()) || HoldingBox.class.getName().equals(info.service.getClassName()))
                 return true;
@@ -70,6 +75,7 @@ public class CheckFGApp extends JobService {
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
 
             appPackage = gson.fromJson(json,type);
+            Log.d("12345", "run: " + Arrays.toString(appPackage.toArray()));
 
             if(appPackage==null){
                 appPackage=new ArrayList<>();
@@ -85,5 +91,7 @@ public class CheckFGApp extends JobService {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d("12345", "onDestroy: "  + "om derstroed");
+        stopSelf();
     }
 }

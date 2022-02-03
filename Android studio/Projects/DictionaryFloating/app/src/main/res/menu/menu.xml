@@ -6,5 +6,9 @@
         android:title="Select APPS"
         android:icon="@drawable/ic_baseline_apps_24"
         app:showAsAction="collapseActionView"/>
+    <item android:id="@+id/searchWord"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
 
 </menu>

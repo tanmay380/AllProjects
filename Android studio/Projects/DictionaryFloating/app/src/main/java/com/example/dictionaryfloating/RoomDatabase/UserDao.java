@@ -18,4 +18,5 @@ public interface UserDao {
 
     @Query("Select * from `table`")
     List<User> selectedApps();
+
 }

@@ -2,12 +2,14 @@ package com.example.dictionaryfloating.recyclerView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,9 +29,8 @@ import com.google.gson.Gson;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-    ArrayList<ModelClass> arrayList = new ArrayList<>();
+    ArrayList<ModelClass> arrayList;
     Context context;
-    public List<String> appPackage = new ArrayList<>();
     HashMap<String, String> app;
 
 
@@ -53,11 +54,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 .build();
         UserDao userDao = appDatabase.userDao();
         List<User> list = userDao.selectedApps();
-
-        SharedPreferences sp = context.getSharedPreferences("AppPackageName", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-
-        Gson gson = new Gson();
+        ArrayList<String> appPackage = MainActivity.appPackage;
 
         final ModelClass modelClass = arrayList.get(position);
         for (int i = 0; i < list.size(); i++) {
@@ -69,6 +66,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             }
         }
         holder.name.setText(modelClass.getAppname());
+        holder.img.setImageDrawable(modelClass.getResource());
         holder.box.setOnCheckedChangeListener(null);
         holder.box.setChecked(modelClass.isChecked());
 
@@ -86,6 +84,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     appPackage.remove(app.get(modelClass.getAppname()));
                 }
 
+                SharedPreferences sp = context.getSharedPreferences("AppPackageName", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+
+                Gson gson = new Gson();
+                Log.d("12345", "onCheckedChanged: " + Arrays.toString(appPackage.toArray()));
+
                 String json = gson.toJson(appPackage);
                 editor.putString("appPackage", json);
                 editor.apply();
@@ -97,16 +101,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private CheckBox box;
+        private ImageView img;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.appname);
             box = itemView.findViewById(R.id.checkbox);
+            img = itemView.findViewById(R.id.icon);
         }
     }
 
     @Override
     public int getItemCount() {
+//        Log.d("12345", "getItemCount: " + arrayList.size());
         return arrayList.size();
     }
 
