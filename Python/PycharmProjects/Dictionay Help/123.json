@@ -1,0 +1,131 @@
+[
+  {
+    "word": "abandon",
+    "phonetic": "əˈband(ə)n",
+    "phonetics": [
+      {
+        "text": "əˈband(ə)n",
+        "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/abandon--_gb_1.mp3"
+      }
+    ],
+    "origin": "late Middle English: from Old French abandoner, from a- (from Latin ad ‘to, at’) + bandon ‘control’ (related to ban1). The original sense was ‘bring under control’, later ‘give in to the control of, surrender to’ (abandon (sense 3 of the verb)).",
+    "meanings": [
+      {
+        "partOfSpeech": "verb",
+        "definitions": [
+          {
+            "definition": "cease to support or look after (someone); desert.",
+            "example": "her natural mother had abandoned her at an early age",
+            "synonyms": [
+              "desert",
+              "leave",
+              "leave high and dry",
+              "turn one's back on",
+              "cast aside",
+              "break (up) with",
+              "jilt",
+              "strand",
+              "leave stranded",
+              "leave in the lurch",
+              "throw over",
+              "run/walk out on",
+              "dump",
+              "ditch",
+              "give someone the push",
+              "give someone the big E",
+              "bin off",
+              "forsake"
+            ],
+            "antonyms": [
+              "stick by"
+            ]
+          },
+          {
+            "definition": "give up completely (a practice or a course of action).",
+            "example": "he had clearly abandoned all pretence of trying to succeed",
+            "synonyms": [
+              "renounce",
+              "relinquish",
+              "dispense with",
+              "forswear",
+              "disclaim",
+              "disown",
+              "disavow",
+              "discard",
+              "wash one's hands of",
+              "give up",
+              "drop",
+              "do away with",
+              "jettison",
+              "ditch",
+              "scrap",
+              "scrub",
+              "axe",
+              "junk",
+              "stop",
+              "cease",
+              "forgo",
+              "desist from",
+              "have done with",
+              "abjure",
+              "abstain from",
+              "discontinue",
+              "break off",
+              "refrain from",
+              "set/lay aside",
+              "cut out",
+              "kick",
+              "jack in",
+              "pack in",
+              "quit"
+            ],
+            "antonyms": [
+              "keep",
+              "claim",
+              "continue",
+              "take up"
+            ]
+          },
+          {
+            "definition": "allow oneself to indulge in (a desire or impulse).",
+            "example": "they abandoned themselves to despair",
+            "synonyms": [
+              "indulge in",
+              "give way to",
+              "give oneself up to",
+              "yield to",
+              "lose oneself to/in"
+            ],
+            "antonyms": [
+              "control oneself"
+            ]
+          }
+        ]
+      },
+      {
+        "partOfSpeech": "noun",
+        "definitions": [
+          {
+            "definition": "complete lack of inhibition or restraint.",
+            "example": "she sings and sways with total abandon",
+            "synonyms": [
+              "uninhibitedness",
+              "recklessness",
+              "lack of restraint",
+              "lack of inhibition",
+              "unruliness",
+              "wildness",
+              "impulsiveness",
+              "impetuosity",
+              "immoderation",
+              "wantonness"
+            ],
+            "antonyms": [
+              "self-control"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

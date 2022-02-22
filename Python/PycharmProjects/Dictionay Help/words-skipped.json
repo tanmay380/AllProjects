@@ -1,0 +1,37 @@
+[
+  {
+    "word": "abandon",
+    "phonetic": "əˈband(ə)n",
+    "phonetics": [
+      {
+        "text": "əˈband(ə)n",
+        "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/abandon--_gb_1.mp3"
+      }
+    ],
+    "origin": "late Middle English: from Old French abandoner, from a- (from Latin ad ‘to, at’) + bandon ‘control’ (related to ban1). The original sense was ‘bring under control’, later ‘give in to the control of, surrender to’ (abandon (sense 3 of the verb)).",
+    "meanings": [
+      {
+        "partOfSpeech": "verb",
+        "definitions": [
+          {
+            "definition": "cease to support or look after (someone); desert."
+          },
+          {
+            "definition": "give up completely (a practice or a course of action)."
+          },
+          {
+            "definition": "allow oneself to indulge in (a desire or impulse).",
+          }
+        ]
+      },
+      {
+        "partOfSpeech": "noun",
+        "definitions": [
+          {
+            "definition": "complete lack of inhibition or restraint.",
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+[
+  "water",
+  [
+    {
+      "phoentic": "sdfsf",
+      "1": {
+        "partOfSpeech": "exclamation",
+        "definitions": [
+          {
+            "definition": "used as a greeting or to begin a phone conversation."
+          },
+          {
+            "definition": "used as a greeting or to begin a phone conversation."
+          }
+        ]
+      },
+      "2": {
+        "partOfSpeech": "exclamation",
+        "definitions": [
+          {
+            "definition": "used as a greeting or to begin a phone conversation."
+          }
+        ]
+      }
+    }
+    ]
+  ]
