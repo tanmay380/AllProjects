@@ -1,0 +1,314 @@
+1. WORMHOLE
+#include<bits/stdc++.h>
+#include<algorithm>
+using namespace std;
+
+#define int long long int
+int ans = INT_MAX;
+int n;
+struct node {
+    int x1, y1, x2, y2, cost;
+};
+int dis(int x1, int y1, int x2, int y2) {
+    return abs(x1 - x2) + abs(y1 - y2);
+}
+void wormhole(struct node worm[], int dx, int dy, int sx, int sy, int cost, int *vis) {
+    int temp = cost + dis(sx, sy, dx, dy);
+    //cout << temp << endl;
+    ans = min(temp, ans);
+    for (int i = 0; i < n; i++) {
+        if (vis[i] == 0) {
+            cout << "in : " << i << endl;
+            vis[i] = 1;
+            temp = cost + dis(sx, sy, worm[i].x1, worm[i].y1) + worm[i].cost;
+            wormhole(worm, dx, dy, worm[i].x2, worm[i].y2, temp, vis);
+            vis[i] = 0;
+            cout << "out: " << i << endl;
+            // temp = cost + dis(sx, sy, worm[i].x2, worm[i].y2) + worm[i].cost;
+            // wormhole(worm, dx, dy, worm[i].x1, worm[i].y1, temp, vis);
+            // vis[i] = 0;
+
+        }
+    }
+}
+
+int32_t main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int t;
+    cin >> t;
+    while (t--) {
+        int sx, sy, dx, dy;
+        cin >> sx >> sy >> dx >> dy >> n;
+        //cout << sx << sy << " " << dx << dy << endl;
+        struct node worm[n];
+        int vis[n];
+        memset(vis, 0, sizeof(vis));
+        for (int i = 0; i < n; i++) {
+            cin >> worm[i].x1 >> worm[i].y1 >> worm[i].x2 >> worm[i].y2 >> worm[i].cost;
+        }
+        wormhole(worm, dx, dy, sx, sy, 0, vis);
+        cout << ans << endl;
+
+
+
+    }
+
+}
+
+2. ENDOSCOPY
+
+
+3. DR. KIM
+
+#include<bits/stdc++.h>
+#include<algorithm>
+using namespace std;
+
+#define int long long int
+int ans = INT_MAX;
+bool vis[11];
+int count = 0;
+int dx, dy;
+void solve(vector<pair<int, int>>&v, int N, int count, int x, int y, int temp) {
+    if (count == N) {
+        int val = abs(x - dx) + abs(y - dy);
+        ans = min(temp + val, ans);
+    }
+    for (int i = 0; i < N; i++) {
+        if (!vis[i]) {
+            vis[i] = true;
+
+            int dis = abs(x - v[i].first) + abs(y - v[i].second);
+            solve(v, N, count + 1, v[i].first, v[i].second, temp + dis);
+     
+            vis[i] = false;
+        }
+    }
+}
+int32_t main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int t;
+    cin >> t;
+    while (t--) {
+
+        int N;
+        cin >> N;
+        vector<pair<int, int>>v;
+        cin >> sx >> sy >> dx >> dy;
+        for (int i = 0; i < N; i++) {
+            int x, y;
+            cin >> x >> y;
+            v.push_back({x, y});
+        }
+        memset(vis, false, sizeof(vis));
+        solve(v, N, 0, sx, sy, 0);
+        cout << ans;
+
+    }
+
+}
+
+
+BIPARTITE GRAPH
+int arr[100];
+    bool chkbipartite(vector<vector<int>>& graph, int node){
+        
+        queue<int>q;
+        q.push(node);
+        arr[node]=1;
+        while(!q.empty()){
+            int temp=q.front();
+            q.pop();
+            for(int i=0;i<graph[temp].size();i++){
+                if(arr[graph[temp][i]]==-1){
+                    arr[graph[temp][i]]=1-arr[temp];
+                    q.push(graph[temp][i]);
+                }
+                else if(arr[graph[temp][i]]==arr[temp])
+                    return false;
+            }
+            
+            
+        }
+        return true;
+        
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        memset(arr,-1,sizeof(arr));
+        for(int i=0;i<graph.size();i++){
+            if(arr[i]==-1)
+            {
+                if(!chkbipartite(graph,i))
+                    return false;
+            }
+        }
+        return true;
+        
+    }
+
+
+SPACEHIPS AND BOMB
+
+#include<bits/stdc++.h>
+#include<algorithm>
+using namespace std;
+
+#define int long long int
+int ans = INT_MIN;
+bool vis[100][100];
+bool isvalid(int r, int c) {
+    if (r < 0 || c < 0 || c > 4)
+        return false;
+    return true;
+}
+void solve(vector<vector<char>>grid, int r, int c, int temp, int enemy, bool update_enemy) {
+
+    if (r <= 0) {
+        ans = max(ans, temp);
+        //cout << "c: " << c << endl;
+        return;
+    }
+    if (isvalid(r - 1, c - 1)) {
+
+        if (grid[r - 1][c - 1] == '2')
+        {
+
+            if (r < enemy) {
+                ans = max(ans, temp);
+
+                return;
+            }
+            else
+
+            {
+                int prev_enemy = enemy;
+                if (!update_enemy) {
+                    enemy = r - 5;
+                    update_enemy = true;
+                }
+                if (enemy == prev_enemy)
+                    enemy = r - 1;
+                //cout << "l2" << " ";
+                solve(grid, r - 1, c - 1, temp, enemy, update_enemy);
+            }
+
+        }
+        else if (grid[r - 1][c - 1] == '1')
+        {
+            temp++;
+            // cout << "l1" << " ";
+            solve(grid, r - 1, c - 1, temp, r - 1, update_enemy);
+            temp--;
+        }
+        else
+        {
+            //cout << "l0" << " ";
+            solve(grid, r - 1, c - 1, temp, r - 1, update_enemy);
+        }
+    }
+    if (isvalid(r - 1, c)) {
+        if (grid[r - 1][c] == '2')
+        {
+            if (r < enemy) {
+                ans = max(ans, temp);
+                return;
+            }
+            else
+            {
+                int prev_enemy = enemy;
+                if (!update_enemy) {
+                    enemy = r - 5;
+                    update_enemy = true;
+                }
+                if (enemy == prev_enemy)
+                    enemy = r - 1;
+                //cout << "u2" << " ";
+                solve(grid, r - 1, c, temp, enemy, update_enemy);
+            }
+
+        }
+        else if (grid[r - 1][c] == '1')
+        {
+            temp++;
+            //cout << "u1" << " ";
+            solve(grid, r - 1, c, temp, r - 1, update_enemy);
+            temp--;
+        }
+        else
+        {   //cout << "u0" << " ";
+            solve(grid, r - 1, c, temp, r - 1, update_enemy);
+        }
+    }
+    if (isvalid(r - 1, c + 1)) {
+
+        if (grid[r - 1][c + 1] == '2')
+        {
+            if (r < enemy) {
+                ans = max(ans, temp);
+                return;
+            }
+            else
+            {
+                int prev_enemy = enemy;
+                if (!update_enemy) {
+                    enemy = r - 5;
+                    update_enemy = true;
+                }
+                if (enemy == prev_enemy)
+                    enemy = r - 1;
+                //cout << "r2" << " ";
+                solve(grid, r - 1, c + 1, temp, enemy, update_enemy);
+            }
+
+        }
+        else if (grid[r - 1][c + 1] == '1')
+        {
+            temp++;
+            //cout << "r1" << " ";
+            solve(grid, r - 1, c + 1, temp, r - 1, update_enemy);
+            temp--;
+        }
+        else
+        {
+            // cout << "r0" << " ";
+            solve(grid, r - 1, c + 1, temp, r - 1, update_enemy);
+        }
+    }
+
+}
+
+int32_t main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+
+    int t;
+    cin >> t;
+    while (t--) {
+
+        int n;
+        cin >> n;
+        int m = 5;
+        vector<vector<char>> grid( n , vector<char> (m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                cin >> grid[i][j];
+            }
+        }
+        memset(vis, false, sizeof(vis));
+
+        solve(grid, n - 1, 2, 0, n - 1, false);
+        cout << "ans: " << ans << endl;
+    }
+
+}
