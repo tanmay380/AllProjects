@@ -5,7 +5,15 @@ import java.time.LocalDateTime;
 public class Model {
     String sms;
     String time;
+    String vendor;
 
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
 
     public String getTime() {
         return time;
@@ -26,8 +34,9 @@ public class Model {
         this.sms = sms;
     }
 
-    public Model(String sms, String time) {
+    public Model(String sms, String time, String vendor) {
         this.sms = sms;
-        this.time= time;
+        this.time = time;
+        this.vendor = vendor;
     }
 }

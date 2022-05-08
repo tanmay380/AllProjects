@@ -99,7 +99,7 @@ PlayerSettings:
   xboxEnableFitness: 0
   visibleInBackground: 1
   allowFullscreenSwitch: 1
-  fullscreenMode: 1
+  fullscreenMode: 3
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
@@ -493,7 +493,9 @@ PlayerSettings:
   switchPlayerConnectionEnabled: 1
   switchUseNewStyleFilepaths: 0
   switchUseMicroSleepForYield: 1
+  switchEnableRamDiskSupport: 0
   switchMicroSleepForYieldTime: 25
+  switchRamDiskSpaceSize: 12
   ps4NPAgeRating: 12
   ps4NPTitleSecret: 
   ps4NPTrophyPackPath: 
@@ -665,7 +667,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     Build: 0
-    Collab: 1
+    Collab: 0
     Game Performance: 0
     Legacy Analytics: 0
     Purchasing: 0
@@ -685,10 +687,10 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: e75546ed-bdc2-4d34-a209-11a73f551802
+  cloudProjectId: 7ad45b9f-757d-48ce-8c2c-7a0429c7b67a
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Online Chess Game
+  projectName: Online Chess Game (1)
   organizationId: tannnu380
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

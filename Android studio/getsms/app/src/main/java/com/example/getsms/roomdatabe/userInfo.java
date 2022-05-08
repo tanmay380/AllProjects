@@ -12,11 +12,16 @@ public class userInfo {
     @ColumnInfo(name = "amount")
     public String amt;
 
+    @ColumnInfo(name = "Vendor")
+    public String vendor;
+
     @ColumnInfo(name = "date")
     public String date;
 
-    public userInfo(String amt, String date) {
+
+    public userInfo(String amt, String vendor, String date) {
         this.amt = amt;
+        this.vendor = vendor;
         this.date = date;
     }
 
@@ -26,6 +31,14 @@ public class userInfo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
     public String getAmt() {

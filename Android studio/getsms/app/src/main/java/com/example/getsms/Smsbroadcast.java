@@ -21,6 +21,7 @@ import androidx.room.Room;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,10 +29,11 @@ import java.util.regex.Pattern;
 import com.example.getsms.roomdatabe.*;
 
 public class Smsbroadcast extends BroadcastReceiver {
+    public static final String TAG="12345";
     public static String SMS = "android.provider.Telephony.SMS_RECEIVED";
     //    ArrayList<Model> list = MainActivity.list;
     String message;
-    public static final String containsString = "is debited from kotak bank a/c";
+    public static final String containsString = "is spent on your BoB Credit Card";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -43,28 +45,32 @@ public class Smsbroadcast extends BroadcastReceiver {
             if (objects != null) {
                 for (Object aObject : objects) {
                     SmsMessage currentSMS = getIncomingMessage(aObject, bundle);
-                    message = currentSMS.getDisplayMessageBody();
-                    if (message.toLowerCase(Locale.ROOT).contains(containsString.toLowerCase(Locale.ROOT))) {
-                        Toast.makeText(context.getApplicationContext(), "SAVED IN THE APP", Toast.LENGTH_SHORT).show();
-                        Pattern p = Pattern.compile("^Rs[.]\\d*[.]");
-                        Matcher m = p.matcher(message);
-                        String sub = "";
-                        while (m.find()) {
-                            sub = m.group();
-                            System.out.println(m.group());
-                        }
-                        String[] ans = sub.split("Rs.");
-                        System.out.println(ans[1]);
-                        String[] finalstr = ans[1].split("\\.");
-                        LocalDateTime time = LocalDateTime.now();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm");
-                        String date = time.format(formatter);
-                        AppDatabase db = Room.databaseBuilder(context,
-                                AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
+                    Log.d("12345", "onReceive: " + currentSMS.getOriginatingAddress());
+                    //VD-BOBFSL
+                    if(currentSMS.getOriginatingAddress().equals("VD-BOBFSL")) {
+                        message = currentSMS.getDisplayMessageBody();
+                        if (message.toLowerCase(Locale.ROOT).contains(containsString.toLowerCase(Locale.ROOT))) {
+                            Toast.makeText(context.getApplicationContext(), "SAVED IN THE APP", Toast.LENGTH_SHORT).show();
+                            Pattern p = Pattern.compile("INR.\\d*.[0-9][0-9].*at\\s*(\\S+)");
+                            Matcher m = p.matcher(message);
+                            String sub = "";
+                            while (m.find()) {
+                                sub = m.group();
+                            }
+                            String[] ans = sub.split("is ");
+                            String[] amount = ans[0].split("INR");
+                            Log.d(TAG, "onReceive: " + amount[1]);
+                            String[] where = ans[1].split("at");
+                            Log.d(TAG, "onReceive: " + where[1]);
+                            LocalDateTime time = LocalDateTime.now();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm");
+                            String date = time.format(formatter);
+                            AppDatabase db = Room.databaseBuilder(context,
+                                    AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
 
-                        UserDao dao = db.userDao();
-                        dao.insert(new userInfo(finalstr[0], date));
-                        openMoneyManager(context);
+                            UserDao dao = db.userDao();
+                        dao.insert(new userInfo(amount[1], where[1], date));
+                        }
                     }
                 }
             }
@@ -73,21 +79,6 @@ public class Smsbroadcast extends BroadcastReceiver {
         } else {
             Toast.makeText(context.getApplicationContext(), intent.getAction().toString(), Toast.LENGTH_LONG).show();
         }
-    }
-    private void openMoneyManager(Context context) {
-        Log.d("12345", "openMoneyManager: " + "opening");
-//        Intent intent = new Intent();
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.realbyteapps.moneymanagerfree");
-//        intent.setComponent(new ComponentName("com.realbyteapps.moneymanagerfree",
-//                "com.realbyte.money.ui.inputUi.InputSaveContinue"));
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT |
-                Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-//        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        context.startActivity(intent);
-
-        Log.d("12345", "openMoneyManager: " + "opened");
     }
 
     private SmsMessage getIncomingMessage(Object aObject, Bundle bundle) {

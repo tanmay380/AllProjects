@@ -34,7 +34,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
 //        holder.id.setText(Integer.toString(list.get(position).getId()));
         holder.id.setText(position+1+"");
         holder.date.setText(list.get(position).getDate());
-        holder.smsget.setText("₹"+list.get(position).getAmt());
+        holder.smsget.setText("₹"+list.get(position).getAmt()+"("+ list.get(position).getVendor()+")");
     }
 
     @Override
