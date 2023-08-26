@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.getsms">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
     <queries>
         <package android:name="MoneyManager" />
         <package android:name="com.realbyteapps.moneymanagerfree" />
     </queries>
 
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"

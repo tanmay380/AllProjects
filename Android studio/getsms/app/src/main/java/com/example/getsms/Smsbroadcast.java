@@ -1,5 +1,8 @@
 package com.example.getsms;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,11 +14,14 @@ import android.os.Looper;
 import android.os.Message;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.room.Room;
 
 import java.time.LocalDateTime;
@@ -23,21 +29,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.example.getsms.roomdatabe.*;
 
 public class Smsbroadcast extends BroadcastReceiver {
-    public static final String TAG="12345";
+    public static final String TAG = "12345";
     public static String SMS = "android.provider.Telephony.SMS_RECEIVED";
     //    ArrayList<Model> list = MainActivity.list;
     String message;
-    public static final String containsString = "is spent on your BoB Credit Card";
+    public static final String containsString = "to ANIL KUMAR on";
+
+    Context mContext;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onReceive(Context context, Intent intent) {
+        mContext = context;
         if (intent.getAction().equals(SMS)) {
             Bundle bundle = intent.getExtras();
             Object[] objects = (Object[]) bundle.get("pdus");
@@ -47,29 +57,37 @@ public class Smsbroadcast extends BroadcastReceiver {
                     SmsMessage currentSMS = getIncomingMessage(aObject, bundle);
                     Log.d("12345", "onReceive: " + currentSMS.getOriginatingAddress());
                     //VD-BOBFSL
-                    if(currentSMS.getOriginatingAddress().equals("VD-BOBFSL")) {
+                    if (currentSMS.getOriginatingAddress().contains("PAYTM")) {
                         message = currentSMS.getDisplayMessageBody();
                         if (message.toLowerCase(Locale.ROOT).contains(containsString.toLowerCase(Locale.ROOT))) {
-                            Toast.makeText(context.getApplicationContext(), "SAVED IN THE APP", Toast.LENGTH_SHORT).show();
-                            Pattern p = Pattern.compile("INR.\\d*.[0-9][0-9].*at\\s*(\\S+)");
+                            Toast.makeText(mContext, "SAVED IN THE APP", Toast.LENGTH_SHORT).show();
+                            Pattern p = Pattern.compile("Rs.\\d*.\\d*");
                             Matcher m = p.matcher(message);
                             String sub = "";
                             while (m.find()) {
                                 sub = m.group();
                             }
+                            System.out.println("sub :->" + sub);
                             String[] ans = sub.split("is ");
-                            String[] amount = ans[0].split("INR");
-                            Log.d(TAG, "onReceive: " + amount[1]);
-                            String[] where = ans[1].split("at");
-                            Log.d(TAG, "onReceive: " + where[1]);
+                            String[] amount = ans[0].split("Rs.");
+                            System.out.println("onReceive: " + amount[1]);
                             LocalDateTime time = LocalDateTime.now();
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm");
-                            String date = time.format(formatter);
+
+                            Pattern p1 = Pattern.compile("\\d*-\\d*-\\d*");
+                            Matcher date = p1.matcher(message);
+                            String dates = "";
+                            while (date.find())
+                                dates = date.group();
+
+                            System.out.println(dates);
                             AppDatabase db = Room.databaseBuilder(context,
                                     AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
 
                             UserDao dao = db.userDao();
-                        dao.insert(new userInfo(amount[1], where[1], date));
+//                            dao.insert(new userInfo(amount[1], dates, new ArrayList<Pair>(Arrays.asList(new Pair("Tanmay", 30), new Pair("Shanky", 40)))));
+                            dao.insert(new userInfo(amount[1], dates, new ArrayList<String>(Arrays.asList("Tanmay", "Shanky"))));
+                            context.sendBroadcast(new Intent("MESSAGE_RECIEVED_UPDATE"));
+                            makeNotification();
                         }
                     }
                 }
@@ -77,8 +95,45 @@ public class Smsbroadcast extends BroadcastReceiver {
             this.abortBroadcast();
 
         } else {
-            Toast.makeText(context.getApplicationContext(), intent.getAction().toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, intent.getAction().toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    private void makeNotification() {
+
+        String CHANNEL_ID = "CHANNEL ID NOTIFICATION";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Breakfast has been paid")
+                .setContentText("Add people who are eating")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(false);
+
+        Intent intent = new Intent(mContext, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra("data", "some value to be passed");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext,
+                0, intent, PendingIntent.FLAG_MUTABLE);
+
+        builder.setContentIntent(pendingIntent);
+        NotificationManager notificationManager = null;
+        notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ID);
+
+            if (notificationChannel == null) {
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                notificationChannel = new NotificationChannel(CHANNEL_ID, "some_decscrition", importance);
+                notificationChannel.enableLights(true);
+                notificationManager.createNotificationChannel(notificationChannel);
+
+            }
+        }
+        notificationManager.notify(101, builder.build());
     }
 
     private SmsMessage getIncomingMessage(Object aObject, Bundle bundle) {

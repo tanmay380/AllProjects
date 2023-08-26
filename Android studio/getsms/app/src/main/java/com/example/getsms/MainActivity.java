@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,11 +45,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rcv);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         getList();
+        registerReceiver(broadcastReceiver, new IntentFilter("MESSAGE_RECIEVED_UPDATE"));
 
     }
 
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // internet lost alert dialog method call from here...
+            Log.d("12345", "onReceive: mainactivirt");
+            getList();
+        }
+    };
 
 
     private void getPersmissions() {
@@ -93,9 +104,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getList() {
+    public void getList() {
+        Log.d("12345", "getList: called" + db);
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
+
         UserDao dao = db.userDao();
         list = dao.selectAll();
         Collections.reverse(list);
@@ -107,5 +120,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 }

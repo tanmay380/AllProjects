@@ -1,8 +1,12 @@
 package com.example.getsms.roomdatabe;
 
+import android.util.Pair;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.util.ArrayList;
 
 @Entity
 public class userInfo {
@@ -12,33 +16,20 @@ public class userInfo {
     @ColumnInfo(name = "amount")
     public String amt;
 
-    @ColumnInfo(name = "Vendor")
-    public String vendor;
-
     @ColumnInfo(name = "date")
     public String date;
 
+    @ColumnInfo(name = "userInvolved")
+    public ArrayList<String> UsersInvolved;
 
-    public userInfo(String amt, String vendor, String date) {
+    public userInfo(String amt, String date, ArrayList<String> usersInvolved) {
         this.amt = amt;
-        this.vendor = vendor;
         this.date = date;
+        UsersInvolved = usersInvolved;
     }
 
-    public int getId() {
-        return id;
-    }
+    public userInfo() {
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
     }
 
     public String getAmt() {
@@ -55,5 +46,13 @@ public class userInfo {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public ArrayList<String> getUsersInvolved() {
+        return UsersInvolved;
+    }
+
+    public void setUsersInvolved(ArrayList<String> usersInvolved) {
+        UsersInvolved = usersInvolved;
     }
 }

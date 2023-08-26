@@ -1,10 +1,12 @@
 package com.example.getsms;
 
+import android.Manifest;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,10 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
     List<userInfo> list;
+    MainActivity mainActivity;
+
+    public Adapter() {
+    }
 
     public Adapter(List<userInfo> list) {
         this.list=list;
@@ -23,7 +29,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
 
     @NonNull
     @Override
-    public holderv   onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public holderv onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater= LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout, parent, false);
         return new holderv(view);
@@ -34,7 +40,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
 //        holder.id.setText(Integer.toString(list.get(position).getId()));
         holder.id.setText(position+1+"");
         holder.date.setText(list.get(position).getDate());
-        holder.smsget.setText("₹"+list.get(position).getAmt()+"("+ list.get(position).getVendor()+")");
+        holder.smsget.setText("₹"+list.get(position).getAmt());
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Log.d("12345", "onLongClick: " + list.get(position).getUsersInvolved() );
+                return true;
+            }
+        });
     }
 
     @Override
