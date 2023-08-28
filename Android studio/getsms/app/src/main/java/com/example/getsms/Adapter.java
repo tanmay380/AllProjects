@@ -1,31 +1,36 @@
 package com.example.getsms;
 
-import android.Manifest;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
-import com.example.getsms.roomdatabe.userInfo;
+import com.example.getsms.roomdatabe.AmountInfo;
+import com.example.getsms.roomdatabe.AppDatabase;
+import com.example.getsms.roomdatabe.UserDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
-    List<userInfo> list;
+    List<AmountInfo> list;
     MainActivity mainActivity;
+
+    FragmentManager fm;
 
     public Adapter() {
     }
 
-    public Adapter(List<userInfo> list) {
+    public Adapter(List<AmountInfo> list, FragmentManager context) {
         this.list=list;
+        fm = context;
     }
+
+
 
     @NonNull
     @Override
@@ -40,12 +45,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
 //        holder.id.setText(Integer.toString(list.get(position).getId()));
         holder.id.setText(position+1+"");
         holder.date.setText(list.get(position).getDate());
-        holder.smsget.setText("₹"+list.get(position).getAmt());
+        holder.smsget.setText("₹ "+list.get(position).getAmt());
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Log.d("12345", "onLongClick: " + list.get(position).getUsersInvolved() );
+                AppDatabase db = Room.databaseBuilder(view.getContext(),
+                        AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
+
+                UserDao dao = db.userDao();
+                ExampleDialogue exampleDialogue = new ExampleDialogue(dao.getAmountInfo(list.get(position).getTid()));
+                exampleDialogue.show(fm, "example_dialogue");
+
                 return true;
             }
         });

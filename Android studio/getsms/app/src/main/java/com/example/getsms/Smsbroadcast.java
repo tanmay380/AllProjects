@@ -4,32 +4,20 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.util.Pair;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.room.Room;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,7 +73,8 @@ public class Smsbroadcast extends BroadcastReceiver {
 
                             UserDao dao = db.userDao();
 //                            dao.insert(new userInfo(amount[1], dates, new ArrayList<Pair>(Arrays.asList(new Pair("Tanmay", 30), new Pair("Shanky", 40)))));
-                            dao.insert(new userInfo(amount[1], dates, new ArrayList<String>(Arrays.asList("Tanmay", "Shanky"))));
+                            dao.insert(new AmountInfo((int) Float.parseFloat(amount[1]), dates));
+//                            dao.insert(new userInfo(amount[1], dates, new ArrayList<>(Arrays.asList(30, 40))));
                             context.sendBroadcast(new Intent("MESSAGE_RECIEVED_UPDATE"));
                             makeNotification();
                         }
@@ -104,15 +93,22 @@ public class Smsbroadcast extends BroadcastReceiver {
 
         String CHANNEL_ID = "CHANNEL ID NOTIFICATION";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.baseline_money_24)
                 .setContentTitle("Breakfast has been paid")
                 .setContentText("Add people who are eating")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(false);
-
-        Intent intent = new Intent(mContext, MainActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .putExtra("data", "some value to be passed");
+        Intent intent;
+        if (MainActivity.DEMO) {
+            intent = new Intent(Intent.ACTION_MAIN)
+                    .setClassName("com.Splitwise.SplitwiseMobile", "com.Splitwise.SplitwiseMobile.views.SplitwiseSplashScreen")
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .putExtra("data", "some value to be passed");
+        }else {
+            intent = new Intent(mContext, MainActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .putExtra("data", "some value to be passed");
+        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext,
                 0, intent, PendingIntent.FLAG_MUTABLE);
@@ -127,7 +123,7 @@ public class Smsbroadcast extends BroadcastReceiver {
 
             if (notificationChannel == null) {
                 int importance = NotificationManager.IMPORTANCE_HIGH;
-                notificationChannel = new NotificationChannel(CHANNEL_ID, "some_decscrition", importance);
+                notificationChannel = new NotificationChannel(CHANNEL_ID, "Add People", importance);
                 notificationChannel.enableLights(true);
                 notificationManager.createNotificationChannel(notificationChannel);
 
