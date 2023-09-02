@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Getsms">
 
-        <receiver android:name=".Smsbroadcast"
+        <receiver android:name=".SmsBroadcast"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>

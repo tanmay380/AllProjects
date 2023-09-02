@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("12345", "onCreate: MainActivity");
+
         if (!hasPermissions(MainActivity.this,permission)) {
             ActivityCompat.requestPermissions(MainActivity.this,permission,1);
         }
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         registerReceiver(broadcastReceiver, new IntentFilter("MESSAGE_RECIEVED_UPDATE"));
+
 
     }
 
@@ -164,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
     public void getList() {
         Log.d("12345", "getList: called");
         if (!DEMO) {
-            Log.d("12345", "getList: called" + db);
             db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
 
@@ -172,7 +174,10 @@ public class MainActivity extends AppCompatActivity {
             list = dao.selectAll();
             Collections.reverse(list);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            adapter1 = new Adapter(list, fragmentManager);
+            String intent = getIntent().getStringExtra("notification");
+            getIntent().removeExtra("notification");
+            Log.d("12345", "getList: intent"  + intent);
+            adapter1 = new Adapter(list, fragmentManager, intent != null);
             recyclerView.setAdapter(adapter1);
         }
     }
@@ -180,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("12345", "onResume: MainActivity");
         getList();
     }
 
@@ -188,4 +194,8 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
     }
+
+    /* todo: create a naviation menu which will show all the users that are included in transaction.
+        create a 3 dot icon menu which will contain settings to show notification or not when message is recieved.
+     */
 }

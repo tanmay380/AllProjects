@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 import com.example.getsms.roomdatabe.*;
 
-public class Smsbroadcast extends BroadcastReceiver {
+public class SmsBroadcast extends BroadcastReceiver {
     public static final String TAG = "12345";
     public static String SMS = "android.provider.Telephony.SMS_RECEIVED";
     //    ArrayList<Model> list = MainActivity.list;
@@ -32,6 +32,7 @@ public class Smsbroadcast extends BroadcastReceiver {
 
     Context mContext;
 
+    // You have paid Rs.120.00 via a/c 91XX6219 to ANIL KUMAR on 17-08-2023. Ref:3533473512. Queries? Click http://m.paytm.me/care :PPBL
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -98,17 +99,10 @@ public class Smsbroadcast extends BroadcastReceiver {
                 .setContentText("Add people who are eating")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(false);
-        Intent intent;
-        if (MainActivity.DEMO) {
-            intent = new Intent(Intent.ACTION_MAIN)
-                    .setClassName("com.Splitwise.SplitwiseMobile", "com.Splitwise.SplitwiseMobile.views.SplitwiseSplashScreen")
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .putExtra("data", "some value to be passed");
-        }else {
-            intent = new Intent(mContext, MainActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .putExtra("data", "some value to be passed");
-        }
+        Intent intent = new Intent(mContext, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra("notification", "openDialogue");
+
 
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext,
                 0, intent, PendingIntent.FLAG_MUTABLE);

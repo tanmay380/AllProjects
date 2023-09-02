@@ -20,11 +20,12 @@ public class UserInfo {
     @ColumnInfo(defaultValue = "0")
     private int PaidAmount;
 
-    public UserInfo(int TiD, String date, String name, int amount) {
+    public UserInfo(int TiD, String date, String name, int amount, int PaidAmount) {
         this.TiD = TiD;
         this.date = date;
         this.name = name;
         this.amount = amount;
+        this.PaidAmount = PaidAmount;
     }
 
     public int getId() {

@@ -1,5 +1,6 @@
 package com.example.getsms;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,19 @@ import com.example.getsms.roomdatabe.UserDao;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
+public class Adapter extends RecyclerView.Adapter<Adapter.holderv> implements View.OnLongClickListener {
     List<AmountInfo> list;
-    MainActivity mainActivity;
+    Boolean mFromNotification = false;
 
     FragmentManager fm;
 
     public Adapter() {
     }
 
-    public Adapter(List<AmountInfo> list, FragmentManager context) {
+    public Adapter(List<AmountInfo> list, FragmentManager context, Boolean isFromNotification) {
         this.list=list;
         fm = context;
+        mFromNotification = isFromNotification;
     }
 
 
@@ -42,30 +44,37 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv>{
 
     @Override
     public void onBindViewHolder(@NonNull holderv holder, int position) {
-//        holder.id.setText(Integer.toString(list.get(position).getId()));
         holder.id.setText(position+1+"");
         holder.date.setText(list.get(position).getDate());
         holder.smsget.setText("₹ "+list.get(position).getAmt());
+        holder.itemView.setTag(position);
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                AppDatabase db = Room.databaseBuilder(view.getContext(),
-                        AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
+        holder.itemView.setOnLongClickListener(this);
 
-                UserDao dao = db.userDao();
-                ExampleDialogue exampleDialogue = new ExampleDialogue(dao.getAmountInfo(list.get(position).getTid()));
-                exampleDialogue.show(fm, "example_dialogue");
+        if (mFromNotification && position == 0) {
+            Log.d("12345", "onBindViewHolder: perform autoclick");
+            holder.itemView.performLongClick();
+        }
 
-                return true;
-            }
-        });
     }
 
     @Override
     public int getItemCount()
     {
         return list.size();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Log.d("12345", "onLongClick: ");
+        AppDatabase db = Room.databaseBuilder(v.getContext(),
+                AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
+
+        UserDao dao = db.userDao();
+        ExampleDialogue exampleDialogue = new ExampleDialogue(dao.getAmountInfo(list.get((int)v.getTag()).getTid()));
+        exampleDialogue.show(fm, "example_dialogue");
+
+        return true;
     }
 
     class holderv extends RecyclerView.ViewHolder {

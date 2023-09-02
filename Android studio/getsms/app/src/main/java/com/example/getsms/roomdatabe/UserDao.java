@@ -31,6 +31,8 @@ public interface UserDao {
 
     @Query("Select * from UserInfo where TiD=:id and date=:date")
     List<UserInfo> getUserInfo(int id, String date);
-
+    /* TODO: 02-09-2023 create a database which will show all the users that are included in transaction
+        anytime. It will show me how much they own me and total mount that they have paid to me.
+    */
 
 }

@@ -14,11 +14,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 
 import com.example.getsms.roomdatabe.AppDatabase;
@@ -29,12 +29,11 @@ import com.example.getsms.roomdatabe.UserInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExampleDialogue extends AppCompatDialogFragment {
+public class ExampleDialogue extends AppCompatDialogFragment implements View.OnClickListener {
     private LinearLayout parentLinearLayout;
     AmountInfo amountInfo;
     CheckBox checkBox;
     boolean isChecked1 = false;
-
     AppDatabase db;
 
     ExampleDialogue(AmountInfo User) {
@@ -48,30 +47,17 @@ public class ExampleDialogue extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.alert_dialogue_main, null);
-         db = Room.databaseBuilder(view.getContext(),
+        db = Room.databaseBuilder(view.getContext(),
                 AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
 
         UserDao dao = db.userDao();
         checkBox = view.findViewById(R.id.split_equally_alert);
-        checkBox.setChecked(amountInfo.getSplitEqually() == 1);
+        checkBox.setChecked(isChecked1 = amountInfo.getSplitEqually() == 1);
         parentLinearLayout = view.findViewById(R.id.parent_linear_layout);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isChecked1 = isChecked;
-                for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
-                    View v = parentLinearLayout.getChildAt(i);
-                    EditText amount_et = v.findViewById(R.id.user_amount_alert);
-                    Log.d("12345", "onCheckedChanged: " + v + " ");
-                    try {
-                        if (isChecked)
-                            amount_et.setText(amountInfo.getAmt() / parentLinearLayout.getChildCount() + "");
-                        else
-                            amount_et.setText("");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                updateEditBox(isChecked);
             }
         });
 
@@ -80,100 +66,106 @@ public class ExampleDialogue extends AppCompatDialogFragment {
 
         TextView amount_view = view.findViewById(R.id.price_view_alert);
         amount_view.setText("₹ " + amountInfo.getAmt());
+
+        Button button = view.findViewById(R.id.cancel_button_dialogue);
+        button.setOnClickListener(this);
+        Button button1 = view.findViewById(R.id.add_button_dialogue);
+        button1.setOnClickListener(this);
         view.findViewById(R.id.add_users).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addUsersEditBox();
             }
         });
-
-        builder.setView(view)
-                .setTitle("Add Users and Their Amount")
-                .setPositiveButton("DONE", null)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+        View v = inflater.inflate(R.layout.custom_title_alert, null);
+        builder.setCustomTitle(v)
+                .setView(view)
                 .setCancelable(false);
 
-        List<UserInfo> userInfos = db.userDao().getUserInfo(amountInfo.getTid(), amountInfo.getDate());
-        Log.d("12345", "onCreateDialog: " + userInfos);
-        for (UserInfo s :
-                userInfos) {
-            View rowView=inflater.inflate(R.layout.fiels, null);
-            rowView.findViewById(R.id.delete_user).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onDelete(v);
-                }
-            });
-            EditText e1 = rowView.findViewById(R.id.user_name_alert);
-            EditText e2 = rowView.findViewById(R.id.user_amount_alert);
-
-            e1.setText(s.getName());
-            e2.setText(s.getAmount()+"");
-
-            parentLinearLayout.addView(rowView);
-        }
+        if (!getStoredUsers())
+            parentLinearLayout.addView(inflater.inflate(R.layout.field, null));
+        Log.d("12345", "onCreateDialog: " + parentLinearLayout.getChildCount());
         return builder.create();
     }
 
+    private boolean getStoredUsers() {
+        List<UserInfo> userInfos = db.userDao().getUserInfo(amountInfo.getTid(), amountInfo.getDate());
+        if (userInfos.size() == 0) return false;
+        int i = userInfos.size();
+        for (UserInfo s :
+                userInfos) {
+            View rowView = getActivity().getLayoutInflater().inflate(R.layout.field, null);
+            TextView textView = rowView.findViewById(R.id.usersno);
+            EditText e1 = rowView.findViewById(R.id.user_name_alert);
+            EditText e2 = rowView.findViewById(R.id.user_amount_alert);
+            EditText e3 = rowView.findViewById(R.id.amount_paid_user);
 
+            textView.setText(i-- + "");
+            e1.setText(s.getName());
+            e2.setText(s.getAmount() + "");
+            if (s.getPaidAmount() != 0) {
+                e3.setText(s.getPaidAmount() + "");
+            }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("12345", "onResume: ");
-        AlertDialog dialog = (AlertDialog) getDialog();
-        if (dialog!=null){
+            if (isChecked1) e2.setEnabled(false);
 
-            Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Boolean wantToCloseDialog = false;
-                    //Do stuff, possibly set wantToCloseDialog to true then...
+            deleteButtonListener(rowView);
 
-                    if (addUsersToDatabase())
-                        dialog.dismiss();
-                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
-                }
-            });
+            parentLinearLayout.addView(rowView);
         }
+        return true;
     }
 
-    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            Log.d("12345", "onClick: " + which);
-            dialog.cancel();
+    private void addUsersEditBox() {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View rowView = inflater.inflate(R.layout.field, null);
+
+        TextView textView = rowView.findViewById(R.id.usersno);
+        textView.setText((parentLinearLayout.getChildCount() + 1) + "");
+        // Add the new row at index 0
+
+        deleteButtonListener(rowView);
+        parentLinearLayout.addView(rowView, 0);
+
+        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
+            if (checkBox.isChecked()) {
+                EditText et = parentLinearLayout.getChildAt(i).findViewById(R.id.user_amount_alert);
+                et.setText(amountInfo.getAmt() / parentLinearLayout.getChildCount() + "");
+                et.setEnabled(false);
+            }
         }
-    };
+
+        Log.d("12345", "addUsersEditBox: " + parentLinearLayout.getChildCount());
+    }
 
     private boolean addUsersToDatabase() {
+        if (parentLinearLayout.getChildCount() == 0) {
+            return false;
+        }
         ArrayList<String> info = getNameWithAmount();
-        db.userDao().splitValueUpdate(isChecked1 ?  1 : 0, amountInfo.getTid());
-//        Log.d("12345", "addUsersToDatabase: " + parentLinearLayout.getChildCount());
+        db.userDao().splitValueUpdate(isChecked1 ? 1 : 0, amountInfo.getTid());
         db.userDao().deleteUsers(amountInfo.getTid(), amountInfo.getDate());
+
         for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
             View v = parentLinearLayout.getChildAt(i);
             EditText name_et = v.findViewById(R.id.user_name_alert);
             String name = name_et.getText().toString();
+            EditText paidAmount_et = v.findViewById(R.id.amount_paid_user);
+            int paidAmount = paidAmount_et.getText().toString().equals("") ? 0 : Integer.parseInt(paidAmount_et.getText().toString());
 
             EditText amount_et = v.findViewById(R.id.user_amount_alert);
             int amount = -1;
-            Log.d("12345", "addUsersToDatabase: " +amount_et.getText() + " " + (amount_et.getText().toString().equals("")));
+            Log.d("12345", "addUsersToDatabase: " + amount_et.getText() + " " + (amount_et.getText().toString().equals("")));
             if (!amount_et.getText().toString().equals(""))
                 amount = Integer.parseInt(amount_et.getText().toString());
-            if (!name.isEmpty() && amount!=-1) {
+            if (!name.isEmpty() && amount != -1) {
                 db.userDao().insertUsers(new UserInfo(amountInfo.getTid(),
                         amountInfo.getDate(),
                         name,
-                        amount
+                        amount,
+                        paidAmount
                 ));
-            }else {
+            } else {
                 amount_et.setError("Cant be empty");
                 name_et.setError("Cant be empty");
                 return false;
@@ -199,34 +191,74 @@ public class ExampleDialogue extends AppCompatDialogFragment {
         return info;
     }
 
-    private void addUsersEditBox() {
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View rowView = inflater.inflate(R.layout.fiels, null);
-        // Add the new row at index 0
-        rowView.findViewById(R.id.delete_user).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDelete( v);
-            }
-        });
-        parentLinearLayout.addView(rowView, 0);
-        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
-            if (checkBox.isChecked()) {
-                EditText et = parentLinearLayout.getChildAt(i).findViewById(R.id.user_amount_alert);
-                et.setText(amountInfo.getAmt() / parentLinearLayout.getChildCount() + "");
-                et.setEnabled(false);
-            }
-        }
-        Log.d("12345", "addUsersEditBox: " + parentLinearLayout.getChildCount());
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        db.close();
     }
-    public void onDelete(View v){
+
+    private void deleteButtonListener(View rowView) {
+        rowView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteUser(v);
+            }
+        });
+    }
+
+    public void onDeleteUser(View v) {
         Log.d("12345", "onDelete: " + v.getId() + v.getParent());
         parentLinearLayout.removeView((View) v.getParent());
+        updateEditBox(isChecked1);
+        updateSerialNumber();
+    }
+
+    private void updateSerialNumber() {
+        int total = parentLinearLayout.getChildCount();
+        for (int i = total - 1; i >= 0; i--) {
+            View v = parentLinearLayout.getChildAt(i);
+            TextView tv11 = v.findViewById(R.id.user_name_alert);
+            Log.d("12345", "updateSerialNumber: " + tv11.getText());
+            TextView tv = v.findViewById(R.id.usersno);
+            tv.setText((total - i) + "");
+        }
+    }
+
+    private void updateEditBox(Boolean isChecked) {
+        isChecked1 = isChecked;
+        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
+            View v = parentLinearLayout.getChildAt(i);
+            EditText amount_et = v.findViewById(R.id.user_amount_alert);
+            Log.d("12345", "onCheckedChanged: " + v + " ");
+            try {
+                if (isChecked) {
+                    amount_et.setText(amountInfo.getAmt() / parentLinearLayout.getChildCount() + "");
+                    amount_et.setEnabled(false);
+                } else {
+                    amount_et.setText("");
+                    amount_et.setEnabled(true);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d("12345", "onClick: insidne swuch" + v.getId());
+        switch (v.getId()) {
+            case R.id.cancel_button_dialogue:
+                getDialog().dismiss();
+                break;
+            case R.id.add_button_dialogue:
+                if (addUsersToDatabase())
+                    getDialog().dismiss();
+                break;
+        }
     }
 }
