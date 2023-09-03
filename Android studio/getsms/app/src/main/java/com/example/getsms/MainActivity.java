@@ -2,34 +2,33 @@ package com.example.getsms;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.getsms.Fragments.FriendsFragment;
+import com.example.getsms.Fragments.HomeFragment;
 import com.example.getsms.roomdatabe.AppDatabase;
-import com.example.getsms.roomdatabe.UserDao;
 import com.example.getsms.roomdatabe.AmountInfo;
+import com.google.android.material.navigation.NavigationView;
 
-import java.util.Collections;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final Boolean DEMO = false;
 
     RecyclerView recyclerView;
@@ -41,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     String[] permission = {Manifest.permission.RECEIVE_SMS,
             Manifest.permission.POST_NOTIFICATIONS};
 
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+
+
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
@@ -48,30 +51,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("12345", "onCreate: MainActivity");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        if (!hasPermissions(MainActivity.this,permission)) {
-            ActivityCompat.requestPermissions(MainActivity.this,permission,1);
+        drawerLayout = findViewById(R.id.drawerLayour);
+        NavigationView navView = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(this);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_open, R.string.nav_close);
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        if (!hasPermissions(MainActivity.this, permission)) {
+            ActivityCompat.requestPermissions(MainActivity.this, permission, 1);
         }
 
-        recyclerView = findViewById(R.id.rcv);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        registerReceiver(broadcastReceiver, new IntentFilter("MESSAGE_RECIEVED_UPDATE"));
-
-
+        if (savedInstanceState == null) {
+            Log.d("12345", "onCreate: saed insraance null");
+            HomeFragment homeFragment = HomeFragment.newInstance(getIntent().getStringExtra("notification"));
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+            navView.setCheckedItem(R.id.freinds_menu);
+        }
     }
-
-
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // internet lost alert dialog method call from here...
-            Log.d("12345", "onReceive: mainactivirt");
-            getList();
-        }
-    };
-
 
 //    private void getPersmissions() {
 //        Log.d("12345", "getPersmissions: " + ContextCompat.checkSelfPermission(MainActivity.this,
@@ -126,17 +129,14 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     private boolean hasPermissions(Context context, String... PERMISSIONS) {
-
         if (context != null && PERMISSIONS != null) {
+            for (String permission : PERMISSIONS) {
 
-            for (String permission: PERMISSIONS){
-
-                if (ActivityCompat.checkSelfPermission(context,permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
         }
-
         return true;
     }
 
@@ -148,54 +148,46 @@ public class MainActivity extends AppCompatActivity {
 
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "SMS Permission is granted", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 Toast.makeText(this, "SMS Permission is denied", Toast.LENGTH_SHORT).show();
             }
 
             if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Notification Permission is granted", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 Toast.makeText(this, "Notification Permission is denied", Toast.LENGTH_SHORT).show();
             }
-
-
-
-        }
-    }
-
-
-    public void getList() {
-        Log.d("12345", "getList: called");
-        if (!DEMO) {
-            db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
-
-            UserDao dao = db.userDao();
-            list = dao.selectAll();
-            Collections.reverse(list);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            String intent = getIntent().getStringExtra("notification");
-            getIntent().removeExtra("notification");
-            Log.d("12345", "getList: intent"  + intent);
-            adapter1 = new Adapter(list, fragmentManager, intent != null);
-            recyclerView.setAdapter(adapter1);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("12345", "onResume: MainActivity");
-        getList();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(broadcastReceiver);
     }
 
-    /* todo: create a naviation menu which will show all the users that are included in transaction.
-        create a 3 dot icon menu which will contain settings to show notification or not when message is recieved.
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.main_activity_menu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
+                break;
+            case R.id.freinds_menu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FriendsFragment()).commit();
+                break;
+            case R.id.settings_menu:
+                break;
+        }
+
+        drawerLayout.closeDrawers();
+        return true;
+    }
+
+    /* todo: create a navigation menu which will show all the users that are included in transaction.
+        and settings to show notification or not when message is recieved.
      */
 }

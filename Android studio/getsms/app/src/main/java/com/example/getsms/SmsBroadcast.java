@@ -73,9 +73,7 @@ public class SmsBroadcast extends BroadcastReceiver {
                                     AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
 
                             UserDao dao = db.userDao();
-//                            dao.insert(new userInfo(amount[1], dates, new ArrayList<Pair>(Arrays.asList(new Pair("Tanmay", 30), new Pair("Shanky", 40)))));
                             dao.insert(new AmountInfo((int) Float.parseFloat(amount[1]), dates));
-//                            dao.insert(new userInfo(amount[1], dates, new ArrayList<>(Arrays.asList(30, 40))));
                             context.sendBroadcast(new Intent("MESSAGE_RECIEVED_UPDATE"));
                             makeNotification();
                         }

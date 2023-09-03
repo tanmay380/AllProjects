@@ -1,7 +1,6 @@
 package com.example.getsms.roomdatabe;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -31,6 +30,20 @@ public interface UserDao {
 
     @Query("Select * from UserInfo where TiD=:id and date=:date")
     List<UserInfo> getUserInfo(int id, String date);
+
+    @Insert
+    void insert(IndividualUserInfo userInfo);
+
+    @Query("SELECT SUM(Amount) as Amount, SUM(PaidAmount) as PaidAmount FROM UserInfo WHERE name = :name")
+    AmountModel getAmounts(String name);
+
+    @Query("SELECT COUNT(:name) FROM IndividualUserInfo WHERE name = :name")
+    int getCount(String name);
+
+    @Query("Select * from IndividualUserInfo where name=:name")
+    List<IndividualUserInfo> getDetail(String name);
+
+
     /* TODO: 02-09-2023 create a database which will show all the users that are included in transaction
         anytime. It will show me how much they own me and total mount that they have paid to me.
     */

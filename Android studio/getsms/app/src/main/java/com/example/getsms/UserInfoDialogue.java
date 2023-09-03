@@ -3,7 +3,6 @@ package com.example.getsms;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,29 +13,33 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.room.Room;
 
+import com.example.getsms.roomdatabe.AmountModel;
 import com.example.getsms.roomdatabe.AppDatabase;
+import com.example.getsms.roomdatabe.IndividualUserInfo;
 import com.example.getsms.roomdatabe.UserDao;
 import com.example.getsms.roomdatabe.AmountInfo;
 import com.example.getsms.roomdatabe.UserInfo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ExampleDialogue extends AppCompatDialogFragment implements View.OnClickListener {
+public class UserInfoDialogue extends AppCompatDialogFragment implements View.OnClickListener {
     private LinearLayout parentLinearLayout;
     AmountInfo amountInfo;
     CheckBox checkBox;
     boolean isChecked1 = false;
     AppDatabase db;
 
-    ExampleDialogue(AmountInfo User) {
+    UserDao userDao;
+
+    UserInfoDialogue(AmountInfo User) {
         amountInfo = User;
     }
 
@@ -50,7 +53,7 @@ public class ExampleDialogue extends AppCompatDialogFragment implements View.OnC
         db = Room.databaseBuilder(view.getContext(),
                 AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
 
-        UserDao dao = db.userDao();
+        userDao = db.userDao();
         checkBox = view.findViewById(R.id.split_equally_alert);
         checkBox.setChecked(isChecked1 = amountInfo.getSplitEqually() == 1);
         parentLinearLayout = view.findViewById(R.id.parent_linear_layout);
@@ -89,7 +92,7 @@ public class ExampleDialogue extends AppCompatDialogFragment implements View.OnC
     }
 
     private boolean getStoredUsers() {
-        List<UserInfo> userInfos = db.userDao().getUserInfo(amountInfo.getTid(), amountInfo.getDate());
+        List<UserInfo> userInfos = userDao.getUserInfo(amountInfo.getTid(), amountInfo.getDate());
         if (userInfos.size() == 0) return false;
         int i = userInfos.size();
         for (UserInfo s :
@@ -143,8 +146,8 @@ public class ExampleDialogue extends AppCompatDialogFragment implements View.OnC
             return false;
         }
         ArrayList<String> info = getNameWithAmount();
-        db.userDao().splitValueUpdate(isChecked1 ? 1 : 0, amountInfo.getTid());
-        db.userDao().deleteUsers(amountInfo.getTid(), amountInfo.getDate());
+        userDao.splitValueUpdate(isChecked1 ? 1 : 0, amountInfo.getTid());
+//        userDao.deleteUsers(amountInfo.getTid(), amountInfo.getDate());
 
         for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
             View v = parentLinearLayout.getChildAt(i);
@@ -155,16 +158,23 @@ public class ExampleDialogue extends AppCompatDialogFragment implements View.OnC
 
             EditText amount_et = v.findViewById(R.id.user_amount_alert);
             int amount = -1;
-            Log.d("12345", "addUsersToDatabase: " + amount_et.getText() + " " + (amount_et.getText().toString().equals("")));
             if (!amount_et.getText().toString().equals(""))
                 amount = Integer.parseInt(amount_et.getText().toString());
             if (!name.isEmpty() && amount != -1) {
-                db.userDao().insertUsers(new UserInfo(amountInfo.getTid(),
-                        amountInfo.getDate(),
-                        name,
-                        amount,
-                        paidAmount
-                ));
+//                userDao.insertUsers(new UserInfo(amountInfo.getTid(),
+//                        amountInfo.getDate(),
+//                        name,
+//                        amount,
+//                        paidAmount
+//                ));
+                if (userDao.getCount(name) == 0){
+                    AmountModel userAMount = userDao.getAmounts(name);
+                    Log.d("12345", "addUsersToDatabase: " + userDao.getAmounts(name));
+                    userDao.insert(new IndividualUserInfo(name, userAMount.getPaidAmount(), userAMount.getAmount()));
+                }
+                else{
+
+                }
             } else {
                 amount_et.setError("Cant be empty");
                 name_et.setError("Cant be empty");

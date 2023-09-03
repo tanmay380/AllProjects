@@ -71,8 +71,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv> implements Vi
                 AppDatabase.class, "Data_Store").allowMainThreadQueries().build();
 
         UserDao dao = db.userDao();
-        ExampleDialogue exampleDialogue = new ExampleDialogue(dao.getAmountInfo(list.get((int)v.getTag()).getTid()));
-        exampleDialogue.show(fm, "example_dialogue");
+        UserInfoDialogue userInfoDialogue = new UserInfoDialogue(dao.getAmountInfo(list.get((int)v.getTag()).getTid()));
+        userInfoDialogue.show(fm, "example_dialogue");
 
         return true;
     }
