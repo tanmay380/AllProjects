@@ -40,8 +40,11 @@ public interface UserDao {
     @Query("SELECT COUNT(:name) FROM IndividualUserInfo WHERE name = :name")
     int getCount(String name);
 
-    @Query("Select * from IndividualUserInfo where name=:name")
-    List<IndividualUserInfo> getDetail(String name);
+    @Query("Select * from IndividualUserInfo")
+    List<IndividualUserInfo> getDetail();
+
+    @Query("UPDATE individualuserinfo SET amountPaid = :paidAmount , totalAmount = :totalAmount where name = :name")
+    void updateAmount(String name, int paidAmount, int totalAmount);
 
 
     /* TODO: 02-09-2023 create a database which will show all the users that are included in transaction

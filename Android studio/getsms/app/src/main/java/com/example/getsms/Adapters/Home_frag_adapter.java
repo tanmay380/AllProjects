@@ -1,4 +1,4 @@
-package com.example.getsms;
+package com.example.getsms.Adapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,22 +11,24 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.example.getsms.R;
+import com.example.getsms.UserInfoDialogue;
 import com.example.getsms.roomdatabe.AmountInfo;
 import com.example.getsms.roomdatabe.AppDatabase;
 import com.example.getsms.roomdatabe.UserDao;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.holderv> implements View.OnLongClickListener {
+public class Home_frag_adapter extends RecyclerView.Adapter<Home_frag_adapter.holder> implements View.OnLongClickListener {
     List<AmountInfo> list;
     Boolean mFromNotification = false;
 
     FragmentManager fm;
 
-    public Adapter() {
+    public Home_frag_adapter() {
     }
 
-    public Adapter(List<AmountInfo> list, FragmentManager context, Boolean isFromNotification) {
+    public Home_frag_adapter(List<AmountInfo> list, FragmentManager context, Boolean isFromNotification) {
         this.list=list;
         fm = context;
         mFromNotification = isFromNotification;
@@ -36,14 +38,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv> implements Vi
 
     @NonNull
     @Override
-    public holderv onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater= LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.layout, parent, false);
-        return new holderv(view);
+        View view = inflater.inflate(R.layout.rcv_home_layout, parent, false);
+        return new holder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull holderv holder, int position) {
+    public void onBindViewHolder(@NonNull holder holder, int position) {
         holder.id.setText(position+1+"");
         holder.date.setText(list.get(position).getDate());
         holder.smsget.setText("₹ "+list.get(position).getAmt());
@@ -77,9 +79,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.holderv> implements Vi
         return true;
     }
 
-    class holderv extends RecyclerView.ViewHolder {
+    class holder extends RecyclerView.ViewHolder {
         TextView id,smsget,date;
-        public holderv(@NonNull View itemView) {
+        public holder(@NonNull View itemView) {
             super(itemView);
             smsget=itemView.findViewById(R.id.seemsg);
             id=itemView.findViewById(R.id.id);

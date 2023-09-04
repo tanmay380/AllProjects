@@ -98,7 +98,7 @@ public class SmsBroadcast extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(false);
         Intent intent = new Intent(mContext, MainActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
                 .putExtra("notification", "openDialogue");
 
 

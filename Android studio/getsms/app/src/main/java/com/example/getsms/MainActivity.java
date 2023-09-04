@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    NavigationView navView;
 
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setHomeButtonEnabled(true);
 
         drawerLayout = findViewById(R.id.drawerLayour);
-        NavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_open, R.string.nav_close);
 
@@ -68,12 +69,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(MainActivity.this, permission, 1);
         }
 
-        if (savedInstanceState == null) {
-            Log.d("12345", "onCreate: saed insraance null");
-            HomeFragment homeFragment = HomeFragment.newInstance(getIntent().getStringExtra("notification"));
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
-            navView.setCheckedItem(R.id.freinds_menu);
-        }
+        Log.d("12345", "onCreate: saed insraance null");
+//        HomeFragment homeFragment = HomeFragment.newInstance(getIntent().getStringExtra("notification"));
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+
+
     }
 
 //    private void getPersmissions() {
@@ -163,6 +163,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("12345", "onResume: ainactii");
+        HomeFragment homeFragment = HomeFragment.newInstance(getIntent().getStringExtra("notification"));
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+        navView.setCheckedItem(R.id.main_activity_menu);
+        getIntent().removeExtra("notification");
     }
 
     @Override
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.main_activity_menu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
                 break;

@@ -19,7 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.getsms.Adapter;
+import com.example.getsms.Adapters.Home_frag_adapter;
 import com.example.getsms.MainActivity;
 import com.example.getsms.R;
 import com.example.getsms.roomdatabe.AmountInfo;
@@ -112,8 +112,8 @@ public class HomeFragment extends Fragment {
         Collections.reverse(list);
         Log.d("12345", "getList: " + getActivity());
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        Log.d("12345", "getList: intent" + "intent");
-        adapter1 = new Adapter(list, fragmentManager, mParam1 != null);
+        Log.d("12345", "getList: intent " + mParam1);
+        adapter1 = new Home_frag_adapter(list, fragmentManager, mParam1 != null);
         recyclerView.setAdapter(adapter1);
 
     }
