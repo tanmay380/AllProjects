@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation (files("../app-remote-lib/spotify-app-remote-release-0.8.0.aar"))
+//    implementation (files("../app-remote-lib/spotify-app-remote-release-0.8.0.aar"))
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -48,5 +48,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     // your app dependencies
-//    implementation ("androidx.browser:browser:1.8.0")
+    implementation(libs.okhttp)
+    implementation (libs.browser)
 }
